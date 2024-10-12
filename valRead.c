@@ -47,3 +47,25 @@ int valRead_int(char *invalidInputText)
     valRead_intDest(&output, invalidInputText); 
     return output;
 }
+
+void valRead_size_tDest(size_t *dest, char *invalidInputText)
+{
+    for (;;)
+    {
+        int result = scanf(" %zu", dest);
+
+        if (result == 1) return;
+        else
+        {
+            printf("%s", invalidInputText);
+            while (getchar() != '\n');
+        }
+    }
+}
+
+size_t valRead_size_t(char *invalidInputText)
+{
+    int output;
+    valRead_intDest(&output, invalidInputText); 
+    return output;
+}
