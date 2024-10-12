@@ -9,6 +9,7 @@
 #include "arrayUtility.h"
 #include "charArraySplit.h"
 #include "crossword.h"
+#include "valRead.h"
 
 int main(int argc, char** argv)
 {
