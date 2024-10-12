@@ -12,14 +12,28 @@
 
 #define stringHash_helper(_1, _2, NAME, ...) NAME
 
-#define stringHash_size(string, stringSize) ({ \
-    size_t _hash = CHAR_ARRAY_PRIME_D; \
-    for (size_t i = 0; i < stringSize; i++) { \
-        _hash = (_hash * CHAR_ARRAY_PRIME_A) + (string[i] * (i & 1 ? CHAR_ARRAY_PRIME_B : CHAR_ARRAY_PRIME_C)); \
-    } \
-    _hash; })
+#ifdef __cplusplus
+extern "C" constexpr
+#endif //__cplusplus
+size_t stringHash_size(const char *string, size_t stringSize)
+{
+    size_t hash = CHAR_ARRAY_PRIME_D;
 
-#define stringHash_nullTerminated(string) stringHash_size(string, strlen(string))
+    for (size_t i = 0; i < stringSize; i++)
+    {
+        hash = (hash * CHAR_ARRAY_PRIME_A) + (string[i] * (i & 1 ? CHAR_ARRAY_PRIME_B : CHAR_ARRAY_PRIME_C));
+    }
+
+    return hash;
+}
+
+#ifdef __cplusplus
+extern "C" constexpr
+#endif //__cplusplus
+size_t stringHash_nullTerminated(const char* string)
+{
+    return stringHash_size(string, strlen(string));
+}
 
 #define stringHash(...) stringHash_helper(__VA_ARGS__, stringHash_size, stringHash_nullTerminated)(__VA_ARGS__)
 
