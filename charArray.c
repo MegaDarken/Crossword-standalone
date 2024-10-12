@@ -7,12 +7,7 @@
 #include <ctype.h>
 
 #include "arrayUtility.h"
-
-//Constant(s)
-#define CHAR_ARRAY_PRIME_A 524287
-#define CHAR_ARRAY_PRIME_B 131071
-#define CHAR_ARRAY_PRIME_C 40487
-#define CHAR_ARRAY_PRIME_D 331999
+#include "stringHash.h"
 
 //Methods
 void charArray_createDest(struct charArray *dest)
@@ -95,14 +90,7 @@ int charArray_equals(struct charArray *first, struct charArray *second)
 
 size_t charArray_hash(struct charArray *var)
 {
-    size_t output = CHAR_ARRAY_PRIME_D;
-
-    for (size_t i = 0; i < var->count; i++)
-    {
-        output = (output * CHAR_ARRAY_PRIME_A) + (var->array[i] * (i & 1 ? CHAR_ARRAY_PRIME_B : CHAR_ARRAY_PRIME_C));
-    }
-
-    return output;
+    return stringHash(var->array, var->size);
 }
 
 size_t charArray_indicesOfValue(struct charArray *var, size_t *buffer, const size_t bufferCount, const char value)
