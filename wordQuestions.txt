@@ -1,0 +1,2 @@
+example;Thing characteristic of a general rule.
+placeholder;Occupies a position in an absence.
