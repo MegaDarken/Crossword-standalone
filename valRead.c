@@ -26,6 +26,28 @@ char valRead_char(char *invalidInputText)
     return output;
 }
 
+void valRead_wcharDest(int *dest, char *invalidInputText)
+{
+    for (;;)
+    {
+        int result = scanf(" %c", dest);
+
+        if (result == 1) return;
+        else
+        {
+            printf("%s", invalidInputText);
+            while (getchar() != '\n');
+        }
+    }
+}
+
+char valRead_wchar(int *invalidInputText)
+{
+    char output;
+    valRead_charDest(&output, invalidInputText); 
+    return output;
+}
+
 void valRead_intDest(int *dest, char *invalidInputText)
 {
     for (;;)

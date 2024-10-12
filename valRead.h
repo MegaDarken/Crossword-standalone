@@ -16,6 +16,16 @@ char valRead_char(char *invalidInputText);
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
+void valRead_wcharDest(int *dest, char *invalidInputText);
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+char valRead_wchar(int *invalidInputText);
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void valRead_intDest(int *dest, char *invalidInputText);
 
 #ifdef __cplusplus
