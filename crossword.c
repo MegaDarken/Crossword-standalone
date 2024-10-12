@@ -483,7 +483,7 @@ void crossword_print(struct charGrid *letters, struct crosswordPlacedWord *usedW
     charGrid_free(&flags);
 }
 
-void crossword(const int width, const int height, const size_t wordCount)
+void crossword(const int width, const int height, const size_t wordCount, const int startingChar)
 {
     struct arrayList fullWordList = arrayList_create(0, sizeof(struct charArrayPair));
 
@@ -503,7 +503,7 @@ void crossword(const int width, const int height, const size_t wordCount)
     struct charGrid letters = charGrid_create(width, height);
     charArray_setAll(&letters.array, ' ');
 
-    charGrid_set(&letters, letters.width >> 1, letters.height >> 1, 'E');
+    charGrid_set(&letters, letters.width >> 1, letters.height >> 1, toupper(startingChar));
 
     size_t placedWordCount = 0;
     for (int i = 0; i < wordCount && placedWordCount < wordCount; i++)

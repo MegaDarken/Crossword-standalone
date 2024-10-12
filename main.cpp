@@ -7,7 +7,7 @@
 #include "crossword.h"
 #include "valRead.h"
 
-enum argsMode {noArg, widthArg, heightArg, wordCountArg};
+enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg};
 
 const size_t WIDTH_ARG_SHORT = stringHash("-w");
 const size_t WIDTH_ARG = stringHash("--width");
@@ -15,7 +15,8 @@ const size_t HEIGHT_ARG_SHORT = stringHash("-h");
 const size_t HEIGHT_ARG = stringHash("--height");
 const size_t WORDC_ARG_SHORT = stringHash("-c");
 const size_t WORDC_ARG = stringHash("--count");
-
+const size_t FIRST_ARG_SHORT = stringHash("-f");
+const size_t FIRST_ARG = stringHash("--first");
 
 int main(int argc, char** argv)
 {
@@ -24,6 +25,7 @@ int main(int argc, char** argv)
     int width = defaultValue;
     int height = defaultValue;
     size_t wordCount = defaultValue;
+    int startingChar = defaultValue;
 
     enum argsMode mode = noArg;
 
@@ -49,21 +51,31 @@ int main(int argc, char** argv)
                 mode = wordCountArg;
                 break;
             
+            case FIRST_ARG_SHORT:
+            case FIRST_ARG:
+                mode = firstCharArg;
+                break;
+            
             default:
                 break;
             }
             break;
         
         case widthArg:
-            if (1 == sscanf(argv[i], "%d", &width)) mode = noArg;
+            if (1 == sscanf(argv[i], " %d", &width)) mode = noArg;
             break;
 
         case heightArg:
-            if (1 == sscanf(argv[i], "%d", &height)) mode = noArg;
+            if (1 == sscanf(argv[i], " %d", &height)) mode = noArg;
             break;
 
         case wordCountArg:
-            if (1 == sscanf(argv[i], "%zu", &wordCount)) mode = noArg;
+            if (1 == sscanf(argv[i], " %zu", &wordCount)) mode = noArg;
+            break;
+
+        case firstCharArg:
+            startingChar = argv[i][0];
+            mode = noArg;
             break;
         
         default:
@@ -91,6 +103,12 @@ int main(int argc, char** argv)
         valRead_size_tDest(&wordCount, "\007\nInput must be an integer:");
     }
 
-    crossword(width, height, wordCount);
+    if (startingChar == defaultValue)
+    {
+        printf("\nEnter stating character:");
+        valRead_wcharDest(&startingChar, "\007\nInput must be an character:");
+    }
+
+    crossword(width, height, wordCount, startingChar);
 
 }

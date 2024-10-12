@@ -41,6 +41,6 @@ void crossword_print(struct charGrid *letters, struct crosswordPlacedWord *usedW
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-void crossword(const int width, const int height, const size_t wordCount);
+void crossword(const int width, const int height, const size_t wordCount, const int startingChar);
 
 #endif //CROSSWORD_
