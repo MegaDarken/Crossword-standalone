@@ -1,6 +1,5 @@
 #include "stringHash.h"
 
-#include <stdlib.h>
 #include <string.h>
 
 //Constant(s)
