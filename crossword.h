@@ -39,7 +39,7 @@ void crossword_printGrid(struct charGrid *letters, struct charGrid *numbers);
 void crossword_print(struct charGrid *letters, struct crosswordPlacedWord *usedWordArray, const size_t placedWordCount);
 
 #ifdef __cplusplus
-extern "C" constexpr
+extern "C"
 #endif //__cplusplus
 void crossword(const int width, const int height, const size_t wordCount);
 
