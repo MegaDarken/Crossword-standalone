@@ -5,10 +5,10 @@
 
 enum boxDrawingLineType {noLine, standardLine, boldLine, parallelLines};
 
-const char *boxDrawing_indexValue(int index);
-const char *boxDrawing_value(enum boxDrawingLineType left, enum boxDrawingLineType right, enum boxDrawingLineType up, enum boxDrawingLineType down);
+const char *boxDrawing_indexValue(const int index);
+const char *boxDrawing_value(const enum boxDrawingLineType left, const enum boxDrawingLineType right, const enum boxDrawingLineType up, const enum boxDrawingLineType down);
 
-void boxDrawing_print_horizontalLine(enum boxDrawingLineType across, enum boxDrawingLineType *up, enum boxDrawingLineType *down, const size_t count);
-void boxDrawing_print_intervalHorizontalLine(enum boxDrawingLineType across, enum boxDrawingLineType up, enum boxDrawingLineType down, const size_t verticalCount, const size_t interval);
+void boxDrawing_print_horizontalLine(const enum boxDrawingLineType across, const enum boxDrawingLineType *up, const enum boxDrawingLineType *down, const size_t count);
+void boxDrawing_print_intervalHorizontalLine(const enum boxDrawingLineType across, const enum boxDrawingLineType up, const enum boxDrawingLineType down, const size_t verticalCount, const size_t interval);
 
 #endif //BOX_DRAWING_

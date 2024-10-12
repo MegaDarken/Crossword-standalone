@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-const char *boxDrawing_indexValue(int index)
+const char *boxDrawing_indexValue(const int index)
 {
     const char *array[] = {
         " ","╴","╸","?", "╶","─","╾","?", "╺","╼","━","?", "?","?","?","═",
@@ -30,12 +30,12 @@ const char *boxDrawing_indexValue(int index)
     return array[index];
 }
 
-const char *boxDrawing_value(enum boxDrawingLineType left, enum boxDrawingLineType right, enum boxDrawingLineType up, enum boxDrawingLineType down)
+const char *boxDrawing_value(const enum boxDrawingLineType left, const enum boxDrawingLineType right, const enum boxDrawingLineType up, const enum boxDrawingLineType down)
 {
     return boxDrawing_indexValue(left | (right << 2) | (up << 4) | (down << 6));
 }
 
-void boxDrawing_print_horizontalLine(enum boxDrawingLineType across, enum boxDrawingLineType *up, enum boxDrawingLineType *down, const size_t count)
+void boxDrawing_print_horizontalLine(const enum boxDrawingLineType across, const enum boxDrawingLineType *up, const enum boxDrawingLineType *down, const size_t count)
 {
     if (count < 1)
     {
@@ -59,7 +59,7 @@ void boxDrawing_print_horizontalLine(enum boxDrawingLineType across, enum boxDra
     
 }
 
-void boxDrawing_print_intervalHorizontalLine(enum boxDrawingLineType across, enum boxDrawingLineType up, enum boxDrawingLineType down, const size_t verticalCount, const size_t interval)
+void boxDrawing_print_intervalHorizontalLine(const enum boxDrawingLineType across, const enum boxDrawingLineType up, const enum boxDrawingLineType down, const size_t verticalCount, const size_t interval)
 {
     if (verticalCount < 1)
     {
@@ -74,7 +74,7 @@ void boxDrawing_print_intervalHorizontalLine(enum boxDrawingLineType across, enu
 
     printf("%s", boxDrawing_value(noLine, across, up, down));
 
-    char *intervalCharPtr = boxDrawing_value(across, across, noLine, noLine);
+    const char *intervalCharPtr = boxDrawing_value(across, across, noLine, noLine);
 
     for (size_t i = 0; i < interval; i++)
     {
