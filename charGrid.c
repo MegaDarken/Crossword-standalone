@@ -28,7 +28,7 @@ struct charGrid charGrid_create(const int width, const int height)
     return val;
 }
 
-char charGrid_resize(struct charGrid *var, const int width, const int height)
+void charGrid_resize(struct charGrid *var, const int width, const int height)
 {
     var->width = width;
     var->height = height;
@@ -36,7 +36,7 @@ char charGrid_resize(struct charGrid *var, const int width, const int height)
     charArray_resize(&var->array, var->width * var->height);
 }
 
-char charGrid_free(struct charGrid *var)
+void charGrid_free(struct charGrid *var)
 {
     var->width = 0;
     var->height = 0;
@@ -57,7 +57,7 @@ char charGrid_get(struct charGrid *var, int x, int y)
     return var->array.array[index];
 }
 
-char charGrid_set(struct charGrid *var, int x, int y, char value)
+void charGrid_set(struct charGrid *var, int x, int y, char value)
 {
     int index = (y * var->width) + x;
     
@@ -90,7 +90,7 @@ char charGrid_indexBottomRow(struct charGrid *var, const size_t index)
     return index >= var->array.count - var->width;
 }
 
-char charGrid_setHorizontal_array(struct charGrid *var, int x, int y, char *array, size_t arrayCount)
+void charGrid_setHorizontal_array(struct charGrid *var, int x, int y, char *array, size_t arrayCount)
 {
     int index = (y * var->width) + x;
 
@@ -101,7 +101,7 @@ char charGrid_setHorizontal_array(struct charGrid *var, int x, int y, char *arra
     }
 }
 
-char charGrid_setVertical_array(struct charGrid *var, int x, int y, char *array, size_t arrayCount)
+void charGrid_setVertical_array(struct charGrid *var, int x, int y, char *array, size_t arrayCount)
 {
     int index = (y * var->width) + x;
 
