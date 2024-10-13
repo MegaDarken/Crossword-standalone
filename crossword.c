@@ -1,6 +1,7 @@
 #include "crossword.h"
 
 #include <stdio.h>
+#include <ctype.h>
 
 #include "fileUtility.h"
 #include "charArraySplit.h"
