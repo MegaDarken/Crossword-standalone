@@ -4,7 +4,7 @@
 
 #define VALREAD_BUFFERSIZE 256
 
-void valRead_charDest(char *dest, char *invalidInputText)
+void valRead_charDest(char *dest, const char *invalidInputText)
 {
     for (;;)
     {
@@ -19,14 +19,14 @@ void valRead_charDest(char *dest, char *invalidInputText)
     }
 }
 
-char valRead_char(char *invalidInputText)
+char valRead_char(const char *invalidInputText)
 {
     char output;
     valRead_charDest(&output, invalidInputText); 
     return output;
 }
 
-void valRead_wcharDest(int *dest, char *invalidInputText)
+void valRead_wcharDest(int *dest, const char *invalidInputText)
 {
     for (;;)
     {
@@ -41,14 +41,14 @@ void valRead_wcharDest(int *dest, char *invalidInputText)
     }
 }
 
-char valRead_wchar(int *invalidInputText)
+char valRead_wchar(const char *invalidInputText)
 {
     char output;
     valRead_charDest(&output, invalidInputText); 
     return output;
 }
 
-void valRead_intDest(int *dest, char *invalidInputText)
+void valRead_intDest(int *dest, const char *invalidInputText)
 {
     for (;;)
     {
@@ -63,14 +63,14 @@ void valRead_intDest(int *dest, char *invalidInputText)
     }
 }
 
-int valRead_int(char *invalidInputText)
+int valRead_int(const char *invalidInputText)
 {
     int output;
     valRead_intDest(&output, invalidInputText); 
     return output;
 }
 
-void valRead_size_tDest(size_t *dest, char *invalidInputText)
+void valRead_size_tDest(size_t *dest, const char *invalidInputText)
 {
     for (;;)
     {
@@ -85,7 +85,7 @@ void valRead_size_tDest(size_t *dest, char *invalidInputText)
     }
 }
 
-size_t valRead_size_t(char *invalidInputText)
+size_t valRead_size_t(const char *invalidInputText)
 {
     int output;
     valRead_intDest(&output, invalidInputText); 
