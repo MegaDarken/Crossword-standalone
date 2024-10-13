@@ -1,0 +1,50 @@
+
+name: C/C++ build
+
+on:
+    push:
+      branches: [ "master" ]
+    pull_request:
+      branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      matrix:
+        config:
+          - os: ubuntu-latest
+          - os: macos-latest
+          - os: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      
+    - name: Setup compiler on Ubuntu/MacOS
+      if: runner.os != 'Windows'
+      run: |
+        sudo apt-get update -y || true
+        sudo apt-get install -y build-essential cmake || true
+
+    - name: Setup compiler on Windows
+      if: runner.os == 'Windows'
+      run: |
+        choco install visualstudio2019buildtools -y
+        choco install cmake -y
+        set PATH=C:\Program Files\CMake\bin;%PATH%
+        
+    - name: Configure with CMake
+      run: cmake -S . -B build
+
+    - name: Build
+      run: cmake --build build
+
+    - name: Run Tests (if applicable)
+      run: cd build && ctest || true
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Artifact-${{ matrix.config.os }}
+        path: build/
