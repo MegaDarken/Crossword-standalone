@@ -30,7 +30,7 @@ void valRead_wcharDest(int *dest, const char *invalidInputText)
 {
     for (;;)
     {
-        int result = scanf(" %c", dest);
+        int result = scanf(" %c", (char*)dest);
 
         if (result == 1) return;
         else
