@@ -253,7 +253,7 @@ struct crosswordPlacedWord crossword_searchListDown(struct arrayList *wordList, 
     {
         currentWord = (struct charArrayPair *)arrayList_get(wordList, i);
         
-        size_t occuranceCount = charArray_indicesOfValue(currentWord, occuranceArray, sizeof(occuranceArray), letters->array.array[index]);
+        size_t occuranceCount = charArray_indicesOfValue(&currentWord->first, occuranceArray, sizeof(occuranceArray), letters->array.array[index]);
 
         for (size_t j = 0; j < occuranceCount; j++)
         {
