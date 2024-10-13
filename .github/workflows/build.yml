@@ -23,15 +23,19 @@ jobs:
       
     - name: Setup
       uses: lukka/get-cmake@latest
-        
-    - name: Configure with CMake
-      run: cmake -S . -B build
 
     - name: Build
-      run: cmake --preset release # cmake --build build
+      uses: lukka/run-cmake@v10
+      with:
+        configurePreset: 'ninja-multi-vcpkg'
+        configurePresetAdditionalArgs: "['-DENABLE_YOUR_FEATURE=1']"
+        buildPreset: 'ninja-multi-vcpkg'
+        buildPresetAdditionalArgs: "['--config Release']"
+        testPreset: 'ninja-multi-vcpkg'
+        testPresetAdditionalArgs: "['--config Release']"
 
-    - name: Run Tests (if applicable)
-      run: cd build && ctest || true
+    #- name: Run Tests (if applicable)
+    #  run: cd build && ctest || true
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
