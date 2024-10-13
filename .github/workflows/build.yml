@@ -30,9 +30,9 @@ jobs:
     - name: Setup compiler on Windows
       if: runner.os == 'Windows'
       run: |
-        choco install visualstudio2019buildtools -y
-        choco install cmake -y
-        set PATH=C:\Program Files\CMake\bin;%PATH%
+        choco install mingw -y --no-progress
+        choco install cmake -y --no-progress
+        set PATH=C:\Program Files\CMake\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\mingw64\bin;%PATH%
         
     - name: Configure with CMake
       run: cmake -S . -B build
