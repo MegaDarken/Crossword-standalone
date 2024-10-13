@@ -127,13 +127,13 @@ void charGrid_print(struct charGrid *var)
 
 void charGrid_printAsChars(struct charGrid *var)
 {
-    size_t index = var->array.array;
+    char* location = var->array.array;
     
     for (size_t i = 0; i < var->height; i++)
     {
-        printf("%.*s\n", var->width, index);
+        printf("%.*s\n", var->width, location);
 
-        index += var->width;
+        location += var->width;
     }
 }
 
