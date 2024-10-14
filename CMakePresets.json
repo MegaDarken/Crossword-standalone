@@ -1,26 +1,44 @@
 {
     "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 19,
+        "patch": 0
+    },
     "configurePresets": [
         {
-            "name": "debug",
-            "displayName": "Debug",
-            "binaryDir": "${sourceDir}/build_debug",
-            "generator": "Unix Makefiles",
+            "name": "default",
+            "displayName": "Default Config",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/default",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -std=c++11"
+                "CMAKE_BUILD_TYPE": "Release"
             }
         },
         {
-            "name": "release",
-            "displayName": "Release",
-            "binaryDir": "${sourceDir}/build",
-            "generator": "Unix Makefiles",
+            "name": "debug",
+            "displayName": "Debug Config",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/debug",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -march=haswell -flto -std=c++11"
+                "CMAKE_BUILD_TYPE": "Debug"
             }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "default-build",
+            "configurePreset": "default"
+        },
+        {
+            "name": "debug-build",
+            "configurePreset": "debug"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "default-test",
+            "configurePreset": "default"
         }
     ]
 }
