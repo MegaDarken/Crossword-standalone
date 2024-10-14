@@ -26,6 +26,13 @@ jobs:
 
     - name: Build
       uses: lukka/run-cmake@v10
+      with:
+        configurePreset: 'ninja-multi'
+        configurePresetAdditionalArgs: "['-DENABLE_YOUR_FEATURE=1']"
+        buildPreset: 'ninja-multi'
+        buildPresetAdditionalArgs: "['--config Release']"
+        testPreset: 'ninja-multi'
+        testPresetAdditionalArgs: "['--config Release']"
 
     #- name: Run Tests (if applicable)
     #  run: cd build && ctest || true
