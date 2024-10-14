@@ -7,8 +7,8 @@
     },
     "configurePresets": [
         {
-            "name": "default",
-            "displayName": "Default Config",
+            "name": "release",
+            "displayName": "Release Config",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/default",
             "cacheVariables": {
@@ -27,8 +27,8 @@
     ],
     "buildPresets": [
         {
-            "name": "default-build",
-            "configurePreset": "default"
+            "name": "release-build",
+            "configurePreset": "release"
         },
         {
             "name": "debug-build",
@@ -37,8 +37,8 @@
     ],
     "testPresets": [
         {
-            "name": "default-test",
-            "configurePreset": "default"
+            "name": "release-test",
+            "configurePreset": "release"
         }
     ]
 }
