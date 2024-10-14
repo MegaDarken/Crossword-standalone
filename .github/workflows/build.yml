@@ -29,10 +29,17 @@ jobs:
 
     - name: Setup compiler on Windows
       if: runner.os == 'Windows'
-      run: choco install cmake -y --no-progress
+      run: |
+        choco install mingw -y --no-progress
+        choco install cmake -y --no-progress
         
-    - name: Configure with CMake
-      run: cmake -S . -B build
+    - name: Configure CMake on Ubuntu/MacOS
+      if: runner.os != 'Windows'
+      run: cmake -S . -B build -G "Unix Makefiles"
+
+    - name: Configure CMake on Windows
+      if: runner.os == 'Windows'
+      run: cmake -S . -B build -G "MinGW Makefiles"
 
     - name: Preset on Ubuntu/MacOS
       if: runner.os != 'Windows'
@@ -40,7 +47,7 @@ jobs:
 
     - name: Preset on Windows
       if: runner.os == 'Windows'
-      run: cmake --preset release-vs
+      run: cmake --preset release-mingw
 
     - name: Build
       run: cmake --build build
