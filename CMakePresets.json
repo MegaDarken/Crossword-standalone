@@ -13,7 +13,7 @@
             "binaryDir": "${sourceDir}/build/default",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -march=haswell -flto -std=c++11"
+                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -flto -std=c++11"
             }
         },
         {
@@ -23,7 +23,7 @@
             "binaryDir": "${sourceDir}/build/default",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -march=haswell -flto -std=c++11"
+                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -flto -std=c++11"
             }
         },
         {
