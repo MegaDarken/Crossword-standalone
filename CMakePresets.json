@@ -51,18 +51,30 @@
     ],
     "buildPresets": [
         {
-            "name": "release-build",
-            "configurePreset": "release"
+            "name": "release-unix-build",
+            "configurePreset": "release-unix"
         },
         {
-            "name": "debug-build",
-            "configurePreset": "debug"
+            "name": "release-mingw-build",
+            "configurePreset": "release-mingw"
+        },
+        {
+            "name": "debug-unix-build",
+            "configurePreset": "debug-unix"
+        },
+        {
+            "name": "debug-mingw-build",
+            "configurePreset": "debug-mingw"
         }
     ],
     "testPresets": [
         {
-            "name": "release-test",
-            "configurePreset": "release"
+            "name": "release-unix-test",
+            "configurePreset": "release-unix"
+        },
+        {
+            "name": "release-mingw-test",
+            "configurePreset": "release-mingw"
         }
     ]
 }
