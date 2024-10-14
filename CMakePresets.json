@@ -10,7 +10,7 @@
             "name": "release-unix",
             "displayName": "Release Unix Config",
             "generator": "Unix Makefiles",
-            "binaryDir": "${sourceDir}/build/default",
+            "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -flto -std=c++11"
@@ -20,7 +20,7 @@
             "name": "release-mingw",
             "displayName": "Release Windows Config",
             "generator": "MinGW Makefiles",
-            "binaryDir": "${sourceDir}/build/default",
+            "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -flto -std=c++11"
@@ -30,7 +30,7 @@
             "name": "debug-unix",
             "displayName": "Debug Unix Config",
             "generator": "Unix Makefiles",
-            "binaryDir": "${sourceDir}/build/debug",
+            "binaryDir": "${sourceDir}/build_debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
@@ -41,7 +41,7 @@
             "name": "debug-mingw",
             "displayName": "Debug Windows Config",
             "generator": "MinGW Makefiles",
-            "binaryDir": "${sourceDir}/build/debug",
+            "binaryDir": "${sourceDir}/build_debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
