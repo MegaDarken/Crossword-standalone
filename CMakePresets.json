@@ -18,8 +18,18 @@
         },
         {
             "name": "release-mingw",
-            "displayName": "Release Windows Config",
+            "displayName": "Release MinGW Config",
             "generator": "MinGW Makefiles",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -flto"
+            }
+        },
+        {
+            "name": "release-vs",
+            "displayName": "Release VS Config",
+            "generator": "Visual Studio 17 2022",
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
@@ -39,8 +49,19 @@
         },
         {
             "name": "debug-mingw",
-            "displayName": "Debug Windows Config",
+            "displayName": "Debug MinGW Config",
             "generator": "MinGW Makefiles",
+            "binaryDir": "${sourceDir}/build_debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic"
+            }
+        },
+        {
+            "name": "debug-vs",
+            "displayName": "Debug VS Config",
+            "generator": "Visual Studio 17 2022",
             "binaryDir": "${sourceDir}/build_debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
@@ -59,12 +80,20 @@
             "configurePreset": "release-mingw"
         },
         {
+            "name": "release-vs-build",
+            "configurePreset": "release-vs"
+        },
+        {
             "name": "debug-unix-build",
             "configurePreset": "debug-unix"
         },
         {
             "name": "debug-mingw-build",
             "configurePreset": "debug-mingw"
+        },
+        {
+            "name": "debug-vs-build",
+            "configurePreset": "debug-vs"
         }
     ],
     "testPresets": [
@@ -75,6 +104,10 @@
         {
             "name": "release-mingw-test",
             "configurePreset": "release-mingw"
+        },
+        {
+            "name": "release-vs-test",
+            "configurePreset": "release-vs"
         }
     ]
 }
