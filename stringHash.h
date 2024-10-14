@@ -2,7 +2,8 @@
 #define __STRING_HASH__
 
 #include <stdlib.h>
-#include <string.h>
+
+#include "stringConstexpr.h"
 
 //Constant(s)
 #define CHAR_ARRAY_PRIME_A 524287
@@ -32,7 +33,7 @@ extern "C" constexpr
 #endif //__cplusplus
 size_t stringHash_nullTerminated(const char* string)
 {
-    return stringHash_size(string, strlen(string));
+    return stringHash_size(string, stringConstexpr_length(string));
 }
 
 #define stringHash(...) stringHash_helper(__VA_ARGS__, stringHash_size, stringHash_nullTerminated)(__VA_ARGS__)
