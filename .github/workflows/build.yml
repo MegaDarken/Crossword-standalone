@@ -32,11 +32,9 @@ jobs:
       run: |
         choco install mingw -y --no-progress
         choco install cmake -y --no-progress
-        shell: powershell
-        run: |
-          refreshenv
-          gcc --version
-          cmake --version
+        refreshenv
+        gcc --version
+        cmake --version
         
     - name: Configure with CMake
       run: cmake -S . -B build
