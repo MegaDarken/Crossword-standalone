@@ -9,14 +9,14 @@
 
 enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg};
 
-const size_t WIDTH_ARG_SHORT = stringHash("-w");
-const size_t WIDTH_ARG = stringHash("--width");
-const size_t HEIGHT_ARG_SHORT = stringHash("-h");
-const size_t HEIGHT_ARG = stringHash("--height");
-const size_t WORDC_ARG_SHORT = stringHash("-c");
-const size_t WORDC_ARG = stringHash("--count");
-const size_t FIRST_ARG_SHORT = stringHash("-f");
-const size_t FIRST_ARG = stringHash("--first");
+constexpr size_t WIDTH_ARG_SHORT = stringHash("-w");
+constexpr size_t WIDTH_ARG = stringHash("--width");
+constexpr size_t HEIGHT_ARG_SHORT = stringHash("-h");
+constexpr size_t HEIGHT_ARG = stringHash("--height");
+constexpr size_t WORDC_ARG_SHORT = stringHash("-c");
+constexpr size_t WORDC_ARG = stringHash("--count");
+constexpr size_t FIRST_ARG_SHORT = stringHash("-f");
+constexpr size_t FIRST_ARG = stringHash("--first");
 
 int main(int argc, char** argv)
 {
