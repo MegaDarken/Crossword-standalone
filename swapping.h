@@ -7,6 +7,7 @@
 
 #define swap_known(x,y) \
     do { \
+        if (x == y) break; \
         unsigned char swap_temp[sizeof(*x) == sizeof(*y) ? (signed)sizeof(*x) : -1]; \
         memcpy(swap_temp,y,sizeof(*x)); \
         memcpy(y,x,       sizeof(*x)); \
@@ -15,6 +16,7 @@
 
 #define swap_size(x,y,size) \
     do { \
+        if (x == y) break; \
         unsigned char swap_temp[size]; \
         memcpy(swap_temp,y,size); \
         memcpy(y,x,       size); \
