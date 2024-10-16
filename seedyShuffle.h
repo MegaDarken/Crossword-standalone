@@ -17,7 +17,7 @@
 #define seedyShuffle_size(array, count, seed, elementSize) \
     do { \
         __typeof__ (count) _count = (count);\
-        size_t index = array;\
+        void* index = array;\
         for ( size_t i = 0; i < _count; i++ ) { \
         swap(index, array + ((getSeedyRandomUInt(seed) % _count) * elementSize), elementSize); \
         index += elementSize;\
