@@ -9,8 +9,8 @@
 #define shuffle_known(array, count) \
     do { \
         __typeof__ (count) _count = (count);\
-        for ( int i = 0; i < _count; i++ ) { \
-        swap(&array[i], &array[(getRandomUInt() % _count)]); \
+        for ( __typeof__ (_count) i = 0; i < _count; i++ ) { \
+            swap(&(array[i]), &(array[(getRandomUInt() % _count)])); \
         } \
     } while(0)
 
@@ -18,9 +18,9 @@
     do { \
         __typeof__ (count) _count = (count);\
         void* index = array;\
-        for ( size_t i = 0; i < _count; i++ ) { \
-        swap(index, array + ((getRandomUInt() % _count) * elementSize), elementSize); \
-        index += elementSize;\
+        for ( __typeof__ (_count) i = 0; i < _count; i++ ) { \
+            swap(index, (array + ((getRandomUInt() % _count) * elementSize)), elementSize); \
+            index += elementSize;\
         } \
     } while(0)
 
