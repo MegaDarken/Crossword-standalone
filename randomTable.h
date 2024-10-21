@@ -2,14 +2,45 @@
 #ifndef __RANDOM_TABLE__
 #define __RANDOM_TABLE__
 
-    unsigned char getRandomUChar();
-    unsigned int getRandomUInt();
-    unsigned long getRandomULong();
-    unsigned long long getRandomULongLong();
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+unsigned char getRandomUChar();
 
-    unsigned char getSeedyRandomUChar(unsigned char seed);
-    unsigned int getSeedyRandomUInt(unsigned int seed);
-    unsigned long getSeedyRandomULong(unsigned long seed);
-    unsigned long long getSeedyRandomULongLong(unsigned long long seed);
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+unsigned int getRandomUInt();
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+unsigned long getRandomULong();
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+unsigned long long getRandomULongLong();
+
+//Seedy
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+unsigned char getSeedyRandomUChar(unsigned char seed);
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+unsigned int getSeedyRandomUInt(unsigned int seed);
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+unsigned long getSeedyRandomULong(unsigned long seed);
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+unsigned long long getSeedyRandomULongLong(unsigned long long seed);
 
 #endif

@@ -25,6 +25,9 @@ unsigned char rndtable[256] = {
 
 unsigned char indices[256];
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 unsigned char getRandomUChar()
 {
     indices[0]++;
@@ -32,6 +35,9 @@ unsigned char getRandomUChar()
     return rndtable[indices[0]];
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 unsigned int getRandomUInt()
 {
     char index = getRandomUChar();
@@ -40,6 +46,9 @@ unsigned int getRandomUInt()
     return rndtable[indices[index]] + (rndtable[index] << 8);
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 unsigned long getRandomULong()
 {
     char firstIndex = getRandomUChar();
@@ -54,6 +63,9 @@ unsigned long getRandomULong()
     + (rndtable[firstIndex] << 24);
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 unsigned long long getRandomULongLong()
 {
     char firstIndex = getRandomUChar();
@@ -78,7 +90,9 @@ unsigned long long getRandomULongLong()
     + ((unsigned long long)rndtable[firstIndex] << 56);
 }
 
-
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 unsigned char getSeedyRandomUChar(unsigned char seed)
 {
     indices[0]++;
@@ -86,6 +100,9 @@ unsigned char getSeedyRandomUChar(unsigned char seed)
     return rndtable[indices[0] + seed] ^ seed;
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 unsigned int getSeedyRandomUInt(unsigned int seed)
 {
     unsigned char ucSeed = (unsigned char)seed;
@@ -96,6 +113,9 @@ unsigned int getSeedyRandomUInt(unsigned int seed)
     return (rndtable[indices[index] + ucSeed] + (rndtable[index + ucSeed] << 8)) ^ seed;
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 unsigned long getSeedyRandomULong(unsigned long seed)
 {
     unsigned char ucSeed = (unsigned char)seed;
@@ -112,6 +132,9 @@ unsigned long getSeedyRandomULong(unsigned long seed)
     + (rndtable[firstIndex + ucSeed] << 24)) ^ seed;
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 unsigned long long getSeedyRandomULongLong(unsigned long long seed)
 {
     unsigned char ucSeed = (unsigned char)seed;
