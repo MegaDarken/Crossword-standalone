@@ -132,7 +132,7 @@ void charArray_write(FILE* filePointer, struct charArray *var)
     size += fwrite(&var->count, sizeof(var->count), 1, filePointer);
     size += fwrite(&var->size, sizeof(var->size), 1, filePointer);
     size += fwrite(var->array, sizeof(var->array[0]), var->count, filePointer);
-    if ( size == 0 ) printf("Zero from fwrite");
+    if ( size != sizeof(struct charArray) ) printf("Mis-size from charArray fwrite");
 }
 
 void charArray_readDest(FILE* filePointer, struct charArray *var)
@@ -141,7 +141,7 @@ void charArray_readDest(FILE* filePointer, struct charArray *var)
     size += fread(&var->count, sizeof(var->count), 1, filePointer);
     size += fread(&var->size, sizeof(var->size), 1, filePointer);
     size += fread(var->array, sizeof(var->array[0]), var->count, filePointer);
-    if ( size == 0 ) printf("Zero from fread");
+    if ( size != sizeof(struct charArray) ) printf("Mis-size from charArray fread");
 }
 
 struct charArray charArray_read(FILE* filePointer)
