@@ -1,5 +1,7 @@
 #include "randomTable.h"
 
+#include <stddef.h>
+
 //Doom psudorandom number table, with the second erronious 0 replaced with the missing 1
 unsigned char rndtable[256] = {
     0,   8, 109, 220, 222, 241, 149, 107,  75, 248, 254, 140,  16,  66 ,
@@ -24,6 +26,17 @@ unsigned char rndtable[256] = {
 };
 
 unsigned char indices[256];
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void indicesFromTable()
+{
+    for (size_t i = 0; i < sizeof(rndtable) && i < sizeof(indices); i++)
+    {
+        indices[i] = rndtable[i];
+    }
+}
 
 #ifdef __cplusplus
 extern "C"

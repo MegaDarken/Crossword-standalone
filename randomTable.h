@@ -5,6 +5,11 @@
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
+void randomTable_indicesFromTable();
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 unsigned char getRandomUChar();
 
 #ifdef __cplusplus
