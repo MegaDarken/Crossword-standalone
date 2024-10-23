@@ -6,6 +6,7 @@
 #include "stringHash.h"
 #include "crossword.h"
 #include "valRead.h"
+#include "randomTable.h"
 
 enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg};
 
@@ -19,6 +20,8 @@ constexpr size_t FIRST_ARG_SHORT = stringHash("-f");
 constexpr size_t FIRST_ARG = stringHash("--first");
 constexpr size_t RANDOM_ARG_SHORT = stringHash("-r");
 constexpr size_t RANDOM_ARG = stringHash("--random");
+constexpr size_t DETERMINISTIC_ARG_SHORT = stringHash("-d");
+constexpr size_t DETERMINISTIC_ARG = stringHash("--deterministic");
 
 int main(int argc, char** argv)
 {
@@ -29,6 +32,7 @@ int main(int argc, char** argv)
     size_t wordCount = defaultValue;
     int startingChar = defaultValue;
     int randomBool = 0;
+    int deterministicBool = 0;
 
     enum argsMode mode = noArg;
 
@@ -59,6 +63,11 @@ int main(int argc, char** argv)
         case RANDOM_ARG_SHORT:
         case RANDOM_ARG:
             randomBool = 1;
+            break;
+
+        case DETERMINISTIC_ARG_SHORT:
+        case DETERMINISTIC_ARG:
+            deterministicBool = 1;
             break;
         
         default:
@@ -118,6 +127,8 @@ int main(int argc, char** argv)
         printf("\nEnter stating character:");
         valRead_wcharDest(&startingChar, "\007\nInput must be an character:");
     }
+
+    if (deterministicBool) randomTable_indicesFromTable();
 
     crossword(width, height, wordCount, startingChar, randomBool);
 
