@@ -6,10 +6,10 @@
 #include "stringConstexpr.h"
 
 //Constant(s)
-#define CHAR_ARRAY_PRIME_A 524287
-#define CHAR_ARRAY_PRIME_B 131071
-#define CHAR_ARRAY_PRIME_C 40487
-#define CHAR_ARRAY_PRIME_D 331999
+#define CHAR_ARRAY_PRIME_A 777767777ul
+#define CHAR_ARRAY_PRIME_B 322222223ul
+#define CHAR_ARRAY_PRIME_C 6661111ul
+#define CHAR_ARRAY_PRIME_D 841069ul
 
 #define stringHash_helper(_1, _2, NAME, ...) NAME
 
