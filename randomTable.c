@@ -30,7 +30,7 @@ unsigned char indices[256];
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-void indicesFromTable()
+void randomTable_indicesFromTable()
 {
     for (size_t i = 0; i < sizeof(rndtable) && i < sizeof(indices); i++)
     {
