@@ -17,6 +17,8 @@ constexpr size_t WORDC_ARG_SHORT = stringHash("-c");
 constexpr size_t WORDC_ARG = stringHash("--count");
 constexpr size_t FIRST_ARG_SHORT = stringHash("-f");
 constexpr size_t FIRST_ARG = stringHash("--first");
+constexpr size_t RANDOM_ARG_SHORT = stringHash("-r");
+constexpr size_t RANDOM_ARG = stringHash("--random");
 
 int main(int argc, char** argv)
 {
@@ -26,61 +28,69 @@ int main(int argc, char** argv)
     int height = defaultValue;
     size_t wordCount = defaultValue;
     int startingChar = defaultValue;
+    int randomBool = 0;
 
     enum argsMode mode = noArg;
 
     for (size_t i = 0; i < argc; i++)
     {
-        switch (mode)
+        switch (stringHash_nullTerminated(argv[i]))
         {
-        case noArg:
-            switch (stringHash_nullTerminated(argv[i]))
+        case WIDTH_ARG_SHORT:
+        case WIDTH_ARG:
+            mode = widthArg;
+            break;
+
+        case HEIGHT_ARG_SHORT:
+        case HEIGHT_ARG:
+            mode = heightArg;
+            break;
+
+        case WORDC_ARG_SHORT:
+        case WORDC_ARG:
+            mode = wordCountArg;
+            break;
+        
+        case FIRST_ARG_SHORT:
+        case FIRST_ARG:
+            mode = firstCharArg;
+            break;
+
+        case RANDOM_ARG_SHORT:
+        case RANDOM_ARG:
+            randomBool = 1;
+            break;
+        
+        default:
+            switch (mode)
             {
-            case WIDTH_ARG_SHORT:
-            case WIDTH_ARG:
-                mode = widthArg;
-                break;
-
-            case HEIGHT_ARG_SHORT:
-            case HEIGHT_ARG:
-                mode = heightArg;
-                break;
-
-            case WORDC_ARG_SHORT:
-            case WORDC_ARG:
-                mode = wordCountArg;
+            case noArg:
+                
                 break;
             
-            case FIRST_ARG_SHORT:
-            case FIRST_ARG:
-                mode = firstCharArg;
+            case widthArg:
+                if (1 == sscanf(argv[i], " %d", &width)) mode = noArg;
+                break;
+
+            case heightArg:
+                if (1 == sscanf(argv[i], " %d", &height)) mode = noArg;
+                break;
+
+            case wordCountArg:
+                if (1 == sscanf(argv[i], " %zu", &wordCount)) mode = noArg;
+                break;
+
+            case firstCharArg:
+                startingChar = argv[i][0];
+                mode = noArg;
                 break;
             
             default:
                 break;
             }
             break;
-        
-        case widthArg:
-            if (1 == sscanf(argv[i], " %d", &width)) mode = noArg;
-            break;
-
-        case heightArg:
-            if (1 == sscanf(argv[i], " %d", &height)) mode = noArg;
-            break;
-
-        case wordCountArg:
-            if (1 == sscanf(argv[i], " %zu", &wordCount)) mode = noArg;
-            break;
-
-        case firstCharArg:
-            startingChar = argv[i][0];
-            mode = noArg;
-            break;
-        
-        default:
-            break;
         }
+        
         
     }
 
@@ -109,6 +119,6 @@ int main(int argc, char** argv)
         valRead_wcharDest(&startingChar, "\007\nInput must be an character:");
     }
 
-    crossword(width, height, wordCount, startingChar);
+    crossword(width, height, wordCount, startingChar, randomBool);
 
 }
