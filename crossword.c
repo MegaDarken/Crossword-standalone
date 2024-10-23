@@ -10,6 +10,8 @@
 #include "swapping.h"
 #include "boxDrawing.h"
 #include "insertionSort.h"
+#include "shuffle.h"
+
 
 void crossword_loadWords(struct arrayList *list, const char *filename, char splitValue)
 {
@@ -484,17 +486,30 @@ void crossword_print(struct charGrid *letters, struct crosswordPlacedWord *usedW
     charGrid_free(&flags);
 }
 
-void crossword(const int width, const int height, const size_t wordCount, const int startingChar)
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void crossword(const int width, const int height, const size_t wordCount, const int startingChar, const int randomBool)
 {
     struct arrayList fullWordList = arrayList_create(0, sizeof(struct charArrayPair));
 
     crossword_loadWords(&fullWordList, "wordQuestions.txt", ';');
     //charArrayPairArray_printAsChar(fullWordList.array, fullWordList.count);
-    //charArrayPairArray_quicksort_firstLengthAccending(fullWordList.array, fullWordList.count);
-    insertionSort_descending(fullWordList.array, fullWordList.count, fullWordList.elementSize, &((struct charArrayPair *)fullWordList.array)->first.count);
+
     struct charArrayPair *pairArray = fullWordList.array;
-    //charArrayPairArray_shuffle(pairArray, fullWordList.count);
-    charArrayPairArray_printAsChar(fullWordList.array, fullWordList.count);
+
+    if (randomBool)
+    {
+        shuffle(pairArray, fullWordList.count);
+    }
+    else
+    {
+        insertionSort_descending(fullWordList.array, fullWordList.count, fullWordList.elementSize, &((struct charArrayPair *)fullWordList.array)->first.count);
+    }
+
+    // charArrayPairArray_free(fullWordList.array, fullWordList.count);
+
+    //charArrayPairArray_printAsChar(fullWordList.array, fullWordList.count);
 
     // charArrayPairArray_printAsChar(fullWordList.array, fullWordList.count);
     // printf("\n%x ", fullWordList.count);
@@ -522,6 +537,8 @@ void crossword(const int width, const int height, const size_t wordCount, const 
     insertionSort_ascending(usedWordArray, placedWordCount, sizeof(usedWordArray[0]), &usedWordArray[0].gridIndex);
 
     crossword_print(&letters, usedWordArray, placedWordCount);
+
+    //charArrayPairArray_printAsChar(fullWordList.array, fullWordList.count);
 
     charArrayPairArray_free(fullWordList.array, fullWordList.count);
     arrayList_free(&fullWordList);
