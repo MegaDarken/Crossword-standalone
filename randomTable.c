@@ -3,7 +3,7 @@
 #include <stddef.h>
 
 //Doom psudorandom number table, with the second erronious 0 replaced with the missing 1
-unsigned char rndtable[256] = {
+__UINT8_TYPE__ rndtable[256] = {
     0,   8, 109, 220, 222, 241, 149, 107,  75, 248, 254, 140,  16,  66 ,
     74,  21, 211,  47,  80, 242, 154,  27, 205, 128, 161,  89,  77,  36 ,
     95, 110,  85,  48, 212, 140, 211, 249,  22,  79, 200,  50,  28, 188 ,
@@ -25,7 +25,7 @@ unsigned char rndtable[256] = {
     120, 163, 236, 249
 };
 
-unsigned char indices[256];
+__UINT8_TYPE__ indices[256];
 
 #ifdef __cplusplus
 extern "C"
@@ -41,7 +41,7 @@ void randomTable_indicesFromTable()
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned char getRandomUChar()
+__UINT8_TYPE__ getRandomUInt8()
 {
     indices[0]++;
     
@@ -51,9 +51,9 @@ unsigned char getRandomUChar()
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned int getRandomUInt()
+__UINT16_TYPE__ getRandomUInt16()
 {
-    char index = getRandomUChar();
+    __UINT8_TYPE__ index = getRandomUChar();
     indices[index]++;
     
     return rndtable[indices[index]] + (rndtable[index] << 8);
@@ -62,12 +62,12 @@ unsigned int getRandomUInt()
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned long getRandomULong()
+__UINT32_TYPE__ getRandomUInt32()
 {
-    char firstIndex = getRandomUChar();
+    __UINT8_TYPE__ firstIndex = getRandomUChar();
     indices[firstIndex]++;
 
-    char secondIndex = rndtable[indices[firstIndex]];
+    __UINT8_TYPE__ secondIndex = rndtable[indices[firstIndex]];
     indices[secondIndex]++;
 
     return rndtable[indices[secondIndex]]
@@ -79,34 +79,34 @@ unsigned long getRandomULong()
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned long long getRandomULongLong()
+__UINT64_TYPE__ getRandomUInt64()
 {
-    char firstIndex = getRandomUChar();
+    __UINT8_TYPE__ firstIndex = getRandomUChar();
     indices[firstIndex]++;
 
-    char secondIndex = rndtable[indices[firstIndex]];
+    __UINT8_TYPE__ secondIndex = rndtable[indices[firstIndex]];
     indices[secondIndex]++;
 
-    char thirdIndex = rndtable[indices[secondIndex]];
+    __UINT8_TYPE__ thirdIndex = rndtable[indices[secondIndex]];
     indices[thirdIndex]++;
 
-    char forthIndex = rndtable[indices[thirdIndex]];
+    __UINT8_TYPE__ forthIndex = rndtable[indices[thirdIndex]];
     indices[forthIndex]++;
 
-    return (unsigned long long)rndtable[indices[forthIndex]]
-    + ((unsigned long long)rndtable[forthIndex] << 8)
-    + ((unsigned long long)rndtable[indices[thirdIndex]] << 16)
-    + ((unsigned long long)rndtable[thirdIndex] << 24)
-    + ((unsigned long long)rndtable[indices[secondIndex]] << 32)
-    + ((unsigned long long)rndtable[secondIndex] << 40)
-    + ((unsigned long long)rndtable[indices[firstIndex]] << 48)
-    + ((unsigned long long)rndtable[firstIndex] << 56);
+    return (__UINT64_TYPE__)rndtable[indices[forthIndex]]
+    + ((__UINT64_TYPE__)rndtable[forthIndex] << 8)
+    + ((__UINT64_TYPE__)rndtable[indices[thirdIndex]] << 16)
+    + ((__UINT64_TYPE__)rndtable[thirdIndex] << 24)
+    + ((__UINT64_TYPE__)rndtable[indices[secondIndex]] << 32)
+    + ((__UINT64_TYPE__)rndtable[secondIndex] << 40)
+    + ((__UINT64_TYPE__)rndtable[indices[firstIndex]] << 48)
+    + ((__UINT64_TYPE__)rndtable[firstIndex] << 56);
 }
 
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned char getSeedyRandomUChar(unsigned char seed)
+__UINT8_TYPE__ getSeedyRandomUInt8(__UINT8_TYPE__ seed)
 {
     indices[0]++;
 
@@ -116,11 +116,11 @@ unsigned char getSeedyRandomUChar(unsigned char seed)
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned int getSeedyRandomUInt(unsigned int seed)
+__UINT16_TYPE__ getSeedyRandomUInt16(__UINT16_TYPE__ seed)
 {
-    unsigned char ucSeed = (unsigned char)seed;
+    __UINT8_TYPE__ ucSeed = (__UINT8_TYPE__)seed;
 
-    char index = getRandomUChar();
+    __UINT8_TYPE__ index = getRandomUChar();
     indices[index]++;
     
     return (rndtable[indices[index] + ucSeed] + (rndtable[index + ucSeed] << 8)) ^ seed;
@@ -129,14 +129,14 @@ unsigned int getSeedyRandomUInt(unsigned int seed)
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned long getSeedyRandomULong(unsigned long seed)
+__UINT32_TYPE__ getSeedyRandomUInt32(__UINT32_TYPE__ seed)
 {
-    unsigned char ucSeed = (unsigned char)seed;
+    __UINT8_TYPE__ ucSeed = (__UINT8_TYPE__)seed;
 
-    char firstIndex = getRandomUChar();
+    __UINT8_TYPE__ firstIndex = getRandomUChar();
     indices[firstIndex]++;
 
-    char secondIndex = rndtable[indices[firstIndex]];
+    __UINT8_TYPE__ secondIndex = rndtable[indices[firstIndex]];
     indices[secondIndex]++;
 
     return (rndtable[indices[secondIndex] + ucSeed]
@@ -148,28 +148,28 @@ unsigned long getSeedyRandomULong(unsigned long seed)
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned long long getSeedyRandomULongLong(unsigned long long seed)
+__UINT64_TYPE__ getSeedyRandomUInt64(__UINT64_TYPE__ seed)
 {
-    unsigned char ucSeed = (unsigned char)seed;
+    __UINT8_TYPE__ ucSeed = (__UINT8_TYPE__)seed;
 
-    char firstIndex = getRandomUChar();
+    __UINT8_TYPE__ firstIndex = getRandomUChar();
     indices[firstIndex]++;
 
-    char secondIndex = rndtable[indices[firstIndex]];
+    __UINT8_TYPE__ secondIndex = rndtable[indices[firstIndex]];
     indices[secondIndex]++;
 
-    char thirdIndex = rndtable[indices[secondIndex]];
+    __UINT8_TYPE__ thirdIndex = rndtable[indices[secondIndex]];
     indices[thirdIndex]++;
 
-    char forthIndex = rndtable[indices[thirdIndex]];
+    __UINT8_TYPE__ forthIndex = rndtable[indices[thirdIndex]];
     indices[forthIndex]++;
 
-    return ((unsigned long long)rndtable[indices[forthIndex] + ucSeed]
-    + ((unsigned long long)rndtable[forthIndex + ucSeed] << 8)
-    + ((unsigned long long)rndtable[indices[thirdIndex] + ucSeed] << 16)
-    + ((unsigned long long)rndtable[thirdIndex + ucSeed] << 24)
-    + ((unsigned long long)rndtable[indices[secondIndex] + ucSeed] << 32)
-    + ((unsigned long long)rndtable[secondIndex + ucSeed] << 40)
-    + ((unsigned long long)rndtable[indices[firstIndex] + ucSeed] << 48)
-    + ((unsigned long long)rndtable[firstIndex + ucSeed] << 56)) ^ seed;
+    return ((__UINT64_TYPE__)rndtable[indices[forthIndex] + ucSeed]
+    + ((__UINT64_TYPE__)rndtable[forthIndex + ucSeed] << 8)
+    + ((__UINT64_TYPE__)rndtable[indices[thirdIndex] + ucSeed] << 16)
+    + ((__UINT64_TYPE__)rndtable[thirdIndex + ucSeed] << 24)
+    + ((__UINT64_TYPE__)rndtable[indices[secondIndex] + ucSeed] << 32)
+    + ((__UINT64_TYPE__)rndtable[secondIndex + ucSeed] << 40)
+    + ((__UINT64_TYPE__)rndtable[indices[firstIndex] + ucSeed] << 48)
+    + ((__UINT64_TYPE__)rndtable[firstIndex + ucSeed] << 56)) ^ seed;
 }

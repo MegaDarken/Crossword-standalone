@@ -10,42 +10,42 @@ void randomTable_indicesFromTable();
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned char getRandomUChar();
+__UINT8_TYPE__ getRandomUInt8();
 
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned int getRandomUInt();
+__UINT16_TYPE__ getRandomUInt16();
 
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned long getRandomULong();
+__UINT32_TYPE__ getRandomUInt32();
 
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned long long getRandomULongLong();
+__UINT64_TYPE__ getRandomUInt64();
 
 //Seedy
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned char getSeedyRandomUChar(unsigned char seed);
+__UINT8_TYPE__ getSeedyRandomUInt8(__UINT8_TYPE__ seed);
 
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned int getSeedyRandomUInt(unsigned int seed);
+__UINT16_TYPE__ getSeedyRandomUInt16(__UINT16_TYPE__ seed);
 
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned long getSeedyRandomULong(unsigned long seed);
+__UINT32_TYPE__ getSeedyRandomUInt32(__UINT32_TYPE__ seed);
 
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-unsigned long long getSeedyRandomULongLong(unsigned long long seed);
+__UINT64_TYPE__ getSeedyRandomUInt64(__UINT64_TYPE__ seed);
 
 #endif
