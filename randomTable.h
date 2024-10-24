@@ -40,7 +40,7 @@ __UINT64_TYPE__ getRandomUInt64();
             output = getRandomUInt32(); \
             break; \
         case 8: \
-            output = getRandomUInt64(); \   
+            output = getRandomUInt64(); \
             break; \
         default: \
             break; \
@@ -68,6 +68,24 @@ extern "C"
 #endif //__cplusplus
 __UINT64_TYPE__ getSeedyRandomUInt64(__UINT64_TYPE__ seed);
 
-
+#define getSeedyRandomU(seed) \
+    ({  __typeof__ (seed) output = 0; \
+        switch (sizeof(seed)) { \
+        case 1: \
+            output = getSeedyRandomUInt8(seed); \
+            break; \
+        case 2: \
+            output = getSeedyRandomUInt16(seed); \
+            break; \
+        case 4: \
+            output = getSeedyRandomUInt32(seed); \
+            break; \
+        case 8: \
+            output = getSeedyRandomUInt64(seed); \
+            break; \
+        default: \
+            break; \
+        } \
+        output; })
 
 #endif
