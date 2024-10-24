@@ -27,6 +27,26 @@ extern "C"
 #endif //__cplusplus
 __UINT64_TYPE__ getRandomUInt64();
 
+#define getRandomU(type) \
+    ({  type output = 0; \
+        switch (sizeof(type)) { \
+        case 1: \
+            output = getRandomUInt8(); \
+            break; \
+        case 2: \
+            output = getRandomUInt16(); \
+            break; \
+        case 4: \
+            output = getRandomUInt32(); \
+            break; \
+        case 8: \
+            output = getRandomUInt64(); \   
+            break; \
+        default: \
+            break; \
+        } \
+        output; })
+
 //Seedy
 #ifdef __cplusplus
 extern "C"
@@ -47,5 +67,7 @@ __UINT32_TYPE__ getSeedyRandomUInt32(__UINT32_TYPE__ seed);
 extern "C"
 #endif //__cplusplus
 __UINT64_TYPE__ getSeedyRandomUInt64(__UINT64_TYPE__ seed);
+
+
 
 #endif
