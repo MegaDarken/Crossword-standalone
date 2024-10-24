@@ -53,7 +53,7 @@ extern "C"
 #endif //__cplusplus
 __UINT16_TYPE__ getRandomUInt16()
 {
-    __UINT8_TYPE__ index = getRandomUChar();
+    __UINT8_TYPE__ index = getRandomUInt8();
     indices[index]++;
     
     return rndtable[indices[index]] + (rndtable[index] << 8);
@@ -64,7 +64,7 @@ extern "C"
 #endif //__cplusplus
 __UINT32_TYPE__ getRandomUInt32()
 {
-    __UINT8_TYPE__ firstIndex = getRandomUChar();
+    __UINT8_TYPE__ firstIndex = getRandomUInt8();
     indices[firstIndex]++;
 
     __UINT8_TYPE__ secondIndex = rndtable[indices[firstIndex]];
@@ -81,7 +81,7 @@ extern "C"
 #endif //__cplusplus
 __UINT64_TYPE__ getRandomUInt64()
 {
-    __UINT8_TYPE__ firstIndex = getRandomUChar();
+    __UINT8_TYPE__ firstIndex = getRandomUInt8();
     indices[firstIndex]++;
 
     __UINT8_TYPE__ secondIndex = rndtable[indices[firstIndex]];
@@ -120,7 +120,7 @@ __UINT16_TYPE__ getSeedyRandomUInt16(__UINT16_TYPE__ seed)
 {
     __UINT8_TYPE__ ucSeed = (__UINT8_TYPE__)seed;
 
-    __UINT8_TYPE__ index = getRandomUChar();
+    __UINT8_TYPE__ index = getRandomUInt8();
     indices[index]++;
     
     return (rndtable[indices[index] + ucSeed] + (rndtable[index + ucSeed] << 8)) ^ seed;
@@ -133,7 +133,7 @@ __UINT32_TYPE__ getSeedyRandomUInt32(__UINT32_TYPE__ seed)
 {
     __UINT8_TYPE__ ucSeed = (__UINT8_TYPE__)seed;
 
-    __UINT8_TYPE__ firstIndex = getRandomUChar();
+    __UINT8_TYPE__ firstIndex = getRandomUInt8();
     indices[firstIndex]++;
 
     __UINT8_TYPE__ secondIndex = rndtable[indices[firstIndex]];
@@ -152,7 +152,7 @@ __UINT64_TYPE__ getSeedyRandomUInt64(__UINT64_TYPE__ seed)
 {
     __UINT8_TYPE__ ucSeed = (__UINT8_TYPE__)seed;
 
-    __UINT8_TYPE__ firstIndex = getRandomUChar();
+    __UINT8_TYPE__ firstIndex = getRandomUInt8();
     indices[firstIndex]++;
 
     __UINT8_TYPE__ secondIndex = rndtable[indices[firstIndex]];
