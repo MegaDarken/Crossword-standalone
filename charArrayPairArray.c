@@ -21,23 +21,6 @@ void charArrayPairArray_swap(void *array, const size_t count, const size_t first
     swap(array + (firstIndex * sizeof(struct charArrayPair)), array + (secondIndex * sizeof(struct charArrayPair)), sizeof(struct charArrayPair));
 }
 
-/**
- * Appears to cause scanf seg fault
- */
-void charArrayPairArray_shuffle(void *array, const size_t count)
-{
-    struct charArrayPair *structArray = array;
-
-    for (size_t i = 0; i < count; i++)
-    {
-        size_t rand = (getRandomUInt() % count);
-        if (i != rand)
-        {
-            swap(&structArray[i], &structArray[rand]);
-        }
-    }
-}
-
 void charArrayPairArray_quicksort_firstLengthAccending(void *array, const size_t count)
 {
     if (count <= 1)
