@@ -10,7 +10,7 @@
     do { \
         __typeof__ (count) _count = (count);\
         for ( __typeof__ (_count) i = 0; i < _count; i++ ) { \
-        swap(&array[i], &array[(getSeedyRandomUInt(seed) % _count)]); \
+        swap(&array[i], &array[(getSeedyRandomU(seed) % _count)]); \
         } \
     } while(0)
 
@@ -19,7 +19,7 @@
         __typeof__ (count) _count = (count);\
         void* index = array;\
         for ( __typeof__ (_count) i = 0; i < _count; i++ ) { \
-        swap(index, array + ((getSeedyRandomUInt(seed) % _count) * elementSize), elementSize); \
+        swap(index, array + ((getSeedyRandomU(seed) % _count) * elementSize), elementSize); \
         index += elementSize;\
         } \
     } while(0)
