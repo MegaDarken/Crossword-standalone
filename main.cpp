@@ -1,6 +1,6 @@
 
 #include <stdio.h>
-#include <stdlib.h>
+#include <stddef.h>
 #include <string.h>
 
 #include "stringHash.h"
@@ -8,20 +8,22 @@
 #include "valRead.h"
 #include "randomTable.h"
 
-enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg};
+enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, seedArg};
 
-constexpr size_t WIDTH_ARG_SHORT = stringHash("-w");
-constexpr size_t WIDTH_ARG = stringHash("--width");
-constexpr size_t HEIGHT_ARG_SHORT = stringHash("-h");
-constexpr size_t HEIGHT_ARG = stringHash("--height");
-constexpr size_t WORDC_ARG_SHORT = stringHash("-c");
-constexpr size_t WORDC_ARG = stringHash("--count");
-constexpr size_t FIRST_ARG_SHORT = stringHash("-f");
-constexpr size_t FIRST_ARG = stringHash("--first");
-constexpr size_t RANDOM_ARG_SHORT = stringHash("-r");
-constexpr size_t RANDOM_ARG = stringHash("--random");
-constexpr size_t DETERMINISTIC_ARG_SHORT = stringHash("-d");
-constexpr size_t DETERMINISTIC_ARG = stringHash("--deterministic");
+constexpr __uint64_t WIDTH_ARG_SHORT = stringHash("-w");
+constexpr __uint64_t WIDTH_ARG = stringHash("--width");
+constexpr __uint64_t HEIGHT_ARG_SHORT = stringHash("-h");
+constexpr __uint64_t HEIGHT_ARG = stringHash("--height");
+constexpr __uint64_t WORDC_ARG_SHORT = stringHash("-c");
+constexpr __uint64_t WORDC_ARG = stringHash("--count");
+constexpr __uint64_t FIRST_ARG_SHORT = stringHash("-f");
+constexpr __uint64_t FIRST_ARG = stringHash("--first");
+constexpr __uint64_t RANDOM_ARG_SHORT = stringHash("-r");
+constexpr __uint64_t RANDOM_ARG = stringHash("--random");
+constexpr __uint64_t DETERMINISTIC_ARG_SHORT = stringHash("-d");
+constexpr __uint64_t DETERMINISTIC_ARG = stringHash("--deterministic");
+constexpr __uint64_t SEED_ARG_SHORT = stringHash("-s");
+constexpr __uint64_t SEED_ARG = stringHash("--seed");
 
 int main(int argc, char** argv)
 {
@@ -33,6 +35,7 @@ int main(int argc, char** argv)
     int startingChar = defaultValue;
     int randomBool = 0;
     int deterministicBool = 0;
+    __uint64_t seed = 0;
 
     enum argsMode mode = noArg;
 
@@ -58,6 +61,11 @@ int main(int argc, char** argv)
         case FIRST_ARG_SHORT:
         case FIRST_ARG:
             mode = firstCharArg;
+            break;
+
+        case SEED_ARG_SHORT:
+        case SEED_ARG:
+            mode = seedArg;
             break;
 
         case RANDOM_ARG_SHORT:
@@ -92,6 +100,10 @@ int main(int argc, char** argv)
             case firstCharArg:
                 startingChar = argv[i][0];
                 mode = noArg;
+                break;
+
+            case seedArg:
+                seed = stringHash(argv[i]);
                 break;
             
             default:
@@ -130,6 +142,6 @@ int main(int argc, char** argv)
 
     if (deterministicBool) randomTable_indicesFromTable();
 
-    crossword(width, height, wordCount, startingChar, randomBool);
+    crossword(width, height, wordCount, startingChar, randomBool, seed);
 
 }
