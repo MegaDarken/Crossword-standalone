@@ -10,7 +10,7 @@
 #include "swapping.h"
 #include "boxDrawing.h"
 #include "insertionSort.h"
-#include "shuffle.h"
+#include "seedyShuffle.h"
 
 
 void crossword_loadWords(struct arrayList *list, const char *filename, char splitValue)
@@ -489,7 +489,7 @@ void crossword_print(struct charGrid *letters, struct crosswordPlacedWord *usedW
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-void crossword(const int width, const int height, const size_t wordCount, const int startingChar, const int randomBool)
+void crossword(const int width, const int height, const size_t wordCount, const int startingChar, const int randomBool, const __uint64_t seed)
 {
     struct arrayList fullWordList = arrayList_create(0, sizeof(struct charArrayPair));
 
@@ -500,7 +500,7 @@ void crossword(const int width, const int height, const size_t wordCount, const 
 
     if (randomBool)
     {
-        shuffle(pairArray, fullWordList.count);
+        seedyShuffle(pairArray, fullWordList.count, seed);
     }
     else
     {
