@@ -16,7 +16,7 @@
 #ifdef __cplusplus
 extern "C" constexpr
 #endif //__cplusplus
-size_t stringHash_size(const char *string, size_t stringSize)
+__uint64_t stringHash_size(const char *string, size_t stringSize)
 {
     size_t hash = CHAR_ARRAY_PRIME_D;
 
@@ -31,7 +31,7 @@ size_t stringHash_size(const char *string, size_t stringSize)
 #ifdef __cplusplus
 extern "C" constexpr
 #endif //__cplusplus
-size_t stringHash_nullTerminated(const char* string)
+__uint64_t stringHash_nullTerminated(const char* string)
 {
     return stringHash_size(string, stringConstexpr_length(string));
 }
