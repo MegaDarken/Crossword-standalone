@@ -2,6 +2,10 @@
 #ifndef __RANDOM_TABLE__
 #define __RANDOM_TABLE__
 
+#define ONE_BYTE(type) (sizeof(type) == 1)
+#define TWO_BYTE(type) (sizeof(type) == 2)
+#define FOUR_BYTE(type) (sizeof(type) == 4)
+
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
@@ -27,25 +31,12 @@ extern "C"
 #endif //__cplusplus
 __UINT64_TYPE__ getRandomUInt64();
 
-#define getRandomU(type) \
-    ({  type output = 0; \
-        switch (sizeof(type)) { \
-        case 1: \
-            output = getRandomUInt8(); \
-            break; \
-        case 2: \
-            output = getRandomUInt16(); \
-            break; \
-        case 4: \
-            output = getRandomUInt32(); \
-            break; \
-        case 8: \
-            output = getRandomUInt64(); \
-            break; \
-        default: \
-            break; \
-        } \
-        output; })
+#define getRandomU(type) _Generic((type), \
+        __uint8_t: getRandomUInt8(), \
+        __uint16_t: getRandomUInt16(), \
+        __uint32_t: getRandomUInt32(), \
+        __uint64_t: getRandomUInt64() \
+    )
 
 //Seedy
 #ifdef __cplusplus
@@ -68,24 +59,11 @@ extern "C"
 #endif //__cplusplus
 __UINT64_TYPE__ getSeedyRandomUInt64(__UINT64_TYPE__ seed);
 
-#define getSeedyRandomU(seed) \
-    ({  __typeof__ (seed) output = 0; \
-        switch (sizeof(seed)) { \
-        case 1: \
-            output = getSeedyRandomUInt8(seed); \
-            break; \
-        case 2: \
-            output = getSeedyRandomUInt16(seed); \
-            break; \
-        case 4: \
-            output = getSeedyRandomUInt32(seed); \
-            break; \
-        case 8: \
-            output = getSeedyRandomUInt64(seed); \
-            break; \
-        default: \
-            break; \
-        } \
-        output; })
+#define getSeedyRandomU(seed) _Generic((seed), \
+        __uint8_t: getSeedyRandomUInt8(seed), \
+        __uint16_t: getSeedyRandomUInt16(seed), \
+        __uint32_t: getSeedyRandomUInt32(seed), \
+        __uint64_t: getSeedyRandomUInt64(seed) \
+    )
 
 #endif
