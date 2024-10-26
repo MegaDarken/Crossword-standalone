@@ -8,7 +8,7 @@
 #include "valRead.h"
 #include "randomTable.h"
 
-enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, seedArg};
+enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, listFilenameArg, seedArg};
 
 constexpr __uint64_t WIDTH_ARG_SHORT = stringHash("-w");
 constexpr __uint64_t WIDTH_ARG = stringHash("--width");
@@ -18,6 +18,8 @@ constexpr __uint64_t WORDC_ARG_SHORT = stringHash("-c");
 constexpr __uint64_t WORDC_ARG = stringHash("--count");
 constexpr __uint64_t FIRST_ARG_SHORT = stringHash("-f");
 constexpr __uint64_t FIRST_ARG = stringHash("--first");
+constexpr __uint64_t LIST_FILENAME_ARG_SHORT = stringHash("-l");
+constexpr __uint64_t LIST_FILENAME_ARG = stringHash("--list");
 constexpr __uint64_t RANDOM_ARG_SHORT = stringHash("-r");
 constexpr __uint64_t RANDOM_ARG = stringHash("--random");
 constexpr __uint64_t DETERMINISTIC_ARG_SHORT = stringHash("-d");
@@ -33,6 +35,7 @@ int main(int argc, char** argv)
     int height = defaultValue;
     size_t wordCount = defaultValue;
     int startingChar = defaultValue;
+    char* listFileName = (char*)"wordQuestions.txt";
     int randomBool = 0;
     int deterministicBool = 0;
     __uint64_t seed = 0;
@@ -61,6 +64,11 @@ int main(int argc, char** argv)
         case FIRST_ARG_SHORT:
         case FIRST_ARG:
             mode = firstCharArg;
+            break;
+
+        case LIST_FILENAME_ARG_SHORT:
+        case LIST_FILENAME_ARG:
+            mode = listFilenameArg;
             break;
 
         case SEED_ARG_SHORT:
@@ -102,6 +110,9 @@ int main(int argc, char** argv)
                 mode = noArg;
                 break;
 
+            case listFilenameArg:
+                listFileName = argv[i];
+
             case seedArg:
                 seed = stringHash(argv[i]);
                 break;
@@ -142,6 +153,6 @@ int main(int argc, char** argv)
 
     if (deterministicBool) randomTable_indicesFromTable();
 
-    crossword(width, height, wordCount, startingChar, randomBool, seed);
+    crossword(width, height, wordCount, startingChar, listFileName, randomBool, seed);
 
 }
