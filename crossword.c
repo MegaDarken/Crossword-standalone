@@ -489,11 +489,11 @@ void crossword_print(struct charGrid *letters, struct crosswordPlacedWord *usedW
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-void crossword(const int width, const int height, const size_t wordCount, const int startingChar, const int randomBool, const __uint64_t seed)
+void crossword(const int width, const int height, const size_t wordCount, const int startingChar, const char* listFileName, const int randomBool, const __uint64_t seed)
 {
     struct arrayList fullWordList = arrayList_create(0, sizeof(struct charArrayPair));
 
-    crossword_loadWords(&fullWordList, "wordQuestions.txt", ';');
+    crossword_loadWords(&fullWordList, listFileName, ';');
     //charArrayPairArray_printAsChar(fullWordList.array, fullWordList.count);
 
     struct charArrayPair *pairArray = fullWordList.array;
