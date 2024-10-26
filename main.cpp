@@ -20,9 +20,9 @@ constexpr __uint64_t FIRST_ARG_SHORT = stringHash("-f");
 constexpr __uint64_t FIRST_ARG = stringHash("--first");
 constexpr __uint64_t LIST_FILENAME_ARG_SHORT = stringHash("-l");
 constexpr __uint64_t LIST_FILENAME_ARG = stringHash("--list");
-constexpr __uint64_t RANDOM_ARG_SHORT = stringHash("-r");
+constexpr char RANDOM_ARG_SHORT = 'r';
 constexpr __uint64_t RANDOM_ARG = stringHash("--random");
-constexpr __uint64_t DETERMINISTIC_ARG_SHORT = stringHash("-d");
+constexpr char DETERMINISTIC_ARG_SHORT = 'd';
 constexpr __uint64_t DETERMINISTIC_ARG = stringHash("--deterministic");
 constexpr __uint64_t SEED_ARG_SHORT = stringHash("-s");
 constexpr __uint64_t SEED_ARG = stringHash("--seed");
@@ -76,12 +76,10 @@ int main(int argc, char** argv)
             mode = seedArg;
             break;
 
-        case RANDOM_ARG_SHORT:
         case RANDOM_ARG:
             randomBool = 1;
             break;
 
-        case DETERMINISTIC_ARG_SHORT:
         case DETERMINISTIC_ARG:
             deterministicBool = 1;
             break;
@@ -90,6 +88,26 @@ int main(int argc, char** argv)
             switch (mode)
             {
             case noArg:
+                if (argv[i][0] == '-' && argv[i][1] != '-')
+                {
+                    for (size_t j = 0; argv[i][j]; j++)
+                    {
+                        switch (argv[i][j])
+                        {
+                        case RANDOM_ARG_SHORT:
+                            randomBool = 1;
+                            break;
+
+                        case DETERMINISTIC_ARG_SHORT:
+                            deterministicBool = 1;
+                            break;
+                        
+                        default:
+                            break;
+                        }
+                    }
+                    
+                }
                 
                 break;
             
