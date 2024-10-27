@@ -28,6 +28,9 @@ insertionSort.c
 insertionSort.h
 randomTable.c
 randomTable.h
+seedyShuffle.h
+shuffle.h
+stringConstexpr.h
 stringHash.h
 swapping.h
 valRead.c

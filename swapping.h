@@ -5,20 +5,26 @@
 
 #define swap_helper(_1, _2, _3, NAME, ...) NAME
 
-#define swap_known(x,y) \
+#define swap_known(a,b) \
     do { \
-        unsigned char swap_temp[sizeof(*x) == sizeof(*y) ? (signed)sizeof(*x) : -1]; \
-        memcpy(swap_temp,y,sizeof(*x)); \
-        memcpy(y,x,       sizeof(*x)); \
-        memcpy(x,swap_temp,sizeof(*x)); \
+        __typeof__ (a) _a = (a); \
+        __typeof__ (b) _b = (b); \
+        if (_a == _b) break; \
+        unsigned char swap_temp[sizeof(*_a) == sizeof(*_b) ? (signed)sizeof(*_a) : -1]; \
+        memcpy(swap_temp,_b,sizeof(*_a)); \
+        memcpy(_b,_a,sizeof(*_a)); \
+        memcpy(_a,swap_temp,sizeof(*_a)); \
     } while(0)
 
-#define swap_size(x,y,size) \
+#define swap_size(a,b,size) \
     do { \
+        __typeof__ (a) _a = (a); \
+        __typeof__ (b) _b = (b); \
+        if (_a == _b) break; \
         unsigned char swap_temp[size]; \
-        memcpy(swap_temp,y,size); \
-        memcpy(y,x,       size); \
-        memcpy(x,swap_temp,size); \
+        memcpy(swap_temp,_b,size); \
+        memcpy(_b,_a,size); \
+        memcpy(_a,swap_temp,size); \
     } while(0)
 
 #define swap(...) swap_helper(__VA_ARGS__, swap_size, swap_known)(__VA_ARGS__)

@@ -6,17 +6,17 @@
 #include "stringConstexpr.h"
 
 //Constant(s)
-#define CHAR_ARRAY_PRIME_A 524287
-#define CHAR_ARRAY_PRIME_B 131071
-#define CHAR_ARRAY_PRIME_C 40487
-#define CHAR_ARRAY_PRIME_D 331999
+#define CHAR_ARRAY_PRIME_A 777767777ul
+#define CHAR_ARRAY_PRIME_B 322222223ul
+#define CHAR_ARRAY_PRIME_C 6661111ul
+#define CHAR_ARRAY_PRIME_D 841069ul
 
 #define stringHash_helper(_1, _2, NAME, ...) NAME
 
 #ifdef __cplusplus
 extern "C" constexpr
 #endif //__cplusplus
-size_t stringHash_size(const char *string, size_t stringSize)
+__UINT64_TYPE__ stringHash_size(const char *string, size_t stringSize)
 {
     size_t hash = CHAR_ARRAY_PRIME_D;
 
@@ -31,7 +31,7 @@ size_t stringHash_size(const char *string, size_t stringSize)
 #ifdef __cplusplus
 extern "C" constexpr
 #endif //__cplusplus
-size_t stringHash_nullTerminated(const char* string)
+__UINT64_TYPE__ stringHash_nullTerminated(const char* string)
 {
     return stringHash_size(string, stringConstexpr_length(string));
 }

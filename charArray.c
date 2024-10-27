@@ -10,6 +10,9 @@
 #include "stringHash.h"
 
 //Methods
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void charArray_createDest(struct charArray *dest)
 {
     dest->size = sizeof(char) * dest->count;
@@ -23,6 +26,9 @@ void charArray_createDest(struct charArray *dest)
     }
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void charArray_createDestWithInitialValue(struct charArray *dest, const char initialValue)
 {
     charArray_createDest(dest);
@@ -30,6 +36,9 @@ void charArray_createDestWithInitialValue(struct charArray *dest, const char ini
     charArray_setAll(dest, initialValue);
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 struct charArray charArray_createWithInitialValue(const size_t count, const char initialValue)
 {
     struct charArray val = { .count = count };
@@ -39,6 +48,9 @@ struct charArray charArray_createWithInitialValue(const size_t count, const char
     return val;
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 struct charArray charArray_create(const size_t count)
 {
     struct charArray val = { .count = count };
@@ -48,11 +60,17 @@ struct charArray charArray_create(const size_t count)
     return val;
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void charArray_setAll(struct charArray *var, const char value)
 {
     memset(var->array, value, var->size);
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void charArray_set(struct charArray *var, char *array, const size_t count)
 {
     charArray_resize(var, count);
@@ -60,6 +78,9 @@ void charArray_set(struct charArray *var, char *array, const size_t count)
     memcpy(var->array, array, count);
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void charArray_resize(struct charArray *var, const size_t count)
 {
     var->count = count;
@@ -67,6 +88,9 @@ void charArray_resize(struct charArray *var, const size_t count)
     charArray_createDest(var);
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void charArray_free(struct charArray *var)
 {
     var->count = 0;
@@ -75,6 +99,9 @@ void charArray_free(struct charArray *var)
     free(var->array);
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 int charArray_equals(struct charArray *first, struct charArray *second)
 {
     if (first->count != second->count) return 0;
@@ -88,11 +115,17 @@ int charArray_equals(struct charArray *first, struct charArray *second)
     return 1;
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 size_t charArray_hash(struct charArray *var)
 {
     return stringHash(var->array, var->size);
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 size_t charArray_indicesOfValue(struct charArray *var, size_t *buffer, const size_t bufferCount, const char value)
 {
     size_t count = 0;
@@ -110,6 +143,9 @@ size_t charArray_indicesOfValue(struct charArray *var, size_t *buffer, const siz
     return count;
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void charArray_tolower(struct charArray *var)
 {
     for (size_t i = 0; i < var->count; i++)
@@ -118,6 +154,9 @@ void charArray_tolower(struct charArray *var)
     }
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void charArray_toupper(struct charArray *var)
 {
     for (size_t i = 0; i < var->count; i++)
@@ -126,23 +165,33 @@ void charArray_toupper(struct charArray *var)
     }
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void charArray_write(FILE* filePointer, struct charArray *var)
 {
     size_t size = 0;
     size += fwrite(&var->count, sizeof(var->count), 1, filePointer);
     size += fwrite(&var->size, sizeof(var->size), 1, filePointer);
     size += fwrite(var->array, sizeof(var->array[0]), var->count, filePointer);
-    if ( size == 0 ) printf("Zero from write");
+    if ( size != sizeof(struct charArray) ) printf("Mis-size from charArray fwrite");
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void charArray_readDest(FILE* filePointer, struct charArray *var)
 {
-    fread(&var->count, sizeof(var->count), 1, filePointer);
-    fread(&var->size, sizeof(var->size), 1, filePointer);
-    //charArray_createDest(var);
-    fread(var->array, sizeof(var->array[0]), var->count, filePointer);
+    size_t size = 0;
+    size += fread(&var->count, sizeof(var->count), 1, filePointer);
+    size += fread(&var->size, sizeof(var->size), 1, filePointer);
+    size += fread(var->array, sizeof(var->array[0]), var->count, filePointer);
+    if ( size != sizeof(struct charArray) ) printf("Mis-size from charArray fread");
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 struct charArray charArray_read(FILE* filePointer)
 {
     struct charArray val = { };
@@ -152,6 +201,9 @@ struct charArray charArray_read(FILE* filePointer)
     return val;
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void charArray_print(struct charArray *var)
 {
     for (size_t i = 0; i < var->count; i++)
@@ -160,6 +212,9 @@ void charArray_print(struct charArray *var)
     }
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void charArray_printAsChar(struct charArray *var)
 {
     printf("%.*s", (int)var->count, var->array);
