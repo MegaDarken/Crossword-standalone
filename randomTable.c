@@ -1,6 +1,7 @@
 #include "randomTable.h"
 
 #include <stddef.h>
+#include <stdint.h>
 
 //Doom psudorandom number table, with the second erronious 0 replaced with the missing 1
 __UINT8_TYPE__ rndtable[256] = {

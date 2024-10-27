@@ -10,22 +10,22 @@
 
 enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, listFilenameArg, seedArg};
 
-constexpr __uint64_t WIDTH_ARG_SHORT = stringHash("-w");
-constexpr __uint64_t WIDTH_ARG = stringHash("--width");
-constexpr __uint64_t HEIGHT_ARG_SHORT = stringHash("-h");
-constexpr __uint64_t HEIGHT_ARG = stringHash("--height");
-constexpr __uint64_t WORDC_ARG_SHORT = stringHash("-c");
-constexpr __uint64_t WORDC_ARG = stringHash("--count");
-constexpr __uint64_t FIRST_ARG_SHORT = stringHash("-f");
-constexpr __uint64_t FIRST_ARG = stringHash("--first");
-constexpr __uint64_t LIST_FILENAME_ARG_SHORT = stringHash("-l");
-constexpr __uint64_t LIST_FILENAME_ARG = stringHash("--list");
+constexpr __UINT64_TYPE__ WIDTH_ARG_SHORT = stringHash("-w");
+constexpr __UINT64_TYPE__ WIDTH_ARG = stringHash("--width");
+constexpr __UINT64_TYPE__ HEIGHT_ARG_SHORT = stringHash("-h");
+constexpr __UINT64_TYPE__ HEIGHT_ARG = stringHash("--height");
+constexpr __UINT64_TYPE__ WORDC_ARG_SHORT = stringHash("-c");
+constexpr __UINT64_TYPE__ WORDC_ARG = stringHash("--count");
+constexpr __UINT64_TYPE__ FIRST_ARG_SHORT = stringHash("-f");
+constexpr __UINT64_TYPE__ FIRST_ARG = stringHash("--first");
+constexpr __UINT64_TYPE__ LIST_FILENAME_ARG_SHORT = stringHash("-l");
+constexpr __UINT64_TYPE__ LIST_FILENAME_ARG = stringHash("--list");
 constexpr char RANDOM_ARG_SHORT = 'r';
-constexpr __uint64_t RANDOM_ARG = stringHash("--random");
+constexpr __UINT64_TYPE__ RANDOM_ARG = stringHash("--random");
 constexpr char DETERMINISTIC_ARG_SHORT = 'd';
-constexpr __uint64_t DETERMINISTIC_ARG = stringHash("--deterministic");
-constexpr __uint64_t SEED_ARG_SHORT = stringHash("-s");
-constexpr __uint64_t SEED_ARG = stringHash("--seed");
+constexpr __UINT64_TYPE__ DETERMINISTIC_ARG = stringHash("--deterministic");
+constexpr __UINT64_TYPE__ SEED_ARG_SHORT = stringHash("-s");
+constexpr __UINT64_TYPE__ SEED_ARG = stringHash("--seed");
 
 int main(int argc, char** argv)
 {
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
     char* listFileName = (char*)"wordQuestions.txt";
     int randomBool = 0;
     int deterministicBool = 0;
-    __uint64_t seed = 0;
+    __UINT64_TYPE__ seed = 0;
 
     enum argsMode mode = noArg;
 
