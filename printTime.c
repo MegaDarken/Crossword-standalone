@@ -2,6 +2,9 @@
 
 #include <time.h>
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void fprintTime_Bigendian(FILE *stream)
 {
     time_t t = time(NULL);
@@ -9,6 +12,9 @@ void fprintTime_Bigendian(FILE *stream)
     fprintf(stream, "%d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void printTime_Bigendian()
 {
     fprintTime_Bigendian(stdout);
