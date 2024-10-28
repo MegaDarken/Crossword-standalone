@@ -26,6 +26,8 @@ fileUtility.c
 fileUtility.h
 insertionSort.c
 insertionSort.h
+printTime.c
+printTime.h
 randomTable.c
 randomTable.h
 seedyShuffle.h
