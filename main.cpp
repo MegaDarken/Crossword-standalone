@@ -7,8 +7,10 @@
 #include "crossword.h"
 #include "valRead.h"
 #include "randomTable.h"
+#include "fileUtility.h"
+#include "printTime.h"
 
-enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, listFilenameArg, seedArg};
+enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, listFilenameArg, outputFilenameArg, seedArg};
 
 constexpr __UINT64_TYPE__ WIDTH_ARG_SHORT = stringHash("-w");
 constexpr __UINT64_TYPE__ WIDTH_ARG = stringHash("--width");
@@ -20,6 +22,8 @@ constexpr __UINT64_TYPE__ FIRST_ARG_SHORT = stringHash("-f");
 constexpr __UINT64_TYPE__ FIRST_ARG = stringHash("--first");
 constexpr __UINT64_TYPE__ LIST_FILENAME_ARG_SHORT = stringHash("-l");
 constexpr __UINT64_TYPE__ LIST_FILENAME_ARG = stringHash("--list");
+constexpr __UINT64_TYPE__ OUTPUT_FILENAME_ARG_SHORT = stringHash("-o");
+constexpr __UINT64_TYPE__ OUTPUT_FILENAME_ARG = stringHash("--output");
 constexpr char RANDOM_ARG_SHORT = 'r';
 constexpr __UINT64_TYPE__ RANDOM_ARG = stringHash("--random");
 constexpr char DETERMINISTIC_ARG_SHORT = 'd';
@@ -36,6 +40,7 @@ int main(int argc, char** argv)
     size_t wordCount = defaultValue;
     int startingChar = defaultValue;
     char* listFileName = (char*)"wordQuestions.txt";
+    char* outputFileName = NULL;
     int randomBool = 0;
     int deterministicBool = 0;
     __UINT64_TYPE__ seed = 0;
@@ -69,6 +74,11 @@ int main(int argc, char** argv)
         case LIST_FILENAME_ARG_SHORT:
         case LIST_FILENAME_ARG:
             mode = listFilenameArg;
+            break;
+
+        case OUTPUT_FILENAME_ARG_SHORT:
+        case OUTPUT_FILENAME_ARG:
+            mode = outputFilenameArg;
             break;
 
         case SEED_ARG_SHORT:
@@ -130,6 +140,13 @@ int main(int argc, char** argv)
 
             case listFilenameArg:
                 listFileName = argv[i];
+                mode = noArg;
+                break;
+
+            case outputFilenameArg:
+                outputFileName = argv[i];
+                mode = noArg;
+                break;
 
             case seedArg:
                 seed = stringHash(argv[i]);
@@ -165,12 +182,24 @@ int main(int argc, char** argv)
 
     if (startingChar == defaultValue)
     {
-        printf("\nEnter stating character:");
+        printf("\nEnter starting character:");
         valRead_wcharDest(&startingChar, "\007\nInput must be an character:");
     }
 
     if (deterministicBool) randomTable_indicesFromTable();
 
-    crossword(width, height, wordCount, startingChar, listFileName, randomBool, seed);
+    FILE *outputStream = stdout;
 
+    if (outputFileName != NULL)
+    {
+        outputStream = fileUtility_open(outputFileName, "a");
+    }
+
+    fprintTime_Bigendian(outputStream);
+    crossword(outputStream, width, height, wordCount, startingChar, listFileName, randomBool, seed);
+
+    if (outputFileName != NULL)
+    {
+        fclose(outputStream);
+    }
 }
