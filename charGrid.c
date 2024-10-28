@@ -112,29 +112,39 @@ void charGrid_setVertical_array(struct charGrid *var, int x, int y, char *array,
     }
 }
 
-void charGrid_print(struct charGrid *var)
+void charGrid_fprint(FILE *stream, struct charGrid *var)
 {
     for (int i = 0; i < var->height; i++)
     {
         for (int j = 0; j < var->width; j++)
         {
-            printf("%d ", charGrid_get(var, j, i));
+            fprintf(stream, "%d ", charGrid_get(var, j, i));
         }
 
-        printf("\n");
+        fprintf(stream, "\n");
     }
 }
 
-void charGrid_printAsChars(struct charGrid *var)
+void charGrid_print(struct charGrid *var)
+{
+    charGrid_fprint(stdout, var);
+}
+
+void charGrid_fprintAsChars(FILE *stream, struct charGrid *var)
 {
     char* location = var->array.array;
     
     for (size_t i = 0; i < var->height; i++)
     {
-        printf("%.*s\n", var->width, location);
+        fprintf(stream, "%.*s\n", var->width, location);
 
         location += var->width;
     }
+}
+
+void charGrid_printAsChars(struct charGrid *var)
+{
+    charGrid_fprintAsChars(stdout, var);
 }
 
 // int main(int argc, char** argv)

@@ -28,7 +28,9 @@ char charGrid_indexBottomRow(struct charGrid *var, const size_t index);
 void charGrid_setHorizontal_array(struct charGrid *var, int x, int y, char *array, size_t arrayCount);
 void charGrid_setVertical_array(struct charGrid *var, int x, int y, char *array, size_t arrayCount);
 
+void charGrid_fprint(FILE *stream, struct charGrid *var);
 void charGrid_print(struct charGrid *var);
+void charGrid_fprintAsChars(FILE *stream, struct charGrid *var);
 void charGrid_printAsChars(struct charGrid *var);
 
 #endif //CHAR_GRID_
