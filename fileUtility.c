@@ -3,6 +3,9 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 FILE* fileUtility_open(const char* filename, const char* modes)
 {
     FILE* filePointer = fopen(filename, modes);
