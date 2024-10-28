@@ -35,14 +35,14 @@ void crossword_searchListAtIndex(const size_t wordCount, struct arrayList *wordL
 
 void crossword_insertionSort_crosswordPlacedWordArray_gridIndexAscending(struct crosswordPlacedWord *array, const size_t count);
 
-void crossword_printEntry(struct charGrid *letters, struct charGrid *numbers, const size_t x, const size_t y);
-void crossword_printGrid(struct charGrid *letters, struct charGrid *numbers);
+void crossword_fprintEntry(FILE *stream, struct charGrid *letters, struct charGrid *numbers, const size_t x, const size_t y);
+void crossword_fprintGrid(FILE *stream, struct charGrid *letters, struct charGrid *numbers);
 
-void crossword_print(struct charGrid *letters, struct crosswordPlacedWord *usedWordArray, const size_t placedWordCount);
+void crossword_fprint(FILE *stream, struct charGrid *letters, struct crosswordPlacedWord *usedWordArray, const size_t placedWordCount);
 
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-void crossword(const int width, const int height, const size_t wordCount, const int startingChar, const char* listFileName, const int randomBool, const __UINT64_TYPE__ seed);
+void crossword(FILE *stream, const int width, const int height, const size_t wordCount, const int startingChar, const char* listFileName, const int randomBool, const __UINT64_TYPE__ seed);
 
 #endif //CROSSWORD_

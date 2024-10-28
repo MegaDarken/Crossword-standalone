@@ -345,13 +345,13 @@ void crossword_insertionSort_crosswordPlacedWordArray_gridIndexAscending(struct 
     
 }
 
-void crossword_printEntry(struct charGrid *letters, struct charGrid *numbers, const size_t x, const size_t y)
+void crossword_fprintEntry(FILE *stream, struct charGrid *letters, struct charGrid *numbers, const size_t x, const size_t y)
 {
     char letter = charGrid_get(letters, x, y);
 
     if (letter == ' ')
     {
-        printf("▒▒▒▒");
+        fprintf(stream, "▒▒▒▒");
     }
     else
     {
@@ -359,30 +359,30 @@ void crossword_printEntry(struct charGrid *letters, struct charGrid *numbers, co
 
         if (number == 0)
         {
-            printf("    ");
+            fprintf(stream, "    ");
         }
         else
         {
-            printf("%-4u", (unsigned char)number);
+            fprintf(stream, "%-4u", (unsigned char)number);
         }
     }
 }
 
-void crossword_printEntryPad(struct charGrid *letters, struct charGrid *numbers, const size_t x, const size_t y)
+void crossword_fprintEntryPad(FILE *stream, struct charGrid *letters, struct charGrid *numbers, const size_t x, const size_t y)
 {
     char letter = charGrid_get(letters, x, y);
 
     if (letter == ' ')
     {
-        printf("▒▒▒▒");
+        fprintf(stream, "▒▒▒▒");
     }
     else
     {
-        printf("    ");
+        fprintf(stream, "    ");
     }
 }
 
-void crossword_printGrid(struct charGrid *letters, struct charGrid *numbers)
+void crossword_fprintGrid(FILE *stream, struct charGrid *letters, struct charGrid *numbers)
 {
     if (letters->width != numbers->width || letters->height != numbers->height)
     {
@@ -391,56 +391,56 @@ void crossword_printGrid(struct charGrid *letters, struct charGrid *numbers)
 
     const char *vert = boxDrawing_value(noLine, noLine, standardLine, standardLine);
 
-    boxDrawing_print_intervalHorizontalLine(standardLine, noLine, standardLine, letters->width + 1, 4);
-    printf("\n");
-    printf("%s", vert);
+    boxDrawing_fprint_intervalHorizontalLine(stream, standardLine, noLine, standardLine, letters->width + 1, 4);
+    fprintf(stream, "\n");
+    fprintf(stream, "%s", vert);
 
     for (size_t x = 0; x < letters->width; x++)
     {
-        crossword_printEntry(letters, numbers, x, 0);
-        printf("%s", vert);
+        crossword_fprintEntry(stream, letters, numbers, x, 0);
+        fprintf(stream, "%s", vert);
     }
 
-    printf("\n");
-    printf("%s", vert);
+    fprintf(stream, "\n");
+    fprintf(stream, "%s", vert);
 
     for (size_t x = 0; x < letters->width; x++)
     {
-        crossword_printEntryPad(letters, numbers, x, 0);
-        printf("%s", vert);
+        crossword_fprintEntryPad(stream, letters, numbers, x, 0);
+        fprintf(stream, "%s", vert);
     }
 
-    printf("\n");
+    fprintf(stream, "\n");
     
     for (size_t y = 1; y < letters->height; y++)
     {
-        boxDrawing_print_intervalHorizontalLine(standardLine, standardLine, standardLine, letters->width + 1, 4);
-        printf("\n");
-        printf("%s", vert);
+        boxDrawing_fprint_intervalHorizontalLine(stream, standardLine, standardLine, standardLine, letters->width + 1, 4);
+        fprintf(stream, "\n");
+        fprintf(stream, "%s", vert);
 
         for (size_t x = 0; x < letters->width; x++)
         {
-            crossword_printEntry(letters, numbers, x, y);
-            printf("%s", vert);
+            crossword_fprintEntry(stream, letters, numbers, x, y);
+            fprintf(stream, "%s", vert);
         }
         
-        printf("\n");
-        printf("%s", vert);
+        fprintf(stream, "\n");
+        fprintf(stream, "%s", vert);
 
         for (size_t x = 0; x < letters->width; x++)
         {
-            crossword_printEntryPad(letters, numbers, x, y);
-            printf("%s", vert);
+            crossword_fprintEntryPad(stream, letters, numbers, x, y);
+            fprintf(stream, "%s", vert);
         }
 
-        printf("\n");
+        fprintf(stream, "\n");
     }
     
-    boxDrawing_print_intervalHorizontalLine(standardLine, standardLine, noLine, letters->width + 1, 4);
-    printf("\n");
+    boxDrawing_fprint_intervalHorizontalLine(stream, standardLine, standardLine, noLine, letters->width + 1, 4);
+    fprintf(stream, "\n");
 }
 
-void crossword_print(struct charGrid *letters, struct crosswordPlacedWord *usedWordArray, const size_t placedWordCount)
+void crossword_fprint(FILE *stream, struct charGrid *letters, struct crosswordPlacedWord *usedWordArray, const size_t placedWordCount)
 {
     struct charGrid flags = charGrid_create(letters->width, letters->height);
     charArray_setAll(&flags.array, 0);
@@ -448,7 +448,7 @@ void crossword_print(struct charGrid *letters, struct crosswordPlacedWord *usedW
     size_t currentNumber = 0;
     size_t currentIndex = -1;
 
-    printf("Across\n");
+    fprintf(stream, "Across\n");
     for (size_t i = 0; i < placedWordCount; i++)
     {
         if (currentIndex != usedWordArray[i].gridIndex)
@@ -459,29 +459,29 @@ void crossword_print(struct charGrid *letters, struct crosswordPlacedWord *usedW
 
         if (usedWordArray[i].flag == across)
         {
-            printf("%zu: ", currentNumber);
-            charArray_printAsChar(&usedWordArray[i].pair.second);
-            printf(" (%zu)", usedWordArray[i].pair.first.count);
-            printf("\n");
+            fprintf(stream, "%zu: ", currentNumber);
+            charArray_fprintAsChar(stream, &usedWordArray[i].pair.second);
+            fprintf(stream, " (%zu)", usedWordArray[i].pair.first.count);
+            fprintf(stream, "\n");
         }
         
         flags.array.array[usedWordArray[i].gridIndex] = currentNumber;
     }
     
-    printf("Down\n");
+    fprintf(stream, "Down\n");
     for (size_t i = 0; i < placedWordCount; i++)
     {
         if (usedWordArray[i].flag == down)
         {
-            printf("%d: ", flags.array.array[usedWordArray[i].gridIndex]);
-            charArray_printAsChar(&usedWordArray[i].pair.second);
-            printf(" (%zu)", usedWordArray[i].pair.first.count);
-            printf("\n");
+            fprintf(stream, "%d: ", flags.array.array[usedWordArray[i].gridIndex]);
+            charArray_fprintAsChar(stream, &usedWordArray[i].pair.second);
+            fprintf(stream, " (%zu)", usedWordArray[i].pair.first.count);
+            fprintf(stream, "\n");
         }
         
     }
 
-    crossword_printGrid(letters, &flags);
+    crossword_fprintGrid(stream, letters, &flags);
 
     charGrid_free(&flags);
 }
@@ -489,7 +489,7 @@ void crossword_print(struct charGrid *letters, struct crosswordPlacedWord *usedW
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-void crossword(const int width, const int height, const size_t wordCount, const int startingChar, const char* listFileName, const int randomBool, const __UINT64_TYPE__ seed)
+void crossword(FILE *stream, const int width, const int height, const size_t wordCount, const int startingChar, const char* listFileName, const int randomBool, const __UINT64_TYPE__ seed)
 {
     struct arrayList fullWordList = arrayList_create(0, sizeof(struct charArrayPair));
 
@@ -512,7 +512,7 @@ void crossword(const int width, const int height, const size_t wordCount, const 
     //charArrayPairArray_printAsChar(fullWordList.array, fullWordList.count);
 
     // charArrayPairArray_printAsChar(fullWordList.array, fullWordList.count);
-    // printf("\n%x ", fullWordList.count);
+    // fprintf(stream, "\n%x ", fullWordList.count);
 
     struct crosswordPlacedWord usedWordArray[wordCount];
 
@@ -536,7 +536,7 @@ void crossword(const int width, const int height, const size_t wordCount, const 
     //crossword_insertionSort_crosswordPlacedWordArray_gridIndexAscending(usedWordArray, placedWordCount);
     insertionSort_ascending(usedWordArray, placedWordCount, sizeof(usedWordArray[0]), &usedWordArray[0].gridIndex);
 
-    crossword_print(&letters, usedWordArray, placedWordCount);
+    crossword_fprint(stream, &letters, usedWordArray, placedWordCount);
 
     //charArrayPairArray_printAsChar(fullWordList.array, fullWordList.count);
 
