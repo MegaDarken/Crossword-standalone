@@ -94,16 +94,31 @@ struct charArray charArray_read(FILE* filePointer);
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
+void charArray_fprint(FILE *stream, struct charArray *var);
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void charArray_print(struct charArray *var);
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void charArray_fprintAsChar(FILE *stream, struct charArray *var);
 
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
 void charArray_printAsChar(struct charArray *var);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_printAsVolume(struct charArray *var);
+// #ifdef __cplusplus
+// extern "C"
+// #endif //__cplusplus
+// void charArray_fprintAsVolume(FILE *stream, struct charArray *var);
+
+// #ifdef __cplusplus
+// extern "C"
+// #endif //__cplusplus
+// void charArray_printAsVolume(struct charArray *var);
 
 #endif //CHAR_ARRAY_
