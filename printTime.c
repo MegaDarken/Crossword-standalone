@@ -5,7 +5,7 @@
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-void fprintTime_Bigendian(FILE *stream)
+void fprintTime_ymd(FILE *stream)
 {
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
@@ -15,7 +15,25 @@ void fprintTime_Bigendian(FILE *stream)
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-void printTime_Bigendian()
+void printTime_ymd()
 {
-    fprintTime_Bigendian(stdout);
+    fprintTime_ymd(stdout);
+}
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void fprintTime_dmy(FILE *stream)
+{
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    fprintf(stream, "%02d-%02d-%d %02d:%02d:%02d\n", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900, tm.tm_hour, tm.tm_min, tm.tm_sec);
+}
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void printTime_dmy()
+{
+    fprintTime_dmy(stdout);
 }
