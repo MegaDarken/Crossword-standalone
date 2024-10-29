@@ -9,6 +9,7 @@ Here is an example of such a list, in a format that the program can use:
 Here is a small example of an output:
 
 ```
+2024-10-29 00:00:00
 LOCK  
 I O   
 FIRE  
@@ -48,6 +49,8 @@ Arguments can be given:
 
 "-l" or "--list" followed by the relative filename of list of words you want to use, by default this is "wordQuestions.txt".
 
+"-o" or "--output" followed by the filename you want the append the output to, by default the output is written to stdout, the terminal.  
+
 "-r" or "--random", by default the longest words in a list are attempted first to optimize for table coverage. Give this arg to enable randomization.
 
 "-d" or "--deterministic", by default randomization uses external data but this makes replication less feasible. Give this arg to have consistent starting conditions.
@@ -55,9 +58,13 @@ Arguments can be given:
 "-s" or "--seed" followed by a string. Controllable randomization variance.
 
 ## Changelog
+v1.0.2:
+- Added arg to write output to a file.  
+- Fixed list filename arg interfering with other args.  
+
 v1.0.1:  
--Added randomization, with controllable seeds.  
--Added word list file selection.  
+- Added randomization, with controllable seeds.  
+- Added word list file selection.  
 
 v1.0.0:  
 Initial release. A simple command line crossword generator that can prompt for inputs or use args.  
