@@ -531,7 +531,7 @@ void crossword(FILE *stream, const int width, const int height, const size_t wor
         
     }
     
-    charGrid_printAsChars(&letters);
+    charGrid_fprintAsChars(stream, &letters);
 
     //crossword_insertionSort_crosswordPlacedWordArray_gridIndexAscending(usedWordArray, placedWordCount);
     insertionSort_ascending(usedWordArray, placedWordCount, sizeof(usedWordArray[0]), &usedWordArray[0].gridIndex);
