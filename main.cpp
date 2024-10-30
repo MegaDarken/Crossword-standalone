@@ -10,7 +10,7 @@
 #include "fileUtility.h"
 #include "printTime.h"
 
-enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, listFilenameArg, outputFilenameArg, seedArg};
+enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, iterationsArg, listFilenameArg, outputFilenameArg, seedArg};
 
 constexpr __UINT64_TYPE__ WIDTH_ARG_SHORT = stringHash("-w");
 constexpr __UINT64_TYPE__ WIDTH_ARG = stringHash("--width");
@@ -20,6 +20,8 @@ constexpr __UINT64_TYPE__ WORDC_ARG_SHORT = stringHash("-c");
 constexpr __UINT64_TYPE__ WORDC_ARG = stringHash("--count");
 constexpr __UINT64_TYPE__ FIRST_ARG_SHORT = stringHash("-f");
 constexpr __UINT64_TYPE__ FIRST_ARG = stringHash("--first");
+constexpr __UINT64_TYPE__ ITERATIONS_ARG_SHORT = stringHash("-i");
+constexpr __UINT64_TYPE__ ITERATIONS_ARG = stringHash("--iterations");
 constexpr __UINT64_TYPE__ LIST_FILENAME_ARG_SHORT = stringHash("-l");
 constexpr __UINT64_TYPE__ LIST_FILENAME_ARG = stringHash("--list");
 constexpr __UINT64_TYPE__ OUTPUT_FILENAME_ARG_SHORT = stringHash("-o");
@@ -39,6 +41,7 @@ int main(int argc, char** argv)
     int height = defaultValue;
     size_t wordCount = defaultValue;
     int startingChar = defaultValue;
+    size_t iterations = 1;
     char* listFileName = (char*)"wordQuestions.txt";
     char* outputFileName = NULL;
     int randomBool = 0;
@@ -69,6 +72,11 @@ int main(int argc, char** argv)
         case FIRST_ARG_SHORT:
         case FIRST_ARG:
             mode = firstCharArg;
+            break;
+
+        case ITERATIONS_ARG_SHORT:
+        case ITERATIONS_ARG:
+            mode = iterationsArg;
             break;
 
         case LIST_FILENAME_ARG_SHORT:
@@ -133,6 +141,10 @@ int main(int argc, char** argv)
                 if (1 == sscanf(argv[i], " %zu", &wordCount)) mode = noArg;
                 break;
 
+            case iterationsArg:
+                if (1 == sscanf(argv[i], " %zu", &iterations)) mode = noArg;
+                break;
+
             case firstCharArg:
                 startingChar = argv[i][0];
                 mode = noArg;
@@ -195,10 +207,13 @@ int main(int argc, char** argv)
         outputStream = fileUtility_open(outputFileName, "a");
     }
 
-    fprintTime_ymd(outputStream);
-    fprintf(outputStream, "\n");
-    crossword(outputStream, width, height, wordCount, startingChar, listFileName, randomBool, seed);
-
+    for (size_t i = 0; i < iterations; i++)
+    {
+        fprintTime_ymd(outputStream);
+        fprintf(outputStream, "\n");
+        crossword(outputStream, width, height, wordCount, startingChar, listFileName, randomBool, seed);
+    }
+    
     if (outputFileName != NULL)
     {
         fclose(outputStream);
