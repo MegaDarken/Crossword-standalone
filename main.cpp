@@ -195,7 +195,8 @@ int main(int argc, char** argv)
         outputStream = fileUtility_open(outputFileName, "a");
     }
 
-    fprintTime_Bigendian(outputStream);
+    fprintTime_ymd(outputStream);
+    fprintf(outputStream, "\n");
     crossword(outputStream, width, height, wordCount, startingChar, listFileName, randomBool, seed);
 
     if (outputFileName != NULL)
