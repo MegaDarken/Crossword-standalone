@@ -47,6 +47,8 @@ Arguments can be given:
 
 "-f" or "--first" is the central character the crossword will start with and build off of, must be a character.
 
+"-i" or "--iterations" followed by the number of crosswords you want created, must be an integer.
+
 "-l" or "--list" followed by the relative filename of list of words you want to use, by default this is "wordQuestions.txt".
 
 "-o" or "--output" followed by the filename you want the append the output to, by default the output is written to stdout, the terminal.  
@@ -60,6 +62,7 @@ Arguments can be given:
 ## Changelog
 v1.0.2:
 - Added arg to write output to a file.  
+- Added iterations arg for batches of outputs.  
 - Fixed list filename arg interfering with other args.  
 
 v1.0.1:  
