@@ -204,12 +204,28 @@ struct charArray charArray_read(FILE* filePointer)
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-void charArray_print(struct charArray *var)
+void charArray_fprint(FILE *stream, struct charArray *var)
 {
     for (size_t i = 0; i < var->count; i++)
     {
-        printf("%d ", var->array[i]);
+        fprintf(stream, "%d ", var->array[i]);
     }
+}
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void charArray_print(struct charArray *var)
+{
+    charArray_fprint(stdout, var);
+}
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void charArray_fprintAsChar(FILE *stream, struct charArray *var)
+{
+    fprintf(stream, "%.*s", (int)var->count, var->array);
 }
 
 #ifdef __cplusplus
@@ -217,7 +233,7 @@ extern "C"
 #endif //__cplusplus
 void charArray_printAsChar(struct charArray *var)
 {
-    printf("%.*s", (int)var->count, var->array);
+    charArray_fprintAsChar(stdout, var);
 }
 
 //For testing

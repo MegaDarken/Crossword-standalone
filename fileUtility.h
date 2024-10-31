@@ -3,6 +3,9 @@
 
 #include <stdio.h>
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 FILE* fileUtility_open(const char* filename, const char* modes);
 
 size_t fileUtility_charBufferGet(char buffer[], size_t bufferSize, FILE* filePointer);

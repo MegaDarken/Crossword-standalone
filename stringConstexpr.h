@@ -8,8 +8,8 @@ extern "C" constexpr
 #endif //__cplusplus
 size_t stringConstexpr_length(const char* string)
 {
-    const char* character = 0;
-    for (character = string; *character; ++character);
+    const char* character = string;
+    for (; *character; ++character);
     return(character - string);
 }
 
