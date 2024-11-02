@@ -9,11 +9,17 @@
 
 struct termios orig_termios;
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void disableRawMode()
 {
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void enableRawMode()
 {
   tcgetattr(STDIN_FILENO, &orig_termios);
@@ -23,6 +29,9 @@ void enableRawMode()
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 long rawReadBuffer(char array[], long count)
 {
     enableRawMode();
@@ -47,6 +56,9 @@ long rawReadBuffer(char array[], long count)
     return result;
 } 
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 char rawRead()
 {
   char c;
@@ -55,6 +67,9 @@ char rawRead()
   return c;
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void rawReadLoop(char escape)
 {
     enableRawMode();
