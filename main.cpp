@@ -6,6 +6,7 @@
 #include "stringHash.h"
 #include "crossword.h"
 #include "valRead.h"
+#include "rawRead.h"
 #include "randomTable.h"
 #include "fileUtility.h"
 #include "printTime.h"
@@ -218,4 +219,11 @@ int main(int argc, char** argv)
     {
         fclose(outputStream);
     }
+
+    if (outputStream == stdout)
+    {
+        fprintf(outputStream, "Press any key to close...\n");
+        rawRead();
+    }
+    
 }
