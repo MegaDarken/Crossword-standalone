@@ -90,6 +90,20 @@ void rawReadLoop(char escape)
     disableRawMode();
 }
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+char rawReadBool(char trueChar, char falseChar)
+{
+    for (;;)
+    {
+        printf("(%c/%c):\n", trueChar, falseChar);
+        char input = rawRead();
+        if (input == trueChar) return 1;
+        if (input == falseChar) return 0;
+    }
+}
+
 // int main(int argc, char** argv)
 // {
 //     //rawRead(27);//27 is Esc

@@ -27,4 +27,9 @@ extern "C"
 #endif //__cplusplus
 void rawReadLoop(char escape);
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+char rawReadBool(char trueChar, char falseChar);
+
 #endif //__RAW_READ__
