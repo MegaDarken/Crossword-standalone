@@ -30,6 +30,8 @@ printTime.c
 printTime.h
 randomTable.c
 randomTable.h
+rawRead.c
+rawRead.h
 seedyShuffle.h
 shuffle.h
 stringConstexpr.h
