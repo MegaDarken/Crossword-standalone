@@ -41,7 +41,7 @@ long rawReadBuffer(char array[], long count)
     {
         printf("Issue with rawRead: ");
 
-        if (iscntrl(array))
+        if (iscntrl(((int*)array)[0]))
         {
             printf("%s\n", array);
         }
