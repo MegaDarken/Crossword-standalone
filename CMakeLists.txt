@@ -20,6 +20,8 @@ charArraySplit.c
 charArraySplit.h
 charGrid.c
 charGrid.h
+clearInput.c
+clearInput.h
 crossword.c
 crossword.h
 fileUtility.c
