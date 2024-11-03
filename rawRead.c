@@ -4,17 +4,26 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <termios.h>
 #include <unistd.h>
 
+#ifdef _WIN32 //_WIN16 ||
+
+#else //_WIN16 || _WIN32
+#include <termios.h>
+
 struct termios orig_termios;
+#endif //_WIN16 || _WIN32
 
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
 void disableRawMode()
 {
+#ifdef _WIN32 //_WIN16 ||
+
+#else //_WIN16 || _WIN32
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+#endif //_WIN16 || _WIN32
 }
 
 #ifdef __cplusplus
@@ -22,34 +31,44 @@ extern "C"
 #endif //__cplusplus
 void enableRawMode()
 {
+#ifdef _WIN32 //_WIN16 ||
+
+#else //_WIN16 || _WIN32
   tcgetattr(STDIN_FILENO, &orig_termios);
   atexit(disableRawMode);
   struct termios raw = orig_termios;
   raw.c_lflag &= ~(ECHO | ICANON);
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
+#endif //_WIN16 || _WIN32
 }
 
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-long rawReadBuffer(char array[], long count)
+ssize_t rawReadBuffer(void* array, ssize_t count)
 {
     enableRawMode();
 
-    ssize_t result = read(STDIN_FILENO, array, count);
+    ssize_t result;
+#ifdef _WIN32 //_WIN16 ||
+    ((int*)array)[0] = getch();
+    result = 1;
+#else //_WIN16 || _WIN32
+    result = read(STDIN_FILENO, array, count);
     if ( result != 1 )
     {
         printf("Issue with rawRead: ");
 
         if (iscntrl(((int*)array)[0]))
         {
-            printf("%s\n", array);
+            printf("%s\n", ((char*)array));
         }
         else
         {
-            printf("%d ('%s')\n", array[0], array);
+            printf("%d ('%s')\n", ((int*)array)[0], ((char*)array));
         }
     }
+#endif //_WIN16 || _WIN32
 
     disableRawMode();
 
@@ -75,7 +94,12 @@ void rawReadLoop(char escape)
     enableRawMode();
 
     char c;
+
+#ifdef _WIN32 //_WIN16 ||
+    for (c = getch();c != escape;c = getch())
+#else //_WIN16 || _WIN32
     while (read(STDIN_FILENO, &c, 1) == 1 && c != escape)
+#endif //_WIN16 || _WIN32
     {
         if (iscntrl(c))
         {

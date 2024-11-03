@@ -2,6 +2,8 @@
 #ifndef __RAW_READ__
 #define __RAW_READ__
 
+#include <unistd.h>
+
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
@@ -15,7 +17,7 @@ void enableRawMode();
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-long rawReadBuffer(char* array, long count);
+ssize_t rawReadBuffer(void* array, ssize_t count);
 
 #ifdef __cplusplus
 extern "C"
