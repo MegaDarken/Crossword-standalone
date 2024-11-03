@@ -80,7 +80,7 @@ extern "C"
 #endif //__cplusplus
 int rawRead()
 {
-  int c;
+  int c = 0;
   rawReadBuffer(&c, 2);
 
   return c;
@@ -93,7 +93,7 @@ void rawReadLoop(const int escape)
 {
     enableRawMode();
 
-    int c;
+    int c = 0;
 
 #ifdef _WIN32 //_WIN16 ||
     for (c = getch();c != escape;c = getch())
