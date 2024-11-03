@@ -22,16 +22,16 @@ ssize_t rawReadBuffer(void* array, ssize_t count);
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-char rawRead();
+int rawRead();
 
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-void rawReadLoop(char escape);
+void rawReadLoop(const int escape);
 
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-char rawReadBool(char trueChar, char falseChar);
+char rawReadBool(const int trueChar, const int falseChar);
 
 #endif //__RAW_READ__

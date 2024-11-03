@@ -78,10 +78,10 @@ ssize_t rawReadBuffer(void* array, ssize_t count)
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-char rawRead()
+int rawRead()
 {
-  char c;
-  rawReadBuffer(&c, 1);
+  int c;
+  rawReadBuffer(&c, 2);
 
   return c;
 }
@@ -89,25 +89,25 @@ char rawRead()
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-void rawReadLoop(char escape)
+void rawReadLoop(const int escape)
 {
     enableRawMode();
 
-    char c;
+    int c;
 
 #ifdef _WIN32 //_WIN16 ||
     for (c = getch();c != escape;c = getch())
 #else //_WIN16 || _WIN32
-    while (read(STDIN_FILENO, &c, 1) == 1 && c != escape)
+    while (read(STDIN_FILENO, &c, 2) == 1 && c != escape)
 #endif //_WIN16 || _WIN32
     {
         if (iscntrl(c))
         {
-            printf("%s\n", &c);
+            printf("%s\n", ((char*)&c));
         }
         else
         {
-            printf("%d ('%s')\n", c, &c);
+            printf("%d ('%s')\n", c, ((char*)&c));
         }
     }
 
@@ -117,12 +117,12 @@ void rawReadLoop(char escape)
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-char rawReadBool(char trueChar, char falseChar)
+char rawReadBool(const int trueChar, const int falseChar)
 {
     for (;;)
     {
         printf("(%c/%c):\n", trueChar, falseChar);
-        char input = rawRead();
+        int input = rawRead();
         if (input == trueChar) return 1;
         if (input == falseChar) return 0;
     }
