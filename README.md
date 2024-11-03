@@ -39,6 +39,8 @@ As of writing this releases have executables compiled for Windows, MacOS, and Ub
 Compiling requires at least C17 and C++14, this should already be set up for CMake. Only standard libraries 
 
 Arguments can be given:
+"-p" or "--prompt" means the user will be prompted for additional details should they be undefined already. This will be enabled if there is no args given, for the benefit of the non terminal user. Undefined required fields will always be requested.
+
 "-w" or "--width" followed by how many letters wide the crossword will be, must be an integer.
 
 "-h" or "--height" followed by how many letters tall the crossword will be, must be an integer.
@@ -60,6 +62,10 @@ Arguments can be given:
 "-s" or "--seed" followed by a string. Controllable randomization variance.
 
 ## Changelog
+v1.0.3:
+- Additional prompts for details.
+- Press key to exit, for the benefit of the non terminal user.
+
 v1.0.2:
 - Added arg to write output to a file.  
 - Added iterations arg for batches of outputs.  

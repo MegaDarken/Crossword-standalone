@@ -2,6 +2,8 @@
 
 #include <stdio.h>
 
+#include "clearInput.h"
+
 #define VALREAD_BUFFERSIZE 256
 
 void valRead_charDest(char *dest, const char *invalidInputText)
@@ -14,7 +16,7 @@ void valRead_charDest(char *dest, const char *invalidInputText)
         else
         {
             printf("%s", invalidInputText);
-            while (getchar() != '\n');
+            clearInput_untilNewLine();
         }
     }
 }
@@ -36,7 +38,7 @@ void valRead_wcharDest(int *dest, const char *invalidInputText)
         else
         {
             printf("%s", invalidInputText);
-            while (getchar() != '\n');
+            clearInput_untilNewLine();
         }
     }
 }
@@ -58,7 +60,7 @@ void valRead_intDest(int *dest, const char *invalidInputText)
         else
         {
             printf("%s", invalidInputText);
-            while (getchar() != '\n');
+            clearInput_untilNewLine();
         }
     }
 }
@@ -80,7 +82,7 @@ void valRead_size_tDest(size_t *dest, const char *invalidInputText)
         else
         {
             printf("%s", invalidInputText);
-            while (getchar() != '\n');
+            clearInput_untilNewLine();
         }
     }
 }

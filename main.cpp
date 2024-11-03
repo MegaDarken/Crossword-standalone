@@ -5,13 +5,17 @@
 
 #include "stringHash.h"
 #include "crossword.h"
+#include "clearInput.h"
 #include "valRead.h"
+#include "rawRead.h"
 #include "randomTable.h"
 #include "fileUtility.h"
 #include "printTime.h"
 
 enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, iterationsArg, listFilenameArg, outputFilenameArg, seedArg};
 
+constexpr char PROMPT_ARG_SHORT = 'p';
+constexpr __UINT64_TYPE__ PROMPT_ARG = stringHash("--prompt");
 constexpr __UINT64_TYPE__ WIDTH_ARG_SHORT = stringHash("-w");
 constexpr __UINT64_TYPE__ WIDTH_ARG = stringHash("--width");
 constexpr __UINT64_TYPE__ HEIGHT_ARG_SHORT = stringHash("-h");
@@ -36,17 +40,20 @@ constexpr __UINT64_TYPE__ SEED_ARG = stringHash("--seed");
 int main(int argc, char** argv)
 {
     const int defaultValue = 0;
+    const int defaultBool = 0;
+    const size_t defaultIterations = 1;
 
+    int promptBool = argc <= 1;
     int width = defaultValue;
     int height = defaultValue;
     size_t wordCount = defaultValue;
     int startingChar = defaultValue;
-    size_t iterations = 1;
+    size_t iterations = defaultIterations;
     char* listFileName = (char*)"wordQuestions.txt";
     char* outputFileName = NULL;
-    int randomBool = 0;
-    int deterministicBool = 0;
-    __UINT64_TYPE__ seed = 0;
+    int randomBool = defaultBool;
+    int deterministicBool = defaultBool;
+    __UINT64_TYPE__ seed = defaultValue;
 
     enum argsMode mode = noArg;
 
@@ -54,6 +61,10 @@ int main(int argc, char** argv)
     {
         switch (stringHash_nullTerminated(argv[i]))
         {
+        case PROMPT_ARG:
+            promptBool = 1;
+            break;
+
         case WIDTH_ARG_SHORT:
         case WIDTH_ARG:
             mode = widthArg;
@@ -112,6 +123,10 @@ int main(int argc, char** argv)
                     {
                         switch (argv[i][j])
                         {
+                        case PROMPT_ARG_SHORT:
+                            promptBool = 1;
+                            break;
+
                         case RANDOM_ARG_SHORT:
                             randomBool = 1;
                             break;
@@ -174,19 +189,19 @@ int main(int argc, char** argv)
     }
 
     //User inputs
-    if (width == defaultValue)
+    if (width <= 0)
     {
         printf("\nEnter width:");
         valRead_intDest(&width, "\007\nInput must be an integer:");
     }
 
-    if (height == defaultValue)
+    if (height <= 0)
     {
         printf("\nEnter height:");
         valRead_intDest(&height, "\007\nInput must be an integer:");
     }
 
-    if (wordCount == defaultValue)
+    if (wordCount <= 0)
     {
         printf("\nEnter wordCount:");
         valRead_size_tDest(&wordCount, "\007\nInput must be an integer:");
@@ -198,6 +213,40 @@ int main(int argc, char** argv)
         valRead_wcharDest(&startingChar, "\007\nInput must be an character:");
     }
 
+    if (promptBool)
+    {
+        if (iterations == defaultIterations)
+        {
+            printf("\nEnter the number of iterations to create:");
+            valRead_size_tDest(&wordCount, "\007\nInput must be an integer:");
+        }
+
+        if (randomBool == defaultBool)
+        {
+            printf("\nRandomization? ");
+            randomBool = rawReadBool('y', 'n');
+        }
+
+        if (randomBool)
+        {
+            if (deterministicBool == defaultBool)
+            {
+                printf("\nDeterministic? ");
+                deterministicBool = rawReadBool('y', 'n');
+            }
+
+            if (seed == defaultValue)
+            {
+                char inputArray[256];
+                printf("\nSeed:");
+                clearInput_untilNewLine();
+                fgets(inputArray, sizeof(inputArray), stdin);
+                seed = stringHash(inputArray, stringConstexpr_match(inputArray, '\n'));
+            }
+        }
+    }
+
+    //Main run
     if (deterministicBool) randomTable_indicesFromTable();
 
     FILE *outputStream = stdout;
@@ -218,4 +267,11 @@ int main(int argc, char** argv)
     {
         fclose(outputStream);
     }
+
+    if (outputStream == stdout)
+    {
+        fprintf(outputStream, "Press any key to close...\n");
+        rawRead();
+    }
+    
 }
