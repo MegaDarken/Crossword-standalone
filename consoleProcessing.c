@@ -8,6 +8,9 @@ int initalConsoleAttributes = GetConsoleScreenBufferInfo(consoleOutputHandle);
 char ansiColor_initSuccess = 0;
 #endif
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 void enableConsoleProcessing()
 {
 #ifdef _WIN32 //_WIN16 ||
