@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "stringHash.h"
+#include "consoleProcessing.h"
 #include "crossword.h"
 #include "clearInput.h"
 #include "valRead.h"
@@ -39,6 +40,8 @@ constexpr __UINT64_TYPE__ SEED_ARG = stringHash("--seed");
 
 int main(int argc, char** argv)
 {
+    enableConsoleProcessing();
+
     const int defaultValue = 0;
     const int defaultBool = 0;
     const size_t defaultIterations = 1;
