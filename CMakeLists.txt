@@ -5,6 +5,7 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(Crossword-standalone
+abs.h
 arrayList.c
 arrayList.h
 arrayUtility.h
