@@ -22,6 +22,8 @@ charGrid.c
 charGrid.h
 clearInput.c
 clearInput.h
+consoleProcessing.c
+consoleProcessing.h
 crossword.c
 crossword.h
 fileUtility.c
