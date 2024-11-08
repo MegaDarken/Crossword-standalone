@@ -2,10 +2,6 @@
 
 #ifdef _WIN32 //_WIN16 ||
 #include <windows.h>
-
-HANDLE consoleOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-int initalConsoleAttributes = GetConsoleScreenBufferInfo(consoleOutputHandle);
-char ansiColor_initSuccess = 0;
 #endif
 
 #ifdef __cplusplus
@@ -14,6 +10,11 @@ extern "C"
 void enableConsoleProcessing()
 {
 #ifdef _WIN32 //_WIN16 ||
+    HANDLE consoleOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    PCONSOLE_SCREEN_BUFFER_INFO initialConsoleAttributes;
+    
+    GetConsoleScreenBufferInfo(consoleOutputHandle, &initialConsoleAttributes);
+
     DWORD dwordMode;
 
     GetConsoleMode(consoleOutputHandle, &dwordMode);
