@@ -23,6 +23,8 @@ charGrid.c
 charGrid.h
 clearInput.c
 clearInput.h
+consoleCodePage.c
+consoleCodePage.h
 consoleProcessing.c
 consoleProcessing.h
 crossword.c
