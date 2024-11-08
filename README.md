@@ -62,6 +62,10 @@ Arguments can be given:
 "-s" or "--seed" followed by a string. Controllable randomization variance.
 
 ## Changelog
+v1.0.4
+- Improved randomization, seeds will now be different.
+- Fixed box characters not rendering correctly on Windows.
+
 v1.0.3:
 - Additional prompts for details.
 - Press key to exit, for the benefit of the non terminal user.
