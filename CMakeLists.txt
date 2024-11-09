@@ -46,5 +46,7 @@ stringHash.h
 swapping.h
 valRead.c
 valRead.h
+wprintTime.c
+wprintTime.h
 main.cpp
 )
