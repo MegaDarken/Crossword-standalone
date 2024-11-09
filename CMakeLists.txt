@@ -50,5 +50,7 @@ wprintTime.c
 wprintTime.h
 wrawRead.c
 wrawRead.h
+wvalRead.c
+wvalRead.h
 main.cpp
 )
