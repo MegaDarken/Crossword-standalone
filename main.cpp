@@ -2,16 +2,19 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>
+#include <wchar.h>
+#include <locale.h>
 
 #include "stringHash.h"
+#include "consoleProcessing.h"
 #include "consoleCodePage.h"
 #include "crossword.h"
 #include "clearInput.h"
 #include "valRead.h"
-#include "rawRead.h"
+#include "wrawRead.h"
 #include "randomTable.h"
 #include "fileUtility.h"
-#include "printTime.h"
+#include "wprintTime.h"
 
 enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, iterationsArg, listFilenameArg, outputFilenameArg, seedArg};
 
@@ -40,7 +43,10 @@ constexpr __UINT64_TYPE__ SEED_ARG = stringHash("--seed");
 
 int main(int argc, char** argv)
 {
-    consoleCodePage_utf8();
+    setlocale(LC_ALL, "en_US.UTF-8");
+
+    enableConsoleProcessing();
+    //consoleCodePage_utf8();
 
     const int defaultValue = 0;
     const int defaultBool = 0;
@@ -194,25 +200,25 @@ int main(int argc, char** argv)
     //User inputs
     if (width <= 0)
     {
-        printf("\nEnter width:");
+        wprintf(L"\nEnter width:");
         valRead_intDest(&width, "\007\nInput must be an integer:");
     }
 
     if (height <= 0)
     {
-        printf("\nEnter height:");
+        wprintf(L"\nEnter height:");
         valRead_intDest(&height, "\007\nInput must be an integer:");
     }
 
     if (wordCount <= 0)
     {
-        printf("\nEnter wordCount:");
+        wprintf(L"\nEnter wordCount:");
         valRead_size_tDest(&wordCount, "\007\nInput must be an integer:");
     }
 
     if (startingChar == defaultValue)
     {
-        printf("\nEnter starting character:");
+        wprintf(L"\nEnter starting character:");
         valRead_wcharDest(&startingChar, "\007\nInput must be an character:");
     }
 
@@ -220,30 +226,30 @@ int main(int argc, char** argv)
     {
         if (iterations == defaultIterations)
         {
-            printf("\nEnter the number of iterations to create:");
+            wprintf(L"\nEnter the number of iterations to create:");
             valRead_size_tDest(&wordCount, "\007\nInput must be an integer:");
         }
 
         if (randomBool == defaultBool)
         {
-            printf("\nRandomization? ");
-            randomBool = rawReadBool('y', 'n');
+            wprintf(L"\nRandomization? ");
+            randomBool = wrawReadBool('y', 'n');
         }
 
         if (randomBool)
         {
             if (deterministicBool == defaultBool)
             {
-                printf("\nDeterministic? ");
-                deterministicBool = rawReadBool('y', 'n');
+                wprintf(L"\nDeterministic? ");
+                deterministicBool = wrawReadBool('y', 'n');
             }
 
             if (seed == defaultValue)
             {
                 char inputArray[256];
-                printf("\nSeed:");
+                wprintf(L"\nSeed:");
                 clearInput_untilNewLine();
-                fgets(inputArray, sizeof(inputArray), stdin);
+                char* front = fgets(inputArray, sizeof(inputArray), stdin);
                 seed = stringHash(inputArray, stringConstexpr_match(inputArray, '\n'));
             }
         }
@@ -261,8 +267,8 @@ int main(int argc, char** argv)
 
     for (size_t i = 0; i < iterations; i++)
     {
-        fprintTime_ymd(outputStream);
-        fprintf(outputStream, "\n");
+        fwprintTime_ymd(outputStream);
+        fwprintf(outputStream, L"\n");
         crossword(outputStream, width, height, wordCount, startingChar, listFileName, randomBool, seed);
     }
     
@@ -273,8 +279,8 @@ int main(int argc, char** argv)
 
     if (outputStream == stdout)
     {
-        fprintf(outputStream, "Press any key to close...\n");
-        rawRead();
+        fwprintf(outputStream, L"Press any key to close...\n");
+        wrawRead();
     }
     
 }
