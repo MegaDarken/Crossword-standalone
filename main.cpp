@@ -10,7 +10,7 @@
 #include "consoleCodePage.h"
 #include "crossword.h"
 #include "clearInput.h"
-#include "valRead.h"
+#include "wvalRead.h"
 #include "wrawRead.h"
 #include "randomTable.h"
 #include "fileUtility.h"
@@ -201,25 +201,25 @@ int main(int argc, char** argv)
     if (width <= 0)
     {
         wprintf(L"\nEnter width:");
-        valRead_intDest(&width, "\007\nInput must be an integer:");
+        wvalRead_intDest(&width, L"\007\nInput must be an integer:");
     }
 
     if (height <= 0)
     {
         wprintf(L"\nEnter height:");
-        valRead_intDest(&height, "\007\nInput must be an integer:");
+        wvalRead_intDest(&height, L"\007\nInput must be an integer:");
     }
 
     if (wordCount <= 0)
     {
         wprintf(L"\nEnter wordCount:");
-        valRead_size_tDest(&wordCount, "\007\nInput must be an integer:");
+        wvalRead_size_tDest(&wordCount, L"\007\nInput must be an integer:");
     }
 
     if (startingChar == defaultValue)
     {
         wprintf(L"\nEnter starting character:");
-        valRead_wcharDest(&startingChar, "\007\nInput must be an character:");
+        wvalRead_wcharDest(&startingChar, L"\007\nInput must be an character:");
     }
 
     if (promptBool)
@@ -227,7 +227,7 @@ int main(int argc, char** argv)
         if (iterations == defaultIterations)
         {
             wprintf(L"\nEnter the number of iterations to create:");
-            valRead_size_tDest(&wordCount, "\007\nInput must be an integer:");
+            wvalRead_size_tDest(&wordCount, L"\007\nInput must be an integer:");
         }
 
         if (randomBool == defaultBool)
