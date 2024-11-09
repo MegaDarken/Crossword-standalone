@@ -21,7 +21,7 @@ void valRead_wcharDest(int *dest, const char *invalidInputText);
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-char valRead_wchar(const char *invalidInputText);
+int valRead_wchar(const char *invalidInputText);
 
 #ifdef __cplusplus
 extern "C"

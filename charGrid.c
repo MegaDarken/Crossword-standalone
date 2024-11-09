@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wchar.h>
 
 #include "charArray.h"
 
@@ -145,6 +146,41 @@ void charGrid_fprintAsChars(FILE *stream, struct charGrid *var)
 void charGrid_printAsChars(struct charGrid *var)
 {
     charGrid_fprintAsChars(stdout, var);
+}
+
+void charGrid_fwprint(FILE *stream, struct charGrid *var)
+{
+    for (int i = 0; i < var->height; i++)
+    {
+        for (int j = 0; j < var->width; j++)
+        {
+            fwprintf(stream, L"%d ", charGrid_get(var, j, i));
+        }
+
+        fwprintf(stream, L"\n");
+    }
+}
+
+void charGrid_wprint(struct charGrid *var)
+{
+    charGrid_fwprint(stdout, var);
+}
+
+void charGrid_fwprintAsChars(FILE *stream, struct charGrid *var)
+{
+    char* location = var->array.array;
+    
+    for (size_t i = 0; i < var->height; i++)
+    {
+        fwprintf(stream, L"%.*s\n", var->width, location);
+
+        location += var->width;
+    }
+}
+
+void charGrid_wprintAsChars(struct charGrid *var)
+{
+    charGrid_fwprintAsChars(stdout, var);
 }
 
 // int main(int argc, char** argv)

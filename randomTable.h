@@ -14,6 +14,11 @@ void randomTable_indicesFromTable();
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
+__UINT8_TYPE__ getIndexRandomUInt8(__UINT8_TYPE__ index);
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
 __UINT8_TYPE__ getRandomUInt8();
 
 #ifdef __cplusplus
@@ -39,6 +44,11 @@ __UINT64_TYPE__ getRandomUInt64();
     )
 
 //Seedy
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+__UINT8_TYPE__ getSeedyIndexRandomUInt8(__UINT8_TYPE__ index, __UINT8_TYPE__ seed);
+
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus

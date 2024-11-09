@@ -111,6 +111,26 @@ extern "C"
 #endif //__cplusplus
 void charArray_printAsChar(struct charArray *var);
 
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void charArray_fwprint(FILE *stream, struct charArray *var);
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void charArray_wprint(struct charArray *var);
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void charArray_fwprintAsChar(FILE *stream, struct charArray *var);
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void charArray_wprintAsChar(struct charArray *var);
+
 // #ifdef __cplusplus
 // extern "C"
 // #endif //__cplusplus

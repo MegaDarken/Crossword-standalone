@@ -5,6 +5,7 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(Crossword-standalone
+abs.h
 arrayList.c
 arrayList.h
 arrayUtility.h
@@ -22,6 +23,10 @@ charGrid.c
 charGrid.h
 clearInput.c
 clearInput.h
+consoleCodePage.c
+consoleCodePage.h
+consoleProcessing.c
+consoleProcessing.h
 crossword.c
 crossword.h
 fileUtility.c
@@ -41,5 +46,11 @@ stringHash.h
 swapping.h
 valRead.c
 valRead.h
+wprintTime.c
+wprintTime.h
+wrawRead.c
+wrawRead.h
+wvalRead.c
+wvalRead.h
 main.cpp
 )

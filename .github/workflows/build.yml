@@ -2,8 +2,8 @@
 name: C/C++ build
 
 on:
-    push:
-      branches: [ "main" ]
+    # push:
+    #   branches: [ "main" ]
     pull_request:
       branches: [ "main" ]
 
