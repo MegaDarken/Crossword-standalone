@@ -33,4 +33,9 @@ void charGrid_print(struct charGrid *var);
 void charGrid_fprintAsChars(FILE *stream, struct charGrid *var);
 void charGrid_printAsChars(struct charGrid *var);
 
+void charGrid_fwprint(FILE *stream, struct charGrid *var);
+void charGrid_wprint(struct charGrid *var);
+void charGrid_fwprintAsChars(FILE *stream, struct charGrid *var);
+void charGrid_wprintAsChars(struct charGrid *var);
+
 #endif //CHAR_GRID_
