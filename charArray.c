@@ -261,7 +261,7 @@ extern "C"
 #endif //__cplusplus
 void charArray_fwprintAsChar(FILE *stream, struct charArray *var)
 {
-    fwprintf(stream, L"%.*s", (int)var->count, var->array);
+    fwprintf(stream, L"%.*hs", (int)var->count, var->array);
 }
 
 #ifdef __cplusplus
