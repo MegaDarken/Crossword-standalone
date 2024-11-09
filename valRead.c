@@ -43,10 +43,10 @@ void valRead_wcharDest(int *dest, const char *invalidInputText)
     }
 }
 
-char valRead_wchar(const char *invalidInputText)
+int valRead_wchar(const char *invalidInputText)
 {
-    char output;
-    valRead_charDest(&output, invalidInputText); 
+    int output;
+    valRead_wcharDest(&output, invalidInputText); 
     return output;
 }
 
