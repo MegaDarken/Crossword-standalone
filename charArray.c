@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <wchar.h>
 
 #include "arrayUtility.h"
 #include "stringHash.h"
@@ -234,6 +235,41 @@ extern "C"
 void charArray_printAsChar(struct charArray *var)
 {
     charArray_fprintAsChar(stdout, var);
+}
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void charArray_fwprint(FILE *stream, struct charArray *var)
+{
+    for (size_t i = 0; i < var->count; i++)
+    {
+        fwprintf(stream, L"%d ", var->array[i]);
+    }
+}
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void charArray_wprint(struct charArray *var)
+{
+    charArray_fwprint(stdout, var);
+}
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void charArray_fwprintAsChar(FILE *stream, struct charArray *var)
+{
+    fwprintf(stream, L"%.*s", (int)var->count, var->array);
+}
+
+#ifdef __cplusplus
+extern "C"
+#endif //__cplusplus
+void charArray_wprintAsChar(struct charArray *var)
+{
+    charArray_fwprintAsChar(stdout, var);
 }
 
 //For testing
