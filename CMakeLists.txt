@@ -48,5 +48,7 @@ valRead.c
 valRead.h
 wprintTime.c
 wprintTime.h
+wrawRead.c
+wrawRead.h
 main.cpp
 )
