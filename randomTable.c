@@ -113,7 +113,7 @@ extern "C"
 #endif //__cplusplus
 __UINT8_TYPE__ getSeedyRandomUInt8(__UINT8_TYPE__ seed)
 {
-    getSeedyIndexRandomUInt8(0, seed);
+    return getSeedyIndexRandomUInt8(0, seed);
 }
 
 #ifdef __cplusplus
