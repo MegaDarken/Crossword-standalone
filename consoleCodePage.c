@@ -1,5 +1,8 @@
 #include "consoleCodePage.h"
 
+#include <stdio.h>
+#include <errno.h>
+
 #ifdef _WIN32 //_WIN16 ||
 #include <windows.h>
 #endif
