@@ -168,13 +168,19 @@ void charGrid_wprint(struct charGrid *var)
 
 void charGrid_fwprintAsChars(FILE *stream, struct charGrid *var)
 {
-    char* location = var->array.array;
+    //char* location = var->array.array;
     
     for (size_t i = 0; i < var->height; i++)
     {
-        fwprintf(stream, L"%.*s\n", var->width, location);
+        for (size_t j = 0; j < var->width; j++)
+        {
+            fwprintf(stream, L"%c", charGrid_get(var, j, i));
+        }
 
-        location += var->width;
+        //fwprintf(stream, L"%.*s\n", var->width, location);
+        fwprintf(stream, L"\n");
+
+        //location += var->width;
     }
 }
 
