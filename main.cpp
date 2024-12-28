@@ -227,7 +227,7 @@ int main(int argc, char** argv)
         if (iterations == defaultIterations)
         {
             wprintf(L"\nEnter the number of iterations to create:");
-            wvalRead_size_tDest(&wordCount, L"\007\nInput must be an integer:");
+            wvalRead_size_tDest(&iterations, L"\007\nInput must be an integer:");
         }
 
         if (randomBool == defaultBool)
