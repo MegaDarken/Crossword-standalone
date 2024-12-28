@@ -33,6 +33,7 @@ fileUtility.c
 fileUtility.h
 insertionSort.c
 insertionSort.h
+memMacro.h
 printTime.c
 printTime.h
 randomTable.c
