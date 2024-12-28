@@ -299,7 +299,7 @@ void crossword_searchListAtIndex(const size_t wordCount, struct arrayList *wordL
             {
                 usedWordArray[*wordListStart] = val;
                 charArrayPairArray_swap(wordList->array, wordList->count, val.originalPairIndex, *wordListStart);
-                *wordListStart++;
+                (*wordListStart)++;
 
                 // charArrayPairArray_printAsChar(wordList->array, wordList->count);
                 // charGrid_printAsChars(letters);
@@ -323,7 +323,7 @@ void crossword_searchListAtIndex(const size_t wordCount, struct arrayList *wordL
             {
                 usedWordArray[*wordListStart] = val;
                 charArrayPairArray_swap(wordList->array, wordList->count, val.originalPairIndex, *wordListStart);
-                *wordListStart++;
+                (*wordListStart)++;
 
                 // charArrayPairArray_printAsChar(wordList->array, wordList->count);
                 // charGrid_printAsChars(letters);
@@ -532,19 +532,19 @@ void crossword(FILE *stream, const int width, const int height, const size_t wor
     size_t placedWordCount = 0;
     for (int i = 0; i < wordCount && placedWordCount < wordCount; i++)
     {
-        for (size_t j = 0; j < letters->array.count; j++)
+        for (size_t j = 0; j < letters->array.count && placedWordCount < wordCount; j++)
         {
             crossword_searchListAtIndex(wordCount, fullWordList, letters, j, usedWordArray, &placedWordCount);            
         }
         
     }
-    
-    charGrid_fwprintAsChars(stream, letters);
 
     //crossword_insertionSort_crosswordPlacedWordArray_gridIndexAscending(usedWordArray, placedWordCount);
     insertionSort_ascending(usedWordArray, placedWordCount, sizeof(usedWordArray[0]), &usedWordArray[0].gridIndex);
 
     crossword_fprint(stream, letters, usedWordArray, placedWordCount);
+
+    charGrid_fwprintAsChars(stream, letters);
 
     //charArrayPairArray_printAsChar(fullWordList->array, fullWordList->count);
 
