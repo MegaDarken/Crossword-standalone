@@ -12,6 +12,7 @@
 #include "boxDrawing.h"
 #include "insertionSort.h"
 #include "seedyShuffle.h"
+#include "memMacro.h"
 
 
 void crossword_loadWords(struct arrayList *list, const char *filename, char splitValue)
@@ -298,7 +299,7 @@ void crossword_searchListAtIndex(const size_t wordCount, struct arrayList *wordL
             {
                 usedWordArray[*wordListStart] = val;
                 charArrayPairArray_swap(wordList->array, wordList->count, val.originalPairIndex, *wordListStart);
-                (*wordListStart)++;
+                *wordListStart++;
 
                 // charArrayPairArray_printAsChar(wordList->array, wordList->count);
                 // charGrid_printAsChars(letters);
@@ -322,7 +323,7 @@ void crossword_searchListAtIndex(const size_t wordCount, struct arrayList *wordL
             {
                 usedWordArray[*wordListStart] = val;
                 charArrayPairArray_swap(wordList->array, wordList->count, val.originalPairIndex, *wordListStart);
-                (*wordListStart)++;
+                *wordListStart++;
 
                 // charArrayPairArray_printAsChar(wordList->array, wordList->count);
                 // charGrid_printAsChars(letters);
@@ -492,57 +493,67 @@ extern "C"
 #endif //__cplusplus
 void crossword(FILE *stream, const int width, const int height, const size_t wordCount, const int startingChar, const char* listFileName, const int randomBool, const __UINT64_TYPE__ seed)
 {
-    struct arrayList fullWordList = arrayList_create(0, sizeof(struct charArrayPair));
+    struct arrayList *fullWordList = NULL;
+    memMacro_malloc(fullWordList);
+    *fullWordList = arrayList_create(0, sizeof(struct charArrayPair));
 
-    crossword_loadWords(&fullWordList, listFileName, ';');
-    //charArrayPairArray_printAsChar(fullWordList.array, fullWordList.count);
+    crossword_loadWords(fullWordList, listFileName, ';');
+    //charArrayPairArray_printAsChar(fullWordList->array, fullWordList->count);
 
-    struct charArrayPair *pairArray = fullWordList.array;
+    struct charArrayPair *pairArray = fullWordList->array;
 
     if (randomBool)
     {
-        seedyShuffle(pairArray, fullWordList.count, seed);
+        seedyShuffle(pairArray, fullWordList->count, seed);
     }
     else
     {
-        insertionSort_descending(fullWordList.array, fullWordList.count, fullWordList.elementSize, &((struct charArrayPair *)fullWordList.array)->first.count);
+        insertionSort_descending(fullWordList->array, fullWordList->count, fullWordList->elementSize, &((struct charArrayPair *)fullWordList->array)->first.count);
     }
 
-    // charArrayPairArray_free(fullWordList.array, fullWordList.count);
+    // charArrayPairArray_free(fullWordList->array, fullWordList->count);
 
-    //charArrayPairArray_printAsChar(fullWordList.array, fullWordList.count);
+    //charArrayPairArray_printAsChar(fullWordList->array, fullWordList->count);
 
-    // charArrayPairArray_printAsChar(fullWordList.array, fullWordList.count);
-    // fwprintf(stream, L"\n%x ", fullWordList.count);
+    // charArrayPairArray_printAsChar(fullWordList->array, fullWordList->count);
+    // fwprintf(stream, L"\n%x ", fullWordList->count);
 
-    struct crosswordPlacedWord usedWordArray[wordCount];
+    struct crosswordPlacedWord *usedWordArray;
+    memMacro_mallocArray(usedWordArray, wordCount);
 
-    struct charGrid letters = charGrid_create(width, height);
-    charArray_setAll(&letters.array, ' ');
+    struct charGrid *letters = NULL;
+    memMacro_malloc(letters);
+    *letters = charGrid_create(width, height);
+    
+    charArray_setAll(&letters->array, ' ');
 
-    charGrid_set(&letters, letters.width >> 1, letters.height >> 1, toupper(startingChar));
+    charGrid_set(letters, letters->width >> 1, letters->height >> 1, toupper(startingChar));
 
     size_t placedWordCount = 0;
     for (int i = 0; i < wordCount && placedWordCount < wordCount; i++)
     {
-        for (size_t j = 0; j < letters.array.count; j++)
+        for (size_t j = 0; j < letters->array.count; j++)
         {
-            crossword_searchListAtIndex(wordCount, &fullWordList, &letters, j, usedWordArray, &placedWordCount);            
+            crossword_searchListAtIndex(wordCount, fullWordList, letters, j, usedWordArray, &placedWordCount);            
         }
         
     }
     
-    charGrid_fwprintAsChars(stream, &letters);
+    charGrid_fwprintAsChars(stream, letters);
 
     //crossword_insertionSort_crosswordPlacedWordArray_gridIndexAscending(usedWordArray, placedWordCount);
     insertionSort_ascending(usedWordArray, placedWordCount, sizeof(usedWordArray[0]), &usedWordArray[0].gridIndex);
 
-    crossword_fprint(stream, &letters, usedWordArray, placedWordCount);
+    crossword_fprint(stream, letters, usedWordArray, placedWordCount);
 
-    //charArrayPairArray_printAsChar(fullWordList.array, fullWordList.count);
+    //charArrayPairArray_printAsChar(fullWordList->array, fullWordList->count);
 
-    charArrayPairArray_free(fullWordList.array, fullWordList.count);
-    arrayList_free(&fullWordList);
+    charArrayPairArray_free(fullWordList->array, fullWordList->count);
+    arrayList_free(fullWordList);
 
-    charGrid_free(&letters);
+    charGrid_free(letters);
+
+    free(letters);
+    free(usedWordArray);
+    free(fullWordList);
 }
