@@ -498,7 +498,6 @@ void crossword(FILE *stream, const int width, const int height, const size_t wor
     *fullWordList = arrayList_create(0, sizeof(struct charArrayPair));
 
     crossword_loadWords(fullWordList, listFileName, ';');
-    //charArrayPairArray_printAsChar(fullWordList->array, fullWordList->count);
 
     struct charArrayPair *pairArray = fullWordList->array;
 
@@ -511,13 +510,6 @@ void crossword(FILE *stream, const int width, const int height, const size_t wor
         insertionSort_descending(fullWordList->array, fullWordList->count, fullWordList->elementSize, &((struct charArrayPair *)fullWordList->array)->first.count);
     }
 
-    // charArrayPairArray_free(fullWordList->array, fullWordList->count);
-
-    //charArrayPairArray_printAsChar(fullWordList->array, fullWordList->count);
-
-    // charArrayPairArray_printAsChar(fullWordList->array, fullWordList->count);
-    // fwprintf(stream, L"\n%x ", fullWordList->count);
-
     struct crosswordPlacedWord *usedWordArray;
     memMacro_mallocArray(usedWordArray, wordCount);
 
@@ -527,26 +519,60 @@ void crossword(FILE *stream, const int width, const int height, const size_t wor
     
     charArray_setAll(&letters->array, ' ');
 
-    charGrid_set(letters, letters->width >> 1, letters->height >> 1, toupper(startingChar));
+    size_t startIndex = charGrid_index(letters, letters->width >> 1, letters->height >> 1);
+
+    letters->array.array[startIndex] = toupper(startingChar);
 
     size_t placedWordCount = 0;
     for (int i = 0; i < wordCount && placedWordCount < wordCount; i++)
     {
-        for (size_t j = 0; j < letters->array.count && placedWordCount < wordCount; j++)
+        size_t increment = 1;
+        size_t index = startIndex;
+        long sideRemaining = 1;
+
+        for (size_t j = 1; j < letters->array.count && placedWordCount < wordCount; j++)
         {
-            crossword_searchListAtIndex(wordCount, fullWordList, letters, j, usedWordArray, &placedWordCount);            
+            crossword_searchListAtIndex(wordCount, fullWordList, letters, index, usedWordArray, &placedWordCount);
+
+            index += increment;
+
+            sideRemaining--;
+
+            if (sideRemaining <= 0)
+            {
+                if (increment == 1)
+                {
+                    increment = letters->width;
+                }
+                else if (increment == -1)
+                {
+                    increment = -letters->width;
+                }
+                else if (increment == letters->width)
+                {
+                    increment = -1;
+                }
+                else if (increment == -letters->width)
+                {
+                    increment = 1;
+                }
+                else
+                {
+                    increment = 1;
+                }
+
+                sideRemaining = j >> 1;
+            }
+            
         }
         
     }
 
-    //crossword_insertionSort_crosswordPlacedWordArray_gridIndexAscending(usedWordArray, placedWordCount);
     insertionSort_ascending(usedWordArray, placedWordCount, sizeof(usedWordArray[0]), &usedWordArray[0].gridIndex);
 
     crossword_fprint(stream, letters, usedWordArray, placedWordCount);
 
     charGrid_fwprintAsChars(stream, letters);
-
-    //charArrayPairArray_printAsChar(fullWordList->array, fullWordList->count);
 
     charArrayPairArray_free(fullWordList->array, fullWordList->count);
     arrayList_free(fullWordList);
