@@ -524,48 +524,55 @@ void crossword(FILE *stream, const int width, const int height, const size_t wor
     letters->array.array[startIndex] = toupper(startingChar);
 
     size_t placedWordCount = 0;
-    for (int i = 0; i < wordCount && placedWordCount < wordCount; i++)
+
+    size_t increment = 1;
+    size_t index = startIndex;
+    long sideRemaining = 1;
+
+    for (size_t j = 1; j < letters->array.count && placedWordCount < wordCount; j++)
     {
-        size_t increment = 1;
-        size_t index = startIndex;
-        long sideRemaining = 1;
+        crossword_searchListAtIndex(wordCount, fullWordList, letters, index, usedWordArray, &placedWordCount);
 
-        for (size_t j = 1; j < letters->array.count && placedWordCount < wordCount; j++)
+        index += increment;
+
+        sideRemaining--;
+
+        if (sideRemaining <= 0)
         {
-            crossword_searchListAtIndex(wordCount, fullWordList, letters, index, usedWordArray, &placedWordCount);
-
-            index += increment;
-
-            sideRemaining--;
-
-            if (sideRemaining <= 0)
+            if (increment == 1)
             {
-                if (increment == 1)
-                {
-                    increment = letters->width;
-                }
-                else if (increment == -1)
-                {
-                    increment = -letters->width;
-                }
-                else if (increment == letters->width)
-                {
-                    increment = -1;
-                }
-                else if (increment == -letters->width)
-                {
-                    increment = 1;
-                }
-                else
-                {
-                    increment = 1;
-                }
-
-                sideRemaining = j >> 1;
+                increment = letters->width;
             }
-            
+            else if (increment == -1)
+            {
+                increment = -letters->width;
+            }
+            else if (increment == letters->width)
+            {
+                increment = -1;
+            }
+            else if (increment == -letters->width)
+            {
+                increment = 1;
+            }
+            else
+            {
+                increment = 1;
+            }
+
+            sideRemaining = j >> 1;
         }
         
+    }
+
+    for (size_t j = letters->array.count - 1; j > 0 && placedWordCount < wordCount; j--)
+    {
+        crossword_searchListAtIndex(wordCount, fullWordList, letters, j, usedWordArray, &placedWordCount);            
+    }
+
+    for (size_t j = 0; j < letters->array.count && placedWordCount < wordCount; j++)
+    {
+        crossword_searchListAtIndex(wordCount, fullWordList, letters, j, usedWordArray, &placedWordCount);            
     }
 
     insertionSort_ascending(usedWordArray, placedWordCount, sizeof(usedWordArray[0]), &usedWordArray[0].gridIndex);
