@@ -201,35 +201,50 @@ struct crosswordPlacedWord crossword_searchListAcross(struct arrayList *wordList
         return output;
     }
     
-
     struct charArrayPair *currentWord;
+    struct charArrayPair *bestWord = NULL;
+
     size_t occuranceArray[16];
+
+    size_t bestIndex = -1;
+    size_t bestCharacter = -1;
 
     for (size_t i = wordListStart; i < wordList->count; i++)
     {
         currentWord = (struct charArrayPair *)arrayList_get(wordList, i);
         
-        size_t occuranceCount = charArray_indicesOfValue(&currentWord->first, occuranceArray, sizeof(occuranceArray), letters->array.array[index]);
-
-        for (size_t j = 0; j < occuranceCount; j++)
+        if (bestWord == NULL || currentWord->first.count > bestWord->first.count)
         {
+            size_t occuranceCount = charArray_indicesOfValue(&currentWord->first, occuranceArray, sizeof(occuranceArray), letters->array.array[index]);
 
-            if (occuranceArray[j] <= beforeCount
-            && currentWord->first.count - occuranceArray[j] <= afterCount
-            && crossword_matchesExistingAcross(letters, index - occuranceArray[j], &currentWord->first))
+            for (size_t j = 0; j < occuranceCount; j++)
             {
-                charGrid_setHorizontal_array(letters, (index % letters->width) - occuranceArray[j], index / letters->width, currentWord->first.array, currentWord->first.count);
 
-                struct crosswordPlacedWord output = { .pair = *currentWord, .originalPairIndex = i, .flag = across, .gridIndex = index - occuranceArray[j] };
-                return output;
+                if (occuranceArray[j] <= beforeCount
+                && currentWord->first.count - occuranceArray[j] <= afterCount
+                && crossword_matchesExistingAcross(letters, index - occuranceArray[j], &currentWord->first))
+                {
+                    bestIndex = i;
+                    bestCharacter = occuranceArray[j];
+                    bestWord = currentWord;
+
+                    break;
+                }
+                
+                if (occuranceArray[j] > beforeCount)
+                {
+                    j = occuranceCount;
+                }
             }
-            
-            if (occuranceArray[j] > beforeCount)
-            {
-                j = occuranceCount;
-            }
-        }
-          
+        } 
+    }
+
+    if (bestIndex != -1)
+    {
+        charGrid_setHorizontal_array(letters, (index % letters->width) - bestCharacter, index / letters->width, bestWord->first.array, bestWord->first.count);
+
+        struct crosswordPlacedWord output = { .pair = *bestWord, .originalPairIndex = bestIndex, .flag = across, .gridIndex = index - bestCharacter };
+        return output;
     }
 
     struct crosswordPlacedWord output = { .pair = -1, .originalPairIndex = -1, .flag = none, .gridIndex = -1 };
@@ -251,34 +266,50 @@ struct crosswordPlacedWord crossword_searchListDown(struct arrayList *wordList, 
     }
 
     struct charArrayPair *currentWord;
+    struct charArrayPair *bestWord = NULL;
+
     size_t occuranceArray[16];
+
+    size_t bestIndex = -1;
+    size_t bestCharacter = -1;
 
     for (size_t i = wordListStart; i < wordList->count; i++)
     {
         currentWord = (struct charArrayPair *)arrayList_get(wordList, i);
         
-        size_t occuranceCount = charArray_indicesOfValue(&currentWord->first, occuranceArray, sizeof(occuranceArray), letters->array.array[index]);
-
-        for (size_t j = 0; j < occuranceCount; j++)
+        if (bestWord == NULL || currentWord->first.count > bestWord->first.count)
         {
+            size_t occuranceCount = charArray_indicesOfValue(&currentWord->first, occuranceArray, sizeof(occuranceArray), letters->array.array[index]);
 
-            if (occuranceArray[j] <= beforeCount
-            && currentWord->first.count - occuranceArray[j] <= afterCount
-            && crossword_matchesExistingDown(letters, index - (occuranceArray[j] * letters->width), &currentWord->first))
+            for (size_t j = 0; j < occuranceCount; j++)
             {
-                charGrid_setVertical_array(letters, index % letters->width, (index / letters->width) - occuranceArray[j], currentWord->first.array, currentWord->first.count);
 
-                struct crosswordPlacedWord output = { .pair = *currentWord, .originalPairIndex = i, .flag = down, .gridIndex = index - (occuranceArray[j] * letters->width) };
-                return output;
-            }
+                if (occuranceArray[j] <= beforeCount
+                && currentWord->first.count - occuranceArray[j] <= afterCount
+                && crossword_matchesExistingDown(letters, index - (occuranceArray[j] * letters->width), &currentWord->first))
+                {
+                    bestIndex = i;
+                    bestCharacter = occuranceArray[j];
+                    bestWord = currentWord;
 
-            if (occuranceArray[j] > beforeCount)
-            {
-                j = occuranceCount;
+                    break;
+                }
+
+                if (occuranceArray[j] > beforeCount)
+                {
+                    j = occuranceCount;
+                }
+                
             }
-            
-        }
-          
+        } 
+    }
+
+    if (bestIndex != -1)
+    {
+        charGrid_setVertical_array(letters, index % letters->width, (index / letters->width) - bestCharacter, bestWord->first.array, bestWord->first.count);
+
+        struct crosswordPlacedWord output = { .pair = *bestWord, .originalPairIndex = bestIndex, .flag = down, .gridIndex = index - (bestCharacter * letters->width) };
+        return output;
     }
 
     struct crosswordPlacedWord output = { .pair = -1, .originalPairIndex = -1, .flag = none, .gridIndex = -1 };
