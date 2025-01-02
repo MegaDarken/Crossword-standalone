@@ -61,10 +61,14 @@ Arguments can be given:
 
 "-s" or "--seed" followed by a string. Controllable randomization variance.
 
+"-t" or "--target" followed by the word length aimed for.
+
 ## Changelog
 v1.0.4
-- Improved randomization, seeds will now be different.
-- Fixed box characters not rendering correctly on Windows.
+- Improved randomization, seeds will now be different from previous versions.
+- Improved box characters on Windows.
+- More efficient search pattern.
+- Added option to reattempt until a certain length of word.
 
 v1.0.3:
 - Additional prompts for details.
