@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wchar.h>
 
 #include "charArray.h"
 
@@ -44,9 +45,14 @@ void charGrid_free(struct charGrid *var)
     charArray_free(&var->array);
 }
 
-char charGrid_get(struct charGrid *var, int x, int y)
+size_t charGrid_index(struct charGrid *var, const int x, const int y)
 {
-    int index = (y * var->width) + x;
+    return (y * var->width) + x;
+}
+
+char charGrid_get(struct charGrid *var, const int x, const int y)
+{
+    int index = charGrid_index(var, x, y);
     
     if (index >= var->array.count)
     {
@@ -57,9 +63,9 @@ char charGrid_get(struct charGrid *var, int x, int y)
     return var->array.array[index];
 }
 
-void charGrid_set(struct charGrid *var, int x, int y, char value)
+void charGrid_set(struct charGrid *var, const int x, const int y, char value)
 {
-    int index = (y * var->width) + x;
+    int index = charGrid_index(var, x, y);
     
     if (index >= var->array.count)
     {
@@ -90,9 +96,9 @@ char charGrid_indexBottomRow(struct charGrid *var, const size_t index)
     return index >= var->array.count - var->width;
 }
 
-void charGrid_setHorizontal_array(struct charGrid *var, int x, int y, char *array, size_t arrayCount)
+void charGrid_setHorizontal_array(struct charGrid *var, const int x, const int y, char *array, size_t arrayCount)
 {
-    int index = (y * var->width) + x;
+    int index = charGrid_index(var, x, y);
 
     for (size_t i = 0; i < arrayCount && index < var->array.count; i++)
     {
@@ -101,9 +107,9 @@ void charGrid_setHorizontal_array(struct charGrid *var, int x, int y, char *arra
     }
 }
 
-void charGrid_setVertical_array(struct charGrid *var, int x, int y, char *array, size_t arrayCount)
+void charGrid_setVertical_array(struct charGrid *var, const int x, const int y, char *array, size_t arrayCount)
 {
-    int index = (y * var->width) + x;
+    int index = charGrid_index(var, x, y);
 
     for (size_t i = 0; i < arrayCount && index < var->array.count; i++)
     {
@@ -145,6 +151,47 @@ void charGrid_fprintAsChars(FILE *stream, struct charGrid *var)
 void charGrid_printAsChars(struct charGrid *var)
 {
     charGrid_fprintAsChars(stdout, var);
+}
+
+void charGrid_fwprint(FILE *stream, struct charGrid *var)
+{
+    for (int i = 0; i < var->height; i++)
+    {
+        for (int j = 0; j < var->width; j++)
+        {
+            fwprintf(stream, L"%d ", charGrid_get(var, j, i));
+        }
+
+        fwprintf(stream, L"\n");
+    }
+}
+
+void charGrid_wprint(struct charGrid *var)
+{
+    charGrid_fwprint(stdout, var);
+}
+
+void charGrid_fwprintAsChars(FILE *stream, struct charGrid *var)
+{
+    //char* location = var->array.array;
+    
+    for (size_t i = 0; i < var->height; i++)
+    {
+        for (size_t j = 0; j < var->width; j++)
+        {
+            fwprintf(stream, L"%c", charGrid_get(var, j, i));
+        }
+
+        //fwprintf(stream, L"%.*s\n", var->width, location);
+        fwprintf(stream, L"\n");
+
+        //location += var->width;
+    }
+}
+
+void charGrid_wprintAsChars(struct charGrid *var)
+{
+    charGrid_fwprintAsChars(stdout, var);
 }
 
 // int main(int argc, char** argv)

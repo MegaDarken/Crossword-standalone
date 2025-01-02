@@ -1,12 +1,13 @@
-#include "valRead.h"
+#include "wvalRead.h"
 
 #include <stdio.h>
+#include <wchar.h>
 
 #include "clearInput.h"
 
 #define VALREAD_BUFFERSIZE 256
 
-void valRead_charDest(char *dest, const char *invalidInputText)
+void wvalRead_charDest(char *dest, const wchar_t *invalidInputText)
 {
     for (;;)
     {
@@ -15,20 +16,20 @@ void valRead_charDest(char *dest, const char *invalidInputText)
         if (result == 1) return;
         else
         {
-            printf("%s", invalidInputText);
+            wprintf(L"%ls", invalidInputText);
             clearInput_untilNewLine();
         }
     }
 }
 
-char valRead_char(const char *invalidInputText)
+char wvalRead_char(const wchar_t *invalidInputText)
 {
     char output;
-    valRead_charDest(&output, invalidInputText); 
+    wvalRead_charDest(&output, invalidInputText); 
     return output;
 }
 
-void valRead_wcharDest(int *dest, const char *invalidInputText)
+void wvalRead_wcharDest(int *dest, const wchar_t *invalidInputText)
 {
     for (;;)
     {
@@ -37,20 +38,20 @@ void valRead_wcharDest(int *dest, const char *invalidInputText)
         if (result == 1) return;
         else
         {
-            printf("%s", invalidInputText);
+            wprintf(L"%ls", invalidInputText);
             clearInput_untilNewLine();
         }
     }
 }
 
-int valRead_wchar(const char *invalidInputText)
+int wvalRead_wchar(const wchar_t *invalidInputText)
 {
     int output;
-    valRead_wcharDest(&output, invalidInputText); 
+    wvalRead_wcharDest(&output, invalidInputText); 
     return output;
 }
 
-void valRead_intDest(int *dest, const char *invalidInputText)
+void wvalRead_intDest(int *dest, const wchar_t *invalidInputText)
 {
     for (;;)
     {
@@ -59,20 +60,20 @@ void valRead_intDest(int *dest, const char *invalidInputText)
         if (result == 1) return;
         else
         {
-            printf("%s", invalidInputText);
+            wprintf(L"%ls", invalidInputText);
             clearInput_untilNewLine();
         }
     }
 }
 
-int valRead_int(const char *invalidInputText)
+int wvalRead_int(const wchar_t *invalidInputText)
 {
     int output;
-    valRead_intDest(&output, invalidInputText); 
+    wvalRead_intDest(&output, invalidInputText); 
     return output;
 }
 
-void valRead_size_tDest(size_t *dest, const char *invalidInputText)
+void wvalRead_size_tDest(size_t *dest, const wchar_t *invalidInputText)
 {
     for (;;)
     {
@@ -81,15 +82,15 @@ void valRead_size_tDest(size_t *dest, const char *invalidInputText)
         if (result == 1) return;
         else
         {
-            printf("%s", invalidInputText);
+            wprintf(L"%ls", invalidInputText);
             clearInput_untilNewLine();
         }
     }
 }
 
-size_t valRead_size_t(const char *invalidInputText)
+size_t wvalRead_size_t(const wchar_t *invalidInputText)
 {
     int output;
-    valRead_intDest(&output, invalidInputText); 
+    wvalRead_intDest(&output, invalidInputText); 
     return output;
 }

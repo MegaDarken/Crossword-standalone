@@ -5,30 +5,34 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <wchar.h>
 
 #include "arrayUtility.h"
+#include "stringConstexpr.h"
 #include "stringHash.h"
 
-//Methods
 #ifdef __cplusplus
-extern "C"
+extern "C" {
 #endif //__cplusplus
+
+size_t allocatedCharArrayCount = 0;
+
+//Methods
 void charArray_createDest(struct charArray *dest)
 {
     dest->size = sizeof(char) * dest->count;
 
-    dest->array = realloc(dest->array, dest->size);
+    dest->array = malloc(dest->size);
 
     if (!dest->array)
     {
         perror("Error allocating memory for array!");
         abort();
     }
+
+    allocatedCharArrayCount++;
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 void charArray_createDestWithInitialValue(struct charArray *dest, const char initialValue)
 {
     charArray_createDest(dest);
@@ -36,9 +40,6 @@ void charArray_createDestWithInitialValue(struct charArray *dest, const char ini
     charArray_setAll(dest, initialValue);
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 struct charArray charArray_createWithInitialValue(const size_t count, const char initialValue)
 {
     struct charArray val = { .count = count };
@@ -48,9 +49,6 @@ struct charArray charArray_createWithInitialValue(const size_t count, const char
     return val;
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 struct charArray charArray_create(const size_t count)
 {
     struct charArray val = { .count = count };
@@ -60,49 +58,65 @@ struct charArray charArray_create(const size_t count)
     return val;
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
+struct charArray charArray_createFromString(const char *array)
+{
+    struct charArray val = charArray_create(1);
+
+    charArray_setFromString(&val, array);
+}
+
 void charArray_setAll(struct charArray *var, const char value)
 {
     memset(var->array, value, var->size);
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_set(struct charArray *var, char *array, const size_t count)
+void charArray_set(struct charArray *var, const char *array, const size_t count)
 {
     charArray_resize(var, count);
 
     memcpy(var->array, array, count);
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
+void charArray_setFromString(struct charArray *var, const char *array)
+{
+    charArray_set(var, array, stringConstexpr_length(array));
+}
+
 void charArray_resize(struct charArray *var, const size_t count)
 {
     var->count = count;
 
-    charArray_createDest(var);
+    var->size = sizeof(char) * var->count;
+
+    var->array = realloc(var->array, var->size);
+
+    if (!var->array)
+    {
+        perror("Error reallocating memory for array!");
+        abort();
+    }
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 void charArray_free(struct charArray *var)
 {
     var->count = 0;
     var->size = 0;
 
     free(var->array);
+
+    allocatedCharArrayCount--;
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-int charArray_equals(struct charArray *first, struct charArray *second)
+struct charArray charArray_clone(const struct charArray *var)
+{
+    struct charArray val = charArray_create(var->count);
+
+    memcpy(val.array, var->array, var->size);
+
+    return val;
+}
+
+int charArray_equals(const struct charArray *first, const struct charArray *second)
 {
     if (first->count != second->count) return 0;
     if (first->size != second->size) return 0;
@@ -115,18 +129,38 @@ int charArray_equals(struct charArray *first, struct charArray *second)
     return 1;
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-size_t charArray_hash(struct charArray *var)
+int charArray_contains(const struct charArray *var, const char value)
+{
+    for (size_t i = 0; i < var->count; i++)
+    {
+        if (var->array[i] == value)
+        {
+            return 1;
+        }
+    }
+    
+    return 0;
+}
+
+int charArray_containsBw(const struct charArray *var, const char value)
+{
+    for (size_t i = var->count - 1; i >= 0; i--)
+    {
+        if (var->array[i] == value)
+        {
+            return 1;
+        }
+    }
+    
+    return 0;
+}
+
+size_t charArray_hash(const struct charArray *var)
 {
     return stringHash(var->array, var->size);
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-size_t charArray_indicesOfValue(struct charArray *var, size_t *buffer, const size_t bufferCount, const char value)
+size_t charArray_indicesOfValue(const struct charArray *var, size_t *buffer, const size_t bufferCount, const char value)
 {
     size_t count = 0;
 
@@ -143,9 +177,50 @@ size_t charArray_indicesOfValue(struct charArray *var, size_t *buffer, const siz
     return count;
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
+void charArray_resizeToString(struct charArray *var)
+{
+    charArray_resize(var, stringConstexpr_length(var->array));
+}
+
+void charArray_resizeStringToLastInstance(struct charArray *var, int ch)
+{
+    const char * chPtr = strrchr(var->array, ch);
+
+    if (chPtr != NULL)
+    {
+        size_t newSize = (chPtr - var->array) + 1;
+        
+        if (newSize <= var->size)
+        {
+            charArray_resize(var, newSize/sizeof(char));
+            var->array[var->count-1] = '\0';
+        } 
+    }
+}
+
+void charArray_catString(struct charArray *var, const char *string)
+{
+    if(!charArray_containsBw(var, '\0')) return;
+
+    size_t newCount = var->count + stringConstexpr_length(string) - 1;
+
+    charArray_resize(var, newCount);
+
+    strcat(var->array, string);
+}
+
+void charArray_catStringCA(struct charArray *var, struct charArray *other)
+{
+    if(!charArray_containsBw(var, '\0')) return;
+    if(!charArray_containsBw(other, '\0')) return;
+
+    size_t newCount = var->count + other->count - 1;
+
+    charArray_resize(var, newCount);
+
+    strcat(var->array, other->array);
+}
+
 void charArray_tolower(struct charArray *var)
 {
     for (size_t i = 0; i < var->count; i++)
@@ -154,9 +229,6 @@ void charArray_tolower(struct charArray *var)
     }
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 void charArray_toupper(struct charArray *var)
 {
     for (size_t i = 0; i < var->count; i++)
@@ -165,9 +237,6 @@ void charArray_toupper(struct charArray *var)
     }
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 void charArray_write(FILE* filePointer, struct charArray *var)
 {
     size_t size = 0;
@@ -177,9 +246,6 @@ void charArray_write(FILE* filePointer, struct charArray *var)
     if ( size != sizeof(struct charArray) ) printf("Mis-size from charArray fwrite");
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 void charArray_readDest(FILE* filePointer, struct charArray *var)
 {
     size_t size = 0;
@@ -189,9 +255,6 @@ void charArray_readDest(FILE* filePointer, struct charArray *var)
     if ( size != sizeof(struct charArray) ) printf("Mis-size from charArray fread");
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 struct charArray charArray_read(FILE* filePointer)
 {
     struct charArray val = { };
@@ -201,10 +264,7 @@ struct charArray charArray_read(FILE* filePointer)
     return val;
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_fprint(FILE *stream, struct charArray *var)
+void charArray_fprint(FILE *stream, const struct charArray *var)
 {
     for (size_t i = 0; i < var->count; i++)
     {
@@ -212,39 +272,44 @@ void charArray_fprint(FILE *stream, struct charArray *var)
     }
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_print(struct charArray *var)
+void charArray_print(const struct charArray *var)
 {
     charArray_fprint(stdout, var);
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_fprintAsChar(FILE *stream, struct charArray *var)
+void charArray_fprintAsChar(FILE *stream, const struct charArray *var)
 {
     fprintf(stream, "%.*s", (int)var->count, var->array);
 }
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_printAsChar(struct charArray *var)
+void charArray_printAsChar(const struct charArray *var)
 {
     charArray_fprintAsChar(stdout, var);
 }
 
-//For testing
-// int main(int argc, char** argv)
-// {
-//     struct charArray array = charArray_create(10);
+void charArray_fwprint(FILE *stream, const struct charArray *var)
+{
+    for (size_t i = 0; i < var->count; i++)
+    {
+        fwprintf(stream, L"%d ", var->array[i]);
+    }
+}
 
-//     charArray_print(&array);
-//     printf("\n");
+void charArray_wprint(const struct charArray *var)
+{
+    charArray_fwprint(stdout, var);
+}
 
-//     charArray_resize(&array, 15);
+void charArray_fwprintAsChar(FILE *stream, const struct charArray *var)
+{
+    fwprintf(stream, L"%.*hs", (int)var->count, var->array);
+}
 
-//     charArray_print(&array);
-// }
+void charArray_wprintAsChar(const struct charArray *var)
+{
+    charArray_fwprintAsChar(stdout, var);
+}
+
+#ifdef __cplusplus
+}
+#endif //__cplusplus

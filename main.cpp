@@ -2,17 +2,21 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>
+#include <wchar.h>
+#include <locale.h>
 
 #include "stringHash.h"
+#include "consoleProcessing.h"
+#include "consoleCodePage.h"
 #include "crossword.h"
 #include "clearInput.h"
-#include "valRead.h"
-#include "rawRead.h"
+#include "wvalRead.h"
+#include "wrawRead.h"
 #include "randomTable.h"
 #include "fileUtility.h"
-#include "printTime.h"
+#include "wprintTime.h"
 
-enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, iterationsArg, listFilenameArg, outputFilenameArg, seedArg};
+enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, iterationsArg, listFilenameArg, outputFilenameArg, seedArg, targetArg};
 
 constexpr char PROMPT_ARG_SHORT = 'p';
 constexpr __UINT64_TYPE__ PROMPT_ARG = stringHash("--prompt");
@@ -36,12 +40,20 @@ constexpr char DETERMINISTIC_ARG_SHORT = 'd';
 constexpr __UINT64_TYPE__ DETERMINISTIC_ARG = stringHash("--deterministic");
 constexpr __UINT64_TYPE__ SEED_ARG_SHORT = stringHash("-s");
 constexpr __UINT64_TYPE__ SEED_ARG = stringHash("--seed");
+constexpr __UINT64_TYPE__ TARGET_ARG_SHORT = stringHash("-t");
+constexpr __UINT64_TYPE__ TARGET_ARG = stringHash("--target");
 
 int main(int argc, char** argv)
 {
+    setlocale(LC_ALL, "en_US.UTF-8");
+
+    enableConsoleProcessing();
+    //consoleCodePage_utf8();
+
     const int defaultValue = 0;
     const int defaultBool = 0;
     const size_t defaultIterations = 1;
+    const size_t defaultTargetWordLength = __SIZE_MAX__;
 
     int promptBool = argc <= 1;
     int width = defaultValue;
@@ -54,6 +66,7 @@ int main(int argc, char** argv)
     int randomBool = defaultBool;
     int deterministicBool = defaultBool;
     __UINT64_TYPE__ seed = defaultValue;
+    size_t targetWordLength = defaultTargetWordLength;
 
     enum argsMode mode = noArg;
 
@@ -103,6 +116,11 @@ int main(int argc, char** argv)
         case SEED_ARG_SHORT:
         case SEED_ARG:
             mode = seedArg;
+            break;
+
+        case TARGET_ARG_SHORT:
+        case TARGET_ARG:
+            mode = targetArg;
             break;
 
         case RANDOM_ARG:
@@ -178,6 +196,9 @@ int main(int argc, char** argv)
             case seedArg:
                 seed = stringHash(argv[i]);
                 break;
+
+            case targetArg:
+                if (1 == sscanf(argv[i], " %zu", &targetWordLength)) mode = noArg;
             
             default:
                 break;
@@ -191,58 +212,64 @@ int main(int argc, char** argv)
     //User inputs
     if (width <= 0)
     {
-        printf("\nEnter width:");
-        valRead_intDest(&width, "\007\nInput must be an integer:");
+        wprintf(L"\nEnter width:");
+        wvalRead_intDest(&width, L"\007\nInput must be an integer:");
     }
 
     if (height <= 0)
     {
-        printf("\nEnter height:");
-        valRead_intDest(&height, "\007\nInput must be an integer:");
+        wprintf(L"\nEnter height:");
+        wvalRead_intDest(&height, L"\007\nInput must be an integer:");
     }
 
     if (wordCount <= 0)
     {
-        printf("\nEnter wordCount:");
-        valRead_size_tDest(&wordCount, "\007\nInput must be an integer:");
+        wprintf(L"\nEnter wordCount:");
+        wvalRead_size_tDest(&wordCount, L"\007\nInput must be an integer:");
     }
 
     if (startingChar == defaultValue)
     {
-        printf("\nEnter starting character:");
-        valRead_wcharDest(&startingChar, "\007\nInput must be an character:");
+        wprintf(L"\nEnter starting character:");
+        wvalRead_wcharDest(&startingChar, L"\007\nInput must be an character:");
     }
 
     if (promptBool)
     {
         if (iterations == defaultIterations)
         {
-            printf("\nEnter the number of iterations to create:");
-            valRead_size_tDest(&wordCount, "\007\nInput must be an integer:");
+            wprintf(L"\nEnter the number of iterations to create:");
+            wvalRead_size_tDest(&iterations, L"\007\nInput must be an integer:");
         }
 
         if (randomBool == defaultBool)
         {
-            printf("\nRandomization? ");
-            randomBool = rawReadBool('y', 'n');
+            wprintf(L"\nRandomization? ");
+            randomBool = wrawReadBool('y', 'n');
         }
 
         if (randomBool)
         {
             if (deterministicBool == defaultBool)
             {
-                printf("\nDeterministic? ");
-                deterministicBool = rawReadBool('y', 'n');
+                wprintf(L"\nDeterministic? ");
+                deterministicBool = wrawReadBool('y', 'n');
             }
 
             if (seed == defaultValue)
             {
                 char inputArray[256];
-                printf("\nSeed:");
+                wprintf(L"\nSeed:");
                 clearInput_untilNewLine();
-                fgets(inputArray, sizeof(inputArray), stdin);
+                char* front = fgets(inputArray, sizeof(inputArray), stdin);
                 seed = stringHash(inputArray, stringConstexpr_match(inputArray, '\n'));
             }
+        }
+
+        if (targetWordLength == defaultTargetWordLength)
+        {
+            wprintf(L"\nEnter the target word length:");
+            wvalRead_size_tDest(&targetWordLength, L"\007\nInput must be an integer:");
         }
     }
 
@@ -258,9 +285,9 @@ int main(int argc, char** argv)
 
     for (size_t i = 0; i < iterations; i++)
     {
-        fprintTime_ymd(outputStream);
-        fprintf(outputStream, "\n");
-        crossword(outputStream, width, height, wordCount, startingChar, listFileName, randomBool, seed);
+        fwprintTime_ymd(outputStream);
+        fwprintf(outputStream, L"\n");
+        crossword(outputStream, width, height, wordCount, startingChar, listFileName, randomBool, seed, targetWordLength);
     }
     
     if (outputFileName != NULL)
@@ -270,8 +297,8 @@ int main(int argc, char** argv)
 
     if (outputStream == stdout)
     {
-        fprintf(outputStream, "Press any key to close...\n");
-        rawRead();
+        fwprintf(outputStream, L"Press any key to close...\n");
+        wrawRead();
     }
     
 }
