@@ -187,7 +187,7 @@ int crossword_matchesExistingDown(struct charGrid *letters, const size_t index, 
     
 }
 
-struct crosswordPlacedWord crossword_searchListAcross(struct arrayList *wordList, struct charGrid *letters, const size_t index, const size_t wordListStart)
+struct crosswordPlacedWord crossword_searchListAcross(struct arrayList *wordList, struct charGrid *letters, const size_t index, const size_t wordListStart, const size_t targetLength)
 {
     size_t beforeCount;
     size_t afterCount;
@@ -209,7 +209,7 @@ struct crosswordPlacedWord crossword_searchListAcross(struct arrayList *wordList
     size_t bestIndex = -1;
     size_t bestCharacter = -1;
 
-    for (size_t i = wordListStart; i < wordList->count; i++)
+    for (size_t i = wordListStart; i < wordList->count && (bestWord == NULL || targetLength > bestWord->first.count); i++)
     {
         currentWord = (struct charArrayPair *)arrayList_get(wordList, i);
         
@@ -251,7 +251,7 @@ struct crosswordPlacedWord crossword_searchListAcross(struct arrayList *wordList
     return output;
 }
 
-struct crosswordPlacedWord crossword_searchListDown(struct arrayList *wordList, struct charGrid *letters, const size_t index, const size_t wordListStart)
+struct crosswordPlacedWord crossword_searchListDown(struct arrayList *wordList, struct charGrid *letters, const size_t index, const size_t wordListStart, const size_t targetLength)
 {
     size_t beforeCount;
     size_t afterCount;
@@ -273,7 +273,7 @@ struct crosswordPlacedWord crossword_searchListDown(struct arrayList *wordList, 
     size_t bestIndex = -1;
     size_t bestCharacter = -1;
 
-    for (size_t i = wordListStart; i < wordList->count; i++)
+    for (size_t i = wordListStart; i < wordList->count && (bestWord == NULL || targetLength > bestWord->first.count); i++)
     {
         currentWord = (struct charArrayPair *)arrayList_get(wordList, i);
         
@@ -316,7 +316,7 @@ struct crosswordPlacedWord crossword_searchListDown(struct arrayList *wordList, 
     return output;
 }
 
-void crossword_searchListAtIndex(const size_t wordCount, struct arrayList *wordList, struct charGrid *letters, const size_t index, struct crosswordPlacedWord *usedWordArray, size_t *wordListStart)
+void crossword_searchListAtIndex(const size_t wordCount, struct arrayList *wordList, struct charGrid *letters, const size_t index, struct crosswordPlacedWord *usedWordArray, size_t *wordListStart, const size_t targetLength)
 {
     if (letters->array.array[index] != ' ')
     {
@@ -324,7 +324,7 @@ void crossword_searchListAtIndex(const size_t wordCount, struct arrayList *wordL
 
         if (acrossValid)
         {
-            struct crosswordPlacedWord val = crossword_searchListAcross(wordList, letters, index, *wordListStart);
+            struct crosswordPlacedWord val = crossword_searchListAcross(wordList, letters, index, *wordListStart, targetLength);
 
             if (val.flag != none)
             {
@@ -348,7 +348,7 @@ void crossword_searchListAtIndex(const size_t wordCount, struct arrayList *wordL
         
         if (downValid)
         {
-            struct crosswordPlacedWord val = crossword_searchListDown(wordList, letters, index, *wordListStart);
+            struct crosswordPlacedWord val = crossword_searchListDown(wordList, letters, index, *wordListStart, targetLength);
 
             if (val.flag != none)
             {
@@ -522,7 +522,7 @@ void crossword_fprint(FILE *stream, struct charGrid *letters, struct crosswordPl
 #ifdef __cplusplus
 extern "C"
 #endif //__cplusplus
-void crossword(FILE *stream, const int width, const int height, const size_t wordCount, const int startingChar, const char* listFileName, const int randomBool, const __UINT64_TYPE__ seed)
+void crossword(FILE *stream, const int width, const int height, const size_t wordCount, const int startingChar, const char* listFileName, const int randomBool, const __UINT64_TYPE__ seed, const size_t targetWordLength)
 {
     struct arrayList *fullWordList = NULL;
     memMacro_malloc(fullWordList);
@@ -562,7 +562,7 @@ void crossword(FILE *stream, const int width, const int height, const size_t wor
 
     for (size_t j = 1; j < letters->array.count && placedWordCount < wordCount; j++)
     {
-        crossword_searchListAtIndex(wordCount, fullWordList, letters, index, usedWordArray, &placedWordCount);
+        crossword_searchListAtIndex(wordCount, fullWordList, letters, index, usedWordArray, &placedWordCount, targetWordLength);
 
         index += increment;
 
@@ -598,12 +598,12 @@ void crossword(FILE *stream, const int width, const int height, const size_t wor
 
     for (size_t j = letters->array.count - 1; j > 0 && placedWordCount < wordCount; j--)
     {
-        crossword_searchListAtIndex(wordCount, fullWordList, letters, j, usedWordArray, &placedWordCount);            
+        crossword_searchListAtIndex(wordCount, fullWordList, letters, j, usedWordArray, &placedWordCount, targetWordLength);            
     }
 
     for (size_t j = 0; j < letters->array.count && placedWordCount < wordCount; j++)
     {
-        crossword_searchListAtIndex(wordCount, fullWordList, letters, j, usedWordArray, &placedWordCount);            
+        crossword_searchListAtIndex(wordCount, fullWordList, letters, j, usedWordArray, &placedWordCount, targetWordLength);
     }
 
     insertionSort_ascending(usedWordArray, placedWordCount, sizeof(usedWordArray[0]), &usedWordArray[0].gridIndex);
