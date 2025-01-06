@@ -2,7 +2,7 @@
 #include "charArraySplit.h"
 
 #include <string.h>
-#include "arrayUtility.h"
+#include "arrayIndexUtility.h"
 
 //Methods
 void charArraySplit_array_before(const char *inputArray, const size_t inputCount, struct charArray *first, struct charArray *second, size_t index)
@@ -58,7 +58,7 @@ void charArraySplit_on(struct charArray *input, struct charArray *first, struct 
 
 size_t charArraySplit_array_onFirstValue(const char *inputArray, const size_t inputCount, struct charArray *first, struct charArray *second, char value)
 {
-    size_t index = arrayUtility_indexOfFirst(inputArray, inputCount, value);
+    size_t index = arrayIndexUtility_first(inputArray, inputCount, value);
 
     charArraySplit_array_on(inputArray, inputCount, first, second, index);
 
@@ -67,7 +67,7 @@ size_t charArraySplit_array_onFirstValue(const char *inputArray, const size_t in
 
 size_t charArraySplit_onFirstValue(struct charArray *input, struct charArray *first, struct charArray *second, char value)
 {
-    size_t index = arrayUtility_indexOfFirst(input->array, input->count, value);
+    size_t index = arrayIndexUtility_first(input->array, input->count, value);
 
     charArraySplit_on(input, first, second, index);
 
@@ -76,7 +76,7 @@ size_t charArraySplit_onFirstValue(struct charArray *input, struct charArray *fi
 
 size_t charArraySplit_array_onLastValue(const char *inputArray, const size_t inputCount, struct charArray *first, struct charArray *second, char value)
 {
-    size_t index = arrayUtility_indexOfFirst(inputArray, inputCount, value);
+    size_t index = arrayIndexUtility_first(inputArray, inputCount, value);
 
     charArraySplit_array_on(inputArray, inputCount, first, second, index);
 
@@ -85,7 +85,7 @@ size_t charArraySplit_array_onLastValue(const char *inputArray, const size_t inp
 
 size_t charArraySplit_onLastValue(struct charArray *input, struct charArray *first, struct charArray *second, char value)
 {
-    size_t index = arrayUtility_indexOfFirst(input->array, input->count, value);
+    size_t index = arrayIndexUtility_first(input->array, input->count, value);
 
     charArraySplit_on(input, first, second, index);
 
