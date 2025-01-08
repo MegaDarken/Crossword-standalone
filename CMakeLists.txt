@@ -43,6 +43,7 @@ rawRead.c
 rawRead.h
 seedyShuffle.h
 shuffle.h
+spansUtility.c
 stringConstexpr.h
 stringHash.h
 swapping.h
