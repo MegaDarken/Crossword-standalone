@@ -237,6 +237,20 @@ void charArray_toupper(struct charArray *var)
     }
 }
 
+void charArray_removespace(struct charArray *var)
+{
+    size_t toIndex = 0;
+    for (size_t fromIndex = 0; fromIndex < var->count; fromIndex++)
+    {
+        if (!isspace(var->array[fromIndex]))
+        {
+            var->array[toIndex] = var->array[fromIndex];
+            toIndex++;
+        }
+    }
+    charArray_resize(var, toIndex);
+}
+
 void charArray_write(FILE* filePointer, struct charArray *var)
 {
     size_t size = 0;
