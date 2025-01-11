@@ -7,7 +7,7 @@
 #include <ctype.h>
 #include <wchar.h>
 
-#include "arrayUtility.h"
+#include "loopUtility.h"
 #include "stringConstexpr.h"
 #include "stringHash.h"
 
@@ -235,6 +235,29 @@ void charArray_toupper(struct charArray *var)
     {
         var->array[i] = toupper(var->array[i]);
     }
+}
+
+void charArray_trimspace(struct charArray *var)
+{
+    size_t startIndex = 0;
+    size_t endIndex = var->count - 1;
+
+    loop_checkBreakEach(var->count, !isspace(var->array[_index]), startIndex = _index);
+    loop_checkBreakEachDescending(var->count, !isspace(var->array[_index]), endIndex = _index);
+    
+    if (startIndex > 0)
+    {
+        for (size_t i = 0; i < endIndex - startIndex; i++)
+        {
+            var->array[i] = var->array[i + startIndex];
+        }
+    }
+    else if (endIndex == (var->count - 1))
+    {
+        return;
+    }
+    
+    charArray_resize(var, endIndex - startIndex);
 }
 
 void charArray_removespace(struct charArray *var)
