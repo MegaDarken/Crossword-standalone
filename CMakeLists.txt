@@ -9,7 +9,6 @@ abs.h
 arrayIndexUtility.h
 arrayList.c
 arrayList.h
-arrayUtility.h
 boxDrawing.c
 boxDrawing.h
 charArray.c
@@ -34,6 +33,7 @@ fileUtility.c
 fileUtility.h
 insertionSort.c
 insertionSort.h
+loopUtility.h
 memMacro.h
 printTime.c
 printTime.h
