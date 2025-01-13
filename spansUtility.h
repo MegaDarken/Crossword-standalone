@@ -30,7 +30,7 @@ limitations under the License.
     do { \
         __typeof__ (array) _array = (array); \
         __typeof__ (count) _count = (count); \
-        __typeof__ (spanArray) _spanArray = (spanArray); \
+        __typeof__ (spanArray[0]) *_spanArray = (spanArray); \
         memset(_spanArray, 0, sizeof(_spanArray[0]) * _count); \
         size_t _loopIndex = 0; \
         size_t _spanIndex = 0; \
