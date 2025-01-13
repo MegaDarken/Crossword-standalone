@@ -15,4 +15,6 @@ struct crosswordPlacedWord
     size_t gridIndex;   
 };
 
+void crosswordPlacedWord_none(struct crosswordPlacedWord *var);
+
 #endif //_CROSSWORD_WORD_

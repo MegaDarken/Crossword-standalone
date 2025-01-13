@@ -29,6 +29,7 @@ consoleProcessing.c
 consoleProcessing.h
 crossword.c
 crossword.h
+crosswordWord.c
 crosswordWord.h
 fileUtility.c
 fileUtility.h
