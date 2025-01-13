@@ -5,17 +5,7 @@
 
 #include "arrayList.h"
 #include "charGrid.h"
-#include "charArrayPair.h"
-
-enum crosswordFlag{none, across, down, acrossAndDown};
-
-struct crosswordPlacedWord
-{
-    struct charArrayPair pair;
-    size_t originalPairIndex;
-    enum crosswordFlag flag;
-    size_t gridIndex;   
-};
+#include "crosswordWord.h"
 
 void crossword_loadWords(struct arrayList *list, const char *filename, char splitValue);
 

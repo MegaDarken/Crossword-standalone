@@ -197,7 +197,8 @@ struct crosswordPlacedWord crossword_searchListAcross(struct arrayList *wordList
     if (beforeCount == 0
     && afterCount == 0)
     {
-        struct crosswordPlacedWord output = { .pair = -1, .originalPairIndex = -1, .flag = none, .gridIndex = -1 };
+        struct crosswordPlacedWord output;
+        crosswordPlacedWord_none(&output);
         return output;
     }
     
@@ -247,7 +248,8 @@ struct crosswordPlacedWord crossword_searchListAcross(struct arrayList *wordList
         return output;
     }
 
-    struct crosswordPlacedWord output = { .pair = -1, .originalPairIndex = -1, .flag = none, .gridIndex = -1 };
+    struct crosswordPlacedWord output;
+    crosswordPlacedWord_none(&output);
     return output;
 }
 
@@ -261,7 +263,8 @@ struct crosswordPlacedWord crossword_searchListDown(struct arrayList *wordList, 
     if (beforeCount == 0
     && afterCount == 0)
     {
-        struct crosswordPlacedWord output = { .pair = -1, .originalPairIndex = -1, .flag = none, .gridIndex = -1 };
+        struct crosswordPlacedWord output;
+        crosswordPlacedWord_none(&output);
         return output;
     }
 
@@ -312,7 +315,8 @@ struct crosswordPlacedWord crossword_searchListDown(struct arrayList *wordList, 
         return output;
     }
 
-    struct crosswordPlacedWord output = { .pair = -1, .originalPairIndex = -1, .flag = none, .gridIndex = -1 };
+    struct crosswordPlacedWord output;
+    crosswordPlacedWord_none(&output);
     return output;
 }
 
