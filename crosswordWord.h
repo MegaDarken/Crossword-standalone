@@ -17,4 +17,6 @@ struct crosswordPlacedWord
 
 void crosswordPlacedWord_none(struct crosswordPlacedWord *var);
 
+void crosswordWord_fwprintLetterCount(FILE* stream, struct charArray *var);
+
 #endif //_CROSSWORD_WORD_
