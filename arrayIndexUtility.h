@@ -1,18 +1,34 @@
 #ifndef ARRAY_INDEX_UTILITY_
 #define ARRAY_INDEX_UTILITY_
 
-#include "arrayUtility.h"
+#include "loopUtility.h"
 
 #define arrayIndexUtility_first(array, count, value) ({ \
     size_t output; \
-    __typeof__ (value) _value = (value); \
-    arrayUtility_checkBreakEach(array, count, array[i] == _value, output = i); \
+    do { \
+        __typeof__ (count) _count = (count);\
+        __typeof__ (value) _value = (value);\
+        for ( size_t i = 0; i < _count; i++ ) { \
+            if ( array[i] == _value ) { \
+                output = i; \
+                break; \
+            } \
+        } \
+    } while(0); \
     output; })
 
 #define arrayIndexUtility_last(array, count, value) ({ \
     size_t output; \
-    __typeof__ (value) _value = (value); \
-    arrayUtility_checkBreakEachDescending(array, count, array[i] == _value, output = i); \
+    do { \
+        __typeof__ (count) _count = (count);\
+        __typeof__ (value) _value = (value);\
+        for ( size_t i = _count - 1; i >= 0 ; i-- ) { \
+            if ( array[i] == _value ) { \
+                output = i; \
+                break; \
+            } \
+        } \
+    } while(0); \
     output; })
 
 #endif //ARRAY_INDEX_UTILITY_
