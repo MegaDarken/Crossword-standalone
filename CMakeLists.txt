@@ -19,6 +19,8 @@ charArrayPairArray.c
 charArrayPairArray.h
 charArraySplit.c
 charArraySplit.h
+charArrayTrio.c
+charArrayTrio.h
 charGrid.c
 charGrid.h
 clearInput.c
