@@ -17,7 +17,6 @@ struct crosswordPlacedWord
 
 void crosswordPlacedWord_none(struct crosswordPlacedWord *var);
 
-crosswordWord_spans(struct charArray *var, struct charArray *dest);
 void crosswordWord_letterCounts(struct charArray *var, struct charArray *dest);
 
 #endif //_CROSSWORD_WORD_
