@@ -3,13 +3,13 @@
 
 #include <stddef.h>
 
-#include "charArrayPair.h"
+#include "charArrayTrio.h"
 
 enum crosswordFlag{none, across, down, acrossAndDown};
 
 struct crosswordPlacedWord
 {
-    struct charArrayPair pair;
+    struct charArrayTrio pair;
     size_t originalPairIndex;
     enum crosswordFlag flag;
     size_t gridIndex;   
@@ -17,6 +17,7 @@ struct crosswordPlacedWord
 
 void crosswordPlacedWord_none(struct crosswordPlacedWord *var);
 
-void crosswordWord_fwprintLetterCount(FILE* stream, struct charArray *var);
+crosswordWord_spans(struct charArray *var, struct charArray *dest);
+void crosswordWord_letterCounts(struct charArray *var, struct charArray *dest);
 
 #endif //_CROSSWORD_WORD_

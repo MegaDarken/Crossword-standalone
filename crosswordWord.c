@@ -1,6 +1,7 @@
 #include "crosswordWord.h"
 
 #include <string.h>
+#include <ctype.h>
 
 #include "spansUtility.h"
 
@@ -12,26 +13,32 @@ void crosswordPlacedWord_none(struct crosswordPlacedWord *var)
     var->gridIndex = -1;
 }
 
-void crosswordWord_fwprintLetterCount(FILE *stream, struct charArray *var)
+void crosswordWord_letterCounts(struct charArray *var, struct charArray *dest)
 {
     size_t spansArray[var->count];
 
-    spans(var->array, var->count, spansArray, isspace(var->array[_loopIndex])); 
+    spans(var->array, var->count, spansArray, isspace(var->array[_loopIndex]));
 
-    size_t index = isspace(var->array[0]);
+    size_t outputCount = var->count;
 
-    for (; index < var->count; index += 2)
+    for (size_t i = 0; i < var->count; i++)
     {
-        if (!spansArray[index])
+        if (!spansArray[i])
         {
+            outputCount = i;
             break;
         }
-        
-        fwprintf(stream, L"%u", spansArray[index]);
+    }
 
-        if (index + 2 < var->count && spansArray[index + 2])
-        {
-            fwprintf(stream, L",");
-        }
+    charArray_resize(dest, outputCount >> 1);
+
+    size_t index = isspace(var->array[0]);
+    size_t outdex = 0;
+
+    for (; index < var->count && spansArray[index]; index += 2)
+    {   
+        dest->array[outdex] = spansArray[index];
+
+        outdex++;
     }
 }
