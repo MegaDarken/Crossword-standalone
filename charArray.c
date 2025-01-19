@@ -303,10 +303,17 @@ struct charArray charArray_read(FILE* filePointer)
 
 void charArray_fprint(FILE *stream, const struct charArray *var)
 {
-    for (size_t i = 0; i < var->count; i++)
+    if (var->count <= 0)
     {
-        fprintf(stream, "%d ", var->array[i]);
+        return;
     }
+    
+    for (size_t i = 0; i < (var->count - 1); i++)
+    {
+        fprintf(stream, "%u,", var->array[i]);
+    }
+
+    fprintf(stream, "%u", var->array[var->count - 1]);
 }
 
 void charArray_print(const struct charArray *var)
@@ -326,10 +333,17 @@ void charArray_printAsChar(const struct charArray *var)
 
 void charArray_fwprint(FILE *stream, const struct charArray *var)
 {
-    for (size_t i = 0; i < var->count; i++)
+    if (var->count <= 0)
     {
-        fwprintf(stream, L"%d ", var->array[i]);
+        return;
     }
+
+    for (size_t i = 0; i < (var->count - 1); i++)
+    {
+        fwprintf(stream, L"%u,", var->array[i]);
+    }
+
+    fwprintf(stream, L"%u", var->array[var->count - 1]);
 }
 
 void charArray_wprint(const struct charArray *var)
