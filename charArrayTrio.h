@@ -10,9 +10,9 @@ struct charArrayTrio
     struct charArray third;
 };
 
-void charArrayTrio_createDest(struct charArrayTrio *dest, const int firstCount, const int secondCount);
+void charArrayTrio_createDest(struct charArrayTrio *dest, const int firstCount, const int secondCount, const int thirdCount);
 void charArrayTrio_createEmptyDest(struct charArrayTrio *dest);
-struct charArrayTrio charArrayTrio_create(const int firstCount, const int secondCount);
+struct charArrayTrio charArrayTrio_create(const int firstCount, const int secondCount, const int thirdCount);
 struct charArrayTrio charArrayTrio_createEmpty();
 
 void charArrayTrio_free(struct charArrayTrio *var);
