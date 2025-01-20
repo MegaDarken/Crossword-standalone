@@ -45,7 +45,7 @@ constexpr __UINT64_TYPE__ TARGET_ARG = stringHash("--target");
 
 int main(int argc, char** argv)
 {
-    setlocale(LC_ALL, "en_US.UTF-8");
+    setlocale(LC_ALL, "C.UTF-8");
 
     enableConsoleProcessing();
     //consoleCodePage_utf8();
