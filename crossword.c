@@ -6,21 +6,21 @@
 
 #include "fileUtility.h"
 #include "charArraySplit.h"
-#include "charArrayPairArray.h"
+#include "charArrayTrioArray.h"
 #include "charGrid.h"
 #include "swapping.h"
 #include "boxDrawing.h"
 #include "insertionSort.h"
 #include "seedyShuffle.h"
 #include "memMacro.h"
-
+#include "spansUtility.h"
 
 void crossword_loadWords(struct arrayList *list, const char *filename, char splitValue)
 {
     FILE* inf;
     inf = fileUtility_open(filename, "r");
 
-    char buffer[256];
+    char buffer[512];
     size_t bufferSize = sizeof(buffer);
 
     do
@@ -31,9 +31,18 @@ void crossword_loadWords(struct arrayList *list, const char *filename, char spli
     
         if(bufferSize > 2)
         {
-            struct charArrayPair pair = charArrayPair_createEmpty();
-            charArrayPair_splitArray_onFirstValue(&pair, buffer, bufferSize - 1, splitValue);
+            struct charArrayTrio pair = charArrayTrio_createEmpty();
+            //charArrayPair_splitArray_onFirstValue(&pair, buffer, bufferSize - 1, splitValue);
+            charArraySplit_array_onFirstValue(buffer, bufferSize, &pair.first, &pair.second, splitValue);
+            crosswordWord_letterCounts(&pair.first, &pair.third);
             charArray_toupper(&pair.first);
+            charArray_removespace(&pair.first);
+
+            if (pair.second.array[pair.second.count-1] == EOF || pair.second.array[pair.second.count-1] == '\n')
+            {
+                pair.second.array[pair.second.count-1] = '\0';
+            }
+
             arrayList_append(list, &pair);
         }
         else
@@ -202,8 +211,8 @@ struct crosswordPlacedWord crossword_searchListAcross(struct arrayList *wordList
         return output;
     }
     
-    struct charArrayPair *currentWord;
-    struct charArrayPair *bestWord = NULL;
+    struct charArrayTrio *currentWord;
+    struct charArrayTrio *bestWord = NULL;
 
     size_t occuranceArray[16];
 
@@ -212,7 +221,7 @@ struct crosswordPlacedWord crossword_searchListAcross(struct arrayList *wordList
 
     for (size_t i = wordListStart; i < wordList->count && (bestWord == NULL || targetLength > bestWord->first.count); i++)
     {
-        currentWord = (struct charArrayPair *)arrayList_get(wordList, i);
+        currentWord = (struct charArrayTrio *)arrayList_get(wordList, i);
         
         if (bestWord == NULL || currentWord->first.count > bestWord->first.count)
         {
@@ -268,8 +277,8 @@ struct crosswordPlacedWord crossword_searchListDown(struct arrayList *wordList, 
         return output;
     }
 
-    struct charArrayPair *currentWord;
-    struct charArrayPair *bestWord = NULL;
+    struct charArrayTrio *currentWord;
+    struct charArrayTrio *bestWord = NULL;
 
     size_t occuranceArray[16];
 
@@ -278,7 +287,7 @@ struct crosswordPlacedWord crossword_searchListDown(struct arrayList *wordList, 
 
     for (size_t i = wordListStart; i < wordList->count && (bestWord == NULL || targetLength > bestWord->first.count); i++)
     {
-        currentWord = (struct charArrayPair *)arrayList_get(wordList, i);
+        currentWord = (struct charArrayTrio *)arrayList_get(wordList, i);
         
         if (bestWord == NULL || currentWord->first.count > bestWord->first.count)
         {
@@ -333,7 +342,7 @@ void crossword_searchListAtIndex(const size_t wordCount, struct arrayList *wordL
             if (val.flag != none)
             {
                 usedWordArray[*wordListStart] = val;
-                charArrayPairArray_swap(wordList->array, wordList->count, val.originalPairIndex, *wordListStart);
+                charArrayTrioArray_swap(wordList->array, wordList->count, val.originalPairIndex, *wordListStart);
                 (*wordListStart)++;
 
                 // charArrayPairArray_printAsChar(wordList->array, wordList->count);
@@ -357,7 +366,7 @@ void crossword_searchListAtIndex(const size_t wordCount, struct arrayList *wordL
             if (val.flag != none)
             {
                 usedWordArray[*wordListStart] = val;
-                charArrayPairArray_swap(wordList->array, wordList->count, val.originalPairIndex, *wordListStart);
+                charArrayTrioArray_swap(wordList->array, wordList->count, val.originalPairIndex, *wordListStart);
                 (*wordListStart)++;
 
                 // charArrayPairArray_printAsChar(wordList->array, wordList->count);
@@ -498,8 +507,10 @@ void crossword_fprint(FILE *stream, struct charGrid *letters, struct crosswordPl
         {
             fwprintf(stream, L"%zu: ", currentNumber);
             charArray_fwprintAsChar(stream, &usedWordArray[i].pair.second);
-            fwprintf(stream, L" (%zu)", usedWordArray[i].pair.first.count);
-            fwprintf(stream, L"\n");
+            //fwprintf(stream, L" (%zu)", usedWordArray[i].pair.first.count);
+            fwprintf(stream, L"(");
+            charArray_fwprint(stream, &usedWordArray[i].pair.third);
+            fwprintf(stream, L")\n");
         }
         
         flags.array.array[usedWordArray[i].gridIndex] = currentNumber;
@@ -512,8 +523,10 @@ void crossword_fprint(FILE *stream, struct charGrid *letters, struct crosswordPl
         {
             fwprintf(stream, L"%d: ", flags.array.array[usedWordArray[i].gridIndex]);
             charArray_fwprintAsChar(stream, &usedWordArray[i].pair.second);
-            fwprintf(stream, L" (%zu)", usedWordArray[i].pair.first.count);
-            fwprintf(stream, L"\n");
+            //fwprintf(stream, L" (%zu)", usedWordArray[i].pair.first.count);
+            fwprintf(stream, L"(");
+            charArray_fwprint(stream, &usedWordArray[i].pair.third);
+            fwprintf(stream, L")\n");
         }
         
     }
@@ -530,11 +543,11 @@ void crossword(FILE *stream, const int width, const int height, const size_t wor
 {
     struct arrayList *fullWordList = NULL;
     memMacro_malloc(fullWordList);
-    *fullWordList = arrayList_create(0, sizeof(struct charArrayPair));
+    *fullWordList = arrayList_create(0, sizeof(struct charArrayTrio));
 
     crossword_loadWords(fullWordList, listFileName, ';');
 
-    struct charArrayPair *pairArray = fullWordList->array;
+    struct charArrayTrio *pairArray = fullWordList->array;
 
     if (randomBool)
     {
@@ -542,7 +555,7 @@ void crossword(FILE *stream, const int width, const int height, const size_t wor
     }
     else
     {
-        insertionSort_descending(fullWordList->array, fullWordList->count, fullWordList->elementSize, &((struct charArrayPair *)fullWordList->array)->first.count);
+        insertionSort_descending(fullWordList->array, fullWordList->count, fullWordList->elementSize, &((struct charArrayTrio *)fullWordList->array)->first.count);
     }
 
     struct crosswordPlacedWord *usedWordArray;
@@ -616,7 +629,7 @@ void crossword(FILE *stream, const int width, const int height, const size_t wor
 
     charGrid_fwprintAsChars(stream, letters);
 
-    charArrayPairArray_free(fullWordList->array, fullWordList->count);
+    charArrayTrioArray_free(fullWordList->array, fullWordList->count);
     arrayList_free(fullWordList);
 
     charGrid_free(letters);
