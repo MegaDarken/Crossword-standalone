@@ -30,7 +30,7 @@ void crosswordWord_letterCounts(struct charArray *var, struct charArray *dest)
         }
     }
 
-    charArray_resize(dest, outputCount >> 1);
+    charArray_resize(dest, (outputCount >> 1) + 1);
 
     size_t index = isspace(var->array[0]);
     size_t outdex = 0;
