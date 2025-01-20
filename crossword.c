@@ -435,25 +435,25 @@ void crossword_fprintGrid(FILE *stream, struct charGrid *letters, struct charGri
         return;
     }
 
-    const __WCHAR_TYPE__ *vert = boxDrawing_value(noLine, noLine, standardLine, standardLine);
+    const __WCHAR_TYPE__ vert = boxDrawing_value(noLine, noLine, standardLine, standardLine);
 
     boxDrawing_fprint_intervalHorizontalLine(stream, standardLine, noLine, standardLine, letters->width + 1, 4);
     fwprintf(stream, L"\n");
-    fwprintf(stream, L"%ls", vert);
+    fwprintf(stream, L"%lc", vert);
 
     for (size_t x = 0; x < letters->width; x++)
     {
         crossword_fprintEntry(stream, letters, numbers, x, 0);
-        fwprintf(stream, L"%ls", vert);
+        fwprintf(stream, L"%lc", vert);
     }
 
     fwprintf(stream, L"\n");
-    fwprintf(stream, L"%ls", vert);
+    fwprintf(stream, L"%lc", vert);
 
     for (size_t x = 0; x < letters->width; x++)
     {
         crossword_fprintEntryPad(stream, letters, numbers, x, 0);
-        fwprintf(stream, L"%ls", vert);
+        fwprintf(stream, L"%lc", vert);
     }
 
     fwprintf(stream, L"\n");
@@ -462,21 +462,21 @@ void crossword_fprintGrid(FILE *stream, struct charGrid *letters, struct charGri
     {
         boxDrawing_fprint_intervalHorizontalLine(stream, standardLine, standardLine, standardLine, letters->width + 1, 4);
         fwprintf(stream, L"\n");
-        fwprintf(stream, L"%ls", vert);
+        fwprintf(stream, L"%lc", vert);
 
         for (size_t x = 0; x < letters->width; x++)
         {
             crossword_fprintEntry(stream, letters, numbers, x, y);
-            fwprintf(stream, L"%ls", vert);
+            fwprintf(stream, L"%lc", vert);
         }
         
         fwprintf(stream, L"\n");
-        fwprintf(stream, L"%ls", vert);
+        fwprintf(stream, L"%lc", vert);
 
         for (size_t x = 0; x < letters->width; x++)
         {
             crossword_fprintEntryPad(stream, letters, numbers, x, y);
-            fwprintf(stream, L"%ls", vert);
+            fwprintf(stream, L"%lc", vert);
         }
 
         fwprintf(stream, L"\n");
