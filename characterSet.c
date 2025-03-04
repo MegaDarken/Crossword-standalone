@@ -10,6 +10,10 @@ UINT WINAPI originalCodePage = GetConsoleOutputCP();
 #include <locale.h>
 #endif //_WIN16 || _WIN32
 
+#ifdef __cplusplus
+extern "C" {
+#endif //__cplusplus
+
 #ifdef _WIN32 //_WIN16 ||
 /**
  * Adapted from:
@@ -53,3 +57,7 @@ void characterSet_UTF8()
     setlocale(LC_ALL, "C.UTF-8");
     #endif //_WIN16 || _WIN32
 }
+
+#ifdef __cplusplus
+}
+#endif //__cplusplus

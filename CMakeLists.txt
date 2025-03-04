@@ -12,6 +12,8 @@ arrayList.h
 arrayMathUtility.h
 boxDrawing.c
 boxDrawing.h
+characterSet.c
+characterSet.h
 charArray.c
 charArray.h
 charArrayPair.c
@@ -26,8 +28,6 @@ charArrayTrioArray.c
 charArrayTrioArray.h
 charGrid.c
 charGrid.h
-characterSet.c
-characterSet.h
 clearInput.c
 clearInput.h
 consoleCodePage.c
