@@ -40,6 +40,7 @@ fileUtility.h
 insertionSort.c
 insertionSort.h
 loopUtility.h
+mathUtility.h
 memMacro.h
 printTime.c
 printTime.h
