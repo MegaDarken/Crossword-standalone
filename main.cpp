@@ -15,6 +15,7 @@
 #include "randomTable.h"
 #include "fileUtility.h"
 #include "wprintTime.h"
+#include "characterSet.h"
 
 enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, iterationsArg, listFilenameArg, outputFilenameArg, seedArg, targetArg};
 
@@ -45,7 +46,7 @@ constexpr __UINT64_TYPE__ TARGET_ARG = stringHash("--target");
 
 int main(int argc, char** argv)
 {
-    setlocale(LC_ALL, "C.UTF-8");
+    characterSet_UTF8();
 
     enableConsoleProcessing();
     //consoleCodePage_utf8();
