@@ -21,6 +21,8 @@ charArraySplit.c
 charArraySplit.h
 charGrid.c
 charGrid.h
+characterSet.c
+characterSet.h
 clearInput.c
 clearInput.h
 consoleCodePage.c
