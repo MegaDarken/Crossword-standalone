@@ -9,6 +9,7 @@ abs.h
 arrayIndexUtility.h
 arrayList.c
 arrayList.h
+arrayMathUtility.h
 boxDrawing.c
 boxDrawing.h
 charArray.c
