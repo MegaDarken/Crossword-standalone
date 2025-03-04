@@ -6,9 +6,10 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_executable(Crossword-standalone
 abs.h
+arrayIndexUtility.h
 arrayList.c
 arrayList.h
-arrayUtility.h
+arrayMathUtility.h
 boxDrawing.c
 boxDrawing.h
 charArray.c
@@ -19,6 +20,10 @@ charArrayPairArray.c
 charArrayPairArray.h
 charArraySplit.c
 charArraySplit.h
+charArrayTrio.c
+charArrayTrio.h
+charArrayTrioArray.c
+charArrayTrioArray.h
 charGrid.c
 charGrid.h
 characterSet.c
@@ -31,10 +36,15 @@ consoleProcessing.c
 consoleProcessing.h
 crossword.c
 crossword.h
+crosswordWord.c
+crosswordWord.h
 fileUtility.c
 fileUtility.h
 insertionSort.c
 insertionSort.h
+loopUtility.h
+mathUtility.h
+memMacro.h
 printTime.c
 printTime.h
 randomTable.c
@@ -43,6 +53,7 @@ rawRead.c
 rawRead.h
 seedyShuffle.h
 shuffle.h
+spansUtility.h
 stringConstexpr.h
 stringHash.h
 swapping.h

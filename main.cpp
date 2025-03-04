@@ -16,7 +16,7 @@
 #include "fileUtility.h"
 #include "wprintTime.h"
 
-enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, iterationsArg, listFilenameArg, outputFilenameArg, seedArg};
+enum argsMode {noArg, widthArg, heightArg, wordCountArg, firstCharArg, iterationsArg, listFilenameArg, outputFilenameArg, seedArg, targetArg};
 
 constexpr char PROMPT_ARG_SHORT = 'p';
 constexpr __UINT64_TYPE__ PROMPT_ARG = stringHash("--prompt");
@@ -40,10 +40,12 @@ constexpr char DETERMINISTIC_ARG_SHORT = 'd';
 constexpr __UINT64_TYPE__ DETERMINISTIC_ARG = stringHash("--deterministic");
 constexpr __UINT64_TYPE__ SEED_ARG_SHORT = stringHash("-s");
 constexpr __UINT64_TYPE__ SEED_ARG = stringHash("--seed");
+constexpr __UINT64_TYPE__ TARGET_ARG_SHORT = stringHash("-t");
+constexpr __UINT64_TYPE__ TARGET_ARG = stringHash("--target");
 
 int main(int argc, char** argv)
 {
-    setlocale(LC_ALL, "en_US.UTF-8");
+    setlocale(LC_ALL, "C.UTF-8");
 
     enableConsoleProcessing();
     //consoleCodePage_utf8();
@@ -51,6 +53,7 @@ int main(int argc, char** argv)
     const int defaultValue = 0;
     const int defaultBool = 0;
     const size_t defaultIterations = 1;
+    const size_t defaultTargetWordLength = __SIZE_MAX__;
 
     int promptBool = argc <= 1;
     int width = defaultValue;
@@ -63,6 +66,7 @@ int main(int argc, char** argv)
     int randomBool = defaultBool;
     int deterministicBool = defaultBool;
     __UINT64_TYPE__ seed = defaultValue;
+    size_t targetWordLength = defaultTargetWordLength;
 
     enum argsMode mode = noArg;
 
@@ -112,6 +116,11 @@ int main(int argc, char** argv)
         case SEED_ARG_SHORT:
         case SEED_ARG:
             mode = seedArg;
+            break;
+
+        case TARGET_ARG_SHORT:
+        case TARGET_ARG:
+            mode = targetArg;
             break;
 
         case RANDOM_ARG:
@@ -187,6 +196,9 @@ int main(int argc, char** argv)
             case seedArg:
                 seed = stringHash(argv[i]);
                 break;
+
+            case targetArg:
+                if (1 == sscanf(argv[i], " %zu", &targetWordLength)) mode = noArg;
             
             default:
                 break;
@@ -227,7 +239,7 @@ int main(int argc, char** argv)
         if (iterations == defaultIterations)
         {
             wprintf(L"\nEnter the number of iterations to create:");
-            wvalRead_size_tDest(&wordCount, L"\007\nInput must be an integer:");
+            wvalRead_size_tDest(&iterations, L"\007\nInput must be an integer:");
         }
 
         if (randomBool == defaultBool)
@@ -253,6 +265,12 @@ int main(int argc, char** argv)
                 seed = stringHash(inputArray, stringConstexpr_match(inputArray, '\n'));
             }
         }
+
+        if (targetWordLength == defaultTargetWordLength)
+        {
+            wprintf(L"\nEnter the target word length:");
+            wvalRead_size_tDest(&targetWordLength, L"\007\nInput must be an integer:");
+        }
     }
 
     //Main run
@@ -269,7 +287,7 @@ int main(int argc, char** argv)
     {
         fwprintTime_ymd(outputStream);
         fwprintf(outputStream, L"\n");
-        crossword(outputStream, width, height, wordCount, startingChar, listFileName, randomBool, seed);
+        crossword(outputStream, width, height, wordCount, startingChar, listFileName, randomBool, seed, targetWordLength);
     }
     
     if (outputFileName != NULL)

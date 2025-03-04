@@ -4,141 +4,77 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-struct charArray
+#ifdef __cplusplus
+extern "C" {
+#endif //__cplusplus
+
+typedef struct charArray
 {
     size_t count;
     size_t size;
     char *array;
-};
+} CharArray;
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 void charArray_createDest(struct charArray *dest);
-
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 void charArray_createDestWithInitialValue(struct charArray *dest, const char initialValue);
-
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 struct charArray charArray_createWithInitialValue(const size_t count, const char initialValue);
-
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 struct charArray charArray_create(const size_t count);
+struct charArray charArray_createFromString(const char *array);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 void charArray_setAll(struct charArray *var, const char value);
+void charArray_set(struct charArray *var, const char *array, const size_t count);
+void charArray_setFromString(struct charArray *var, const char *array);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_set(struct charArray *var, char *array, const size_t count);
-
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 void charArray_resize(struct charArray *var, const size_t count);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 void charArray_free(struct charArray *var);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-int charArray_equals(struct charArray *first, struct charArray *second);
+struct charArray charArray_clone(const struct charArray *var);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-size_t charArray_hash(struct charArray *var);
+int charArray_equals(const struct charArray *first, const struct charArray *second);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-size_t charArray_indicesOfValue(struct charArray *var, size_t *buffer, const size_t bufferCount, const char value);
+int charArray_contains(const struct charArray *var, const char value);
+int charArray_containsBw(const struct charArray *var, const char value);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
+size_t charArray_hash(const struct charArray *var);
+
+size_t charArray_indicesOfValue(const struct charArray *var, size_t *buffer, const size_t bufferCount, const char value);
+
+void charArray_resizeToString(struct charArray *var);
+
+void charArray_resizeStringToLastInstance(struct charArray *var, int ch);
+
+void charArray_catString(struct charArray *var, const char *string);
+void charArray_catStringCA(struct charArray *var, struct charArray *other);
+
 void charArray_tolower(struct charArray *var);
-
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 void charArray_toupper(struct charArray *var);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
+void charArray_trimspace(struct charArray *var);
+void charArray_removespace(struct charArray *var);
+
 void charArray_write(FILE* filePointer, struct charArray *var);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 void charArray_readDest(FILE* filePointer, struct charArray *var);
-
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
 struct charArray charArray_read(FILE* filePointer);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_fprint(FILE *stream, struct charArray *var);
+void charArray_fprint(FILE *stream, const struct charArray *var);
+void charArray_print(const struct charArray *var);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_print(struct charArray *var);
+void charArray_fprintAsChar(FILE *stream, const struct charArray *var);
+void charArray_printAsChar(const struct charArray *var);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_fprintAsChar(FILE *stream, struct charArray *var);
+void charArray_fwprint(FILE *stream, const struct charArray *var);
+void charArray_wprint(const struct charArray *var);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_printAsChar(struct charArray *var);
+void charArray_fwprintAsChar(FILE *stream, const struct charArray *var);
+void charArray_wprintAsChar(const struct charArray *var);
 
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_fwprint(FILE *stream, struct charArray *var);
-
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_wprint(struct charArray *var);
-
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_fwprintAsChar(FILE *stream, struct charArray *var);
-
-#ifdef __cplusplus
-extern "C"
-#endif //__cplusplus
-void charArray_wprintAsChar(struct charArray *var);
-
-// #ifdef __cplusplus
-// extern "C"
-// #endif //__cplusplus
 // void charArray_fprintAsVolume(FILE *stream, struct charArray *var);
-
-// #ifdef __cplusplus
-// extern "C"
-// #endif //__cplusplus
 // void charArray_printAsVolume(struct charArray *var);
+
+#ifdef __cplusplus
+}
+#endif //__cplusplus
 
 #endif //CHAR_ARRAY_

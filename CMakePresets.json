@@ -13,7 +13,7 @@
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -flto"
+                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -flto -fstack-protector-all -Wstack-protector -fno-omit-frame-pointer"
             }
         },
         {
@@ -23,7 +23,7 @@
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -flto"
+                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -flto -fstack-protector-all -Wstack-protector -fno-omit-frame-pointer"
             }
         },
         {
@@ -33,7 +33,7 @@
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -flto"
+                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -flto -fstack-protector-all -Wstack-protector -fno-omit-frame-pointer"
             }
         },
         {
@@ -44,7 +44,7 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic"
+                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -fstack-protector-all -Wstack-protector -fno-omit-frame-pointer"
             }
         },
         {
@@ -55,7 +55,7 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic"
+                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -fstack-protector-all -Wstack-protector -fno-omit-frame-pointer"
             }
         },
         {
@@ -66,7 +66,7 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic"
+                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -fstack-protector-all -Wstack-protector -fno-omit-frame-pointer"
             }
         }
     ],

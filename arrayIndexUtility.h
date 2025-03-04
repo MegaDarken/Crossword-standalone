@@ -1,7 +1,9 @@
-#ifndef ARRAY_UTILITY_
-#define ARRAY_UTILITY_
+#ifndef ARRAY_INDEX_UTILITY_
+#define ARRAY_INDEX_UTILITY_
 
-#define arrayUtility_indexOfFirst(array, count, value) ({ \
+#include "loopUtility.h"
+
+#define arrayIndexUtility_first(array, count, value) ({ \
     size_t output; \
     do { \
         __typeof__ (count) _count = (count);\
@@ -15,7 +17,7 @@
     } while(0); \
     output; })
 
-#define arrayUtility_indexOfLast(array, count, value) ({ \
+#define arrayIndexUtility_last(array, count, value) ({ \
     size_t output; \
     do { \
         __typeof__ (count) _count = (count);\
@@ -29,4 +31,4 @@
     } while(0); \
     output; })
 
-#endif //ARRAY_UTILITY_
+#endif //ARRAY_INDEX_UTILITY_
