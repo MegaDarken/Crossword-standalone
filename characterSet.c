@@ -5,7 +5,7 @@
 #ifdef _WIN32 //_WIN16 ||
 #include <Windows.h>
 
-UINT WINAPI originalCodePage = GetConsoleOutputCP();
+UINT WINAPI originalCodePage = 0;//GetConsoleOutputCP();
 #else //_WIN16 || _WIN32
 #include <locale.h>
 #endif //_WIN16 || _WIN32
@@ -37,9 +37,9 @@ void winError_printLast()
 void characterSet_Reset()
 {
     #ifdef _WIN32 //_WIN16 ||
-    if (!SetConsoleOutputCP(originalCodePage))
+    if (originalCodePage != 0 && !SetConsoleOutputCP(originalCodePage))
     {
-        winError_printLast()
+        winError_printLast();
     }
     #else //_WIN16 || _WIN32
     setlocale(LC_ALL, "C");
@@ -49,6 +49,11 @@ void characterSet_Reset()
 void characterSet_UTF8()
 {
     #ifdef _WIN32 //_WIN16 ||
+    if (originalCodePage == 0)
+    {
+        originalCodePage = GetConsoleOutputCP();
+    }
+
     if (!SetConsoleOutputCP(CP_UTF8))
     {
         winError_printLast();
