@@ -24,11 +24,11 @@ void winError_printLast()
 {
     DWORD errorMessageID = GetLastError();
 
-    LPSTR messageBuffer = nullptr;
+    LPSTR messageBuffer = (void*)0;
 
     size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
     
-    printf(stream, "%.*s", (int)size, messageBuffer);
+    printf("%.*s", (int)size, messageBuffer);
     
     LocalFree(messageBuffer);
 }
