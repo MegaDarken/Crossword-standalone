@@ -21,7 +21,7 @@
                 }
             ],
             "preLaunchTask": "gcc build active file",
-            "miDebuggerPath": "/usr/bin/gdb"
+            "miDebuggerPath": "gdb"
         }
     ]
 }
