@@ -54,7 +54,6 @@ rawRead.h
 seedyShuffle.h
 shuffle.h
 spansUtility.h
-stringConstexpr.c
 stringConstexpr.h
 stringHash.h
 swapping.h

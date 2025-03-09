@@ -10,7 +10,12 @@ extern "C" {
 #ifdef __cplusplus
 constexpr
 #endif //__cplusplus
-size_t stringConstexpr_length(const char* string);
+size_t stringConstexpr_length(const char* string)
+{
+    const char* character = string;
+    for (; *character; ++character);
+    return(character - string);
+}
 
 #define stringMacro_length(string) \
     ({ const char* _string = string; \
@@ -21,7 +26,12 @@ size_t stringConstexpr_length(const char* string);
 #ifdef __cplusplus
 constexpr
 #endif //__cplusplus
-size_t stringConstexpr_match(const char* string, const char match);
+size_t stringConstexpr_match(const char* string, const char match)
+{
+    const char* character = string;
+    for (; *character == match; ++character);
+    return(character - string);
+}
 
 #define stringMacro_match(string, match) \
     ({ const char* _string = string; \
