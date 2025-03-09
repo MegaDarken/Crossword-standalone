@@ -3,9 +3,9 @@
 
 #include <stddef.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif //__cplusplus
+// #ifdef __cplusplus
+// extern "C" {
+// #endif //__cplusplus
 
 #ifdef __cplusplus
 inline constexpr
@@ -40,8 +40,8 @@ size_t stringConstexpr_match(const char* string, const char match)
     for (; *_character == _match; ++_character); \
     (_character - _string); })
 
-#ifdef __cplusplus
-}
-#endif //__cplusplus
+// #ifdef __cplusplus
+// }
+// #endif //__cplusplus
 
 #endif //__STRING_CONSTEXPR__
