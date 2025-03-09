@@ -71,7 +71,7 @@ int main(int argc, char** argv)
 
     enum argsMode mode = noArg;
 
-    for (size_t i = 0; i < argc; i++)
+    for (typeof(argc) i = 0; i < argc; i++)
     {
         switch (stringHash_nullTerminated(argv[i]))
         {
