@@ -11,9 +11,9 @@
 #define CHAR_ARRAY_PRIME_C 6661111ul
 #define CHAR_ARRAY_PRIME_D 841069ul
 
-#ifdef __cplusplus
-extern "C" {
-#endif //__cplusplus
+// #ifdef __cplusplus
+// extern "C" {
+// #endif //__cplusplus
 
 #define stringHash_helper(_1, _2, NAME, ...) NAME
 
@@ -42,8 +42,8 @@ __UINT64_TYPE__ stringHash_nullTerminated(const char* string)
 
 #define stringHash(...) stringHash_helper(__VA_ARGS__, stringHash_size, stringHash_nullTerminated)(__VA_ARGS__)
 
-#ifdef __cplusplus
-}
-#endif //__cplusplus
+// #ifdef __cplusplus
+// }
+// #endif //__cplusplus
 
 #endif //__STRING_HASH__
