@@ -13,7 +13,7 @@ void enableConsoleProcessing()
     HANDLE consoleOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     PCONSOLE_SCREEN_BUFFER_INFO initialConsoleAttributes;
     
-    GetConsoleScreenBufferInfo(consoleOutputHandle, &initialConsoleAttributes);
+    GetConsoleScreenBufferInfo(consoleOutputHandle, initialConsoleAttributes);
 
     DWORD dwordMode;
 
