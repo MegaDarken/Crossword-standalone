@@ -18,7 +18,7 @@ extern "C" {
 #define stringHash_helper(_1, _2, NAME, ...) NAME
 
 #ifdef __cplusplus
-constexpr
+inline constexpr
 #endif //__cplusplus
 __UINT64_TYPE__ stringHash_size(const char *string, size_t stringSize)
 {
@@ -33,7 +33,7 @@ __UINT64_TYPE__ stringHash_size(const char *string, size_t stringSize)
 }
 
 #ifdef __cplusplus
-constexpr
+inline constexpr
 #endif //__cplusplus
 __UINT64_TYPE__ stringHash_nullTerminated(const char* string)
 {
