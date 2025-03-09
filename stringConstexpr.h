@@ -8,7 +8,7 @@ extern "C" {
 #endif //__cplusplus
 
 #ifdef __cplusplus
-constexpr
+inline constexpr
 #endif //__cplusplus
 size_t stringConstexpr_length(const char* string)
 {
@@ -24,7 +24,7 @@ size_t stringConstexpr_length(const char* string)
     (_character - _string); })
 
 #ifdef __cplusplus
-constexpr
+inline constexpr
 #endif //__cplusplus
 size_t stringConstexpr_match(const char* string, const char match)
 {
