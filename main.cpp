@@ -5,6 +5,7 @@
 #include <wchar.h>
 #include <locale.h>
 
+#include "stringConstexpr.h"
 #include "stringHash.h"
 #include "consoleProcessing.h"
 #include "consoleCodePage.h"
@@ -46,9 +47,8 @@ constexpr __UINT64_TYPE__ TARGET_ARG = stringHash("--target");
 
 int main(int argc, char** argv)
 {
-    characterSet_UTF8();
-
     enableConsoleProcessing();
+    characterSet_UTF8();
     //consoleCodePage_utf8();
 
     const int defaultValue = 0;
