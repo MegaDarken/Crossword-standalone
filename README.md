@@ -66,6 +66,7 @@ Arguments can be given:
 ## Changelog
 v1.0.5
 - Multiple word entry functionality. 
+- Windows box characters in the terminal. 
 
 v1.0.4
 - Improved randomization, seeds will now be different from previous versions.
