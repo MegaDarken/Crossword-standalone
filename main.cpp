@@ -246,6 +246,7 @@ int main(int argc, char** argv)
         if (randomBool == defaultBool)
         {
             printf("\nRandomization? ");
+            clearInput_untilNewLine();
             randomBool = rawReadBool('y', 'n');
         }
 
@@ -254,6 +255,7 @@ int main(int argc, char** argv)
             if (deterministicBool == defaultBool)
             {
                 printf("\nDeterministic? ");
+                clearInput_untilNewLine();
                 deterministicBool = rawReadBool('y', 'n');
             }
 
@@ -299,6 +301,7 @@ int main(int argc, char** argv)
     if (outputStream == stdout)
     {
         fprintf(outputStream, "Press any key to close...\n");
+        clearInput_untilNewLine();
         rawRead();
     }
     
