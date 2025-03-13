@@ -48,7 +48,7 @@ constexpr __UINT64_TYPE__ TARGET_ARG = stringHash("--target");
 int main(int argc, char** argv)
 {
     //enableConsoleProcessing();
-    //characterSet_UTF8();
+    characterSet_UTF8();
     //consoleCodePage_utf8();
 
     const int defaultValue = 0;
