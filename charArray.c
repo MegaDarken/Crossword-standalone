@@ -7,7 +7,7 @@
 #include <ctype.h>
 #include <wchar.h>
 
-#include "arrayUtility.h"
+#include "loopUtility.h"
 #include "stringConstexpr.h"
 #include "stringHash.h"
 
@@ -237,6 +237,43 @@ void charArray_toupper(struct charArray *var)
     }
 }
 
+void charArray_trimspace(struct charArray *var)
+{
+    size_t startIndex = 0;
+    size_t endIndex = var->count - 1;
+
+    loop_checkBreakEach(var->count, !isspace(var->array[_index]), startIndex = _index);
+    loop_checkBreakEachDescending(var->count, !isspace(var->array[_index]), endIndex = _index);
+    
+    if (startIndex > 0)
+    {
+        for (size_t i = 0; i < endIndex - startIndex; i++)
+        {
+            var->array[i] = var->array[i + startIndex];
+        }
+    }
+    else if (endIndex == (var->count - 1))
+    {
+        return;
+    }
+    
+    charArray_resize(var, endIndex - startIndex);
+}
+
+void charArray_removespace(struct charArray *var)
+{
+    size_t toIndex = 0;
+    for (size_t fromIndex = 0; fromIndex < var->count; fromIndex++)
+    {
+        if (!isspace(var->array[fromIndex]))
+        {
+            var->array[toIndex] = var->array[fromIndex];
+            toIndex++;
+        }
+    }
+    charArray_resize(var, toIndex);
+}
+
 void charArray_write(FILE* filePointer, struct charArray *var)
 {
     size_t size = 0;
@@ -266,10 +303,17 @@ struct charArray charArray_read(FILE* filePointer)
 
 void charArray_fprint(FILE *stream, const struct charArray *var)
 {
-    for (size_t i = 0; i < var->count; i++)
+    if (var->count <= 0)
     {
-        fprintf(stream, "%d ", var->array[i]);
+        return;
     }
+    
+    for (size_t i = 0; i < (var->count - 1); i++)
+    {
+        fprintf(stream, "%u,", var->array[i]);
+    }
+
+    fprintf(stream, "%u", var->array[var->count - 1]);
 }
 
 void charArray_print(const struct charArray *var)
@@ -289,10 +333,17 @@ void charArray_printAsChar(const struct charArray *var)
 
 void charArray_fwprint(FILE *stream, const struct charArray *var)
 {
-    for (size_t i = 0; i < var->count; i++)
+    if (var->count <= 0)
     {
-        fwprintf(stream, L"%d ", var->array[i]);
+        return;
     }
+
+    for (size_t i = 0; i < (var->count - 1); i++)
+    {
+        fwprintf(stream, L"%u,", var->array[i]);
+    }
+
+    fwprintf(stream, L"%u", var->array[var->count - 1]);
 }
 
 void charArray_wprint(const struct charArray *var)

@@ -64,9 +64,12 @@ Arguments can be given:
 "-t" or "--target" followed by the word length aimed for.
 
 ## Changelog
+v1.0.5
+- Multiple word entry functionality. 
+- Windows box characters in the terminal. 
+
 v1.0.4
 - Improved randomization, seeds will now be different from previous versions.
-- Improved box characters on Windows.
 - More efficient search pattern.
 - Added option to reattempt until a certain length of word.
 

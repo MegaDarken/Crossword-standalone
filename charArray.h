@@ -50,6 +50,9 @@ void charArray_catStringCA(struct charArray *var, struct charArray *other);
 void charArray_tolower(struct charArray *var);
 void charArray_toupper(struct charArray *var);
 
+void charArray_trimspace(struct charArray *var);
+void charArray_removespace(struct charArray *var);
+
 void charArray_write(FILE* filePointer, struct charArray *var);
 
 void charArray_readDest(FILE* filePointer, struct charArray *var);

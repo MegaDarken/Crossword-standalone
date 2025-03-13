@@ -18,7 +18,7 @@ ssize_t wrawReadBuffer(void* array, ssize_t count)
 
     ssize_t result;
 #ifdef _WIN32 //_WIN16 ||
-    ((int*)array)[0] = getch();
+    ((int*)array)[0] = getchar();
     result = 1;
 #else //_WIN16 || _WIN32
     result = read(STDIN_FILENO, array, count);
@@ -63,7 +63,7 @@ void wrawReadLoop(const int escape)
     int c = 0;
 
 #ifdef _WIN32 //_WIN16 ||
-    for (c = getch();c != escape;c = getch())
+    for (c = getchar();c != escape;c = getchar())
 #else //_WIN16 || _WIN32
     while (read(STDIN_FILENO, &c, 2) == 1 && c != escape)
 #endif //_WIN16 || _WIN32
