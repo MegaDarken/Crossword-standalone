@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 #ifdef _WIN32 //_WIN16 ||
-
+#include <conio.h>
 #else //_WIN16 || _WIN32
 #include <termios.h>
 
@@ -51,7 +51,7 @@ ssize_t rawReadBuffer(void* array, ssize_t count)
 
     ssize_t result;
 #ifdef _WIN32 //_WIN16 ||
-    ((int*)array)[0] = getchar();
+    ((int*)array)[0] = getch();
     result = 1;
 #else //_WIN16 || _WIN32
     result = read(STDIN_FILENO, array, count);
@@ -96,7 +96,7 @@ void rawReadLoop(const int escape)
     int c = 0;
 
 #ifdef _WIN32 //_WIN16 ||
-    for (c = getchar();c != escape;c = getchar())
+    for (c = getch();c != escape;c = getch())
 #else //_WIN16 || _WIN32
     while (read(STDIN_FILENO, &c, 2) == 1 && c != escape)
 #endif //_WIN16 || _WIN32
