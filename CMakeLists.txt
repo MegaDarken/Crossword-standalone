@@ -51,6 +51,7 @@ randomTable.c
 randomTable.h
 rawRead.c
 rawRead.h
+reverse.h
 seedyShuffle.h
 shuffle.h
 spansUtility.h

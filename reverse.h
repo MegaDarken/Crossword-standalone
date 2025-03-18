@@ -14,9 +14,9 @@
         __typeof__ (array) _head = _array;\
         __typeof__ (array) _tail = _array + (_count * _elementSize);\
         for (;_head < _tail;) { \
-            swap(_head,_tail,_elementSize);
-            _head++;
-            _tail--;
+            swap(_head,_tail,_elementSize);\
+            _head++;\
+            _tail--;\
         } \
     } while(0)
 
