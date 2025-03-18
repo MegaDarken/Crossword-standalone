@@ -8,19 +8,22 @@
 
 #define shuffle_known(array, count) \
     do { \
+        __typeof__ (array) _array = (array);\
         __typeof__ (count) _count = (count);\
         for ( __typeof__ (_count) i = 0; i < _count; i++ ) { \
-            swap(&(array[i]), &(array[(getRandomU(__typeof__ (_count)) % _count)])); \
+            swap(&(_array[i]), &(_array[(getRandomU(__typeof__ (_count)) % _count)])); \
         } \
     } while(0)
 
 #define shuffle_size(array, count, elementSize) \
     do { \
+        __typeof__ (array) _array = (array);\
         __typeof__ (count) _count = (count);\
-        void* index = array;\
-        for ( __typeof__ (_count) i = 0; i < _count; i++ ) { \
-            swap(index, (array + ((getRandomU(__typeof__ (_count)) % _count) * elementSize)), elementSize); \
-            index += elementSize;\
+        __typeof__ (elementSize) _elementSize = (elementSize);\
+        void* _index = _array;\
+        for ( __typeof__ (_count) _i = 0; _i < _count; _i++ ) { \
+            swap(_index, (_array + ((getRandomU(__typeof__ (_count)) % _count) * _elementSize)), _elementSize); \
+            _index += _elementSize;\
         } \
     } while(0)
 
