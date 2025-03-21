@@ -107,6 +107,13 @@ void charArray_free(struct charArray *var)
     allocatedCharArrayCount--;
 }
 
+void charArray_copy(struct charArray *dest, const struct charArray *src)
+{
+    charArray_resize(dest, src->count);
+
+    memcpy(dest->array, src->array, src->size);
+}
+
 struct charArray charArray_clone(const struct charArray *var)
 {
     struct charArray val = charArray_create(var->count);
@@ -272,6 +279,76 @@ void charArray_removespace(struct charArray *var)
         }
     }
     charArray_resize(var, toIndex);
+}
+
+void charArray_uniqueValuesDest(struct charArray *dest, struct charArray *var)
+{
+    char uniqueValues[var->count];
+
+    size_t uniqueValueCount = 0;
+
+    for (size_t i = 0; i < var->count; i++)
+    {
+        char value = var->array[i];
+
+        if (!array_contains(uniqueValues, uniqueValueCount, value))
+        {
+            uniqueValues[uniqueValueCount] = value;
+            uniqueValueCount++;
+        }
+    }
+    
+    charArray_set(dest, uniqueValues, uniqueValueCount);
+}
+
+size_t charArray_uniqueValuesCount(struct charArray *var)
+{
+    char uniqueValues[var->count];
+
+    size_t uniqueValueCount = 0;
+
+    for (size_t i = 0; i < var->count; i++)
+    {
+        char value = var->array[i];
+
+        if (!array_contains(uniqueValues, uniqueValueCount, value))
+        {
+            uniqueValues[uniqueValueCount] = value;
+            uniqueValueCount++;
+        }
+    }
+    
+    return uniqueValueCount;
+}
+
+void charArray_intersectionValuesDest(struct charArray *dest, struct charArray *first, struct charArray *second)
+{
+    int maxCount = max(first->count, second->count);
+
+    struct charArray firstUnique = charArray_create(maxCount);
+    struct charArray secondUnique = charArray_create(maxCount);
+
+    charArray_uniqueValuesDest(&firstUnique, first);
+    charArray_uniqueValuesDest(&secondUnique, second);
+
+    char values[maxCount];
+    size_t valueCount = 0;
+
+    for (size_t i = 0; i < firstUnique.count; i++)
+    {
+        char value = firstUnique.array[i];
+
+        if (array_contains(secondUnique.array, secondUnique.count, value))
+        {
+            values[valueCount] = value;
+            valueCount++;
+        }
+    }
+
+    charArray_set(dest, values, valueCount);
+
+    charArray_free(&firstUnique);
+    charArray_free(&secondUnique);
 }
 
 void charArray_write(FILE* filePointer, struct charArray *var)

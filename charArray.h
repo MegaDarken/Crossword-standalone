@@ -29,6 +29,7 @@ void charArray_resize(struct charArray *var, const size_t count);
 
 void charArray_free(struct charArray *var);
 
+void charArray_copy(struct charArray *dest, const struct charArray *src);
 struct charArray charArray_clone(const struct charArray *var);
 
 int charArray_equals(const struct charArray *first, const struct charArray *second);
@@ -52,6 +53,11 @@ void charArray_toupper(struct charArray *var);
 
 void charArray_trimspace(struct charArray *var);
 void charArray_removespace(struct charArray *var);
+
+void charArray_uniqueValuesDest(struct charArray *dest, struct charArray *var);
+size_t charArray_uniqueValuesCount(struct charArray *var);
+
+void charArray_intersectionValuesDest(struct charArray *dest, struct charArray *first, struct charArray *second);
 
 void charArray_write(FILE* filePointer, struct charArray *var);
 
