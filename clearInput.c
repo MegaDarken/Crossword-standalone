@@ -7,7 +7,7 @@ extern "C"
 #endif //__cplusplus
 void clearInput_until(const int val)
 {
-    for (int ch = getchar(); ch != EOF && ch != '\n';ch = getchar());
+    for (int ch = getchar(); ch != EOF && ch != val;ch = getchar());
 }
 
 #ifdef __cplusplus
