@@ -19,4 +19,6 @@ void crosswordPlacedWord_none(struct crosswordPlacedWord *var);
 
 void crosswordWord_letterCounts(struct charArray *var, struct charArray *dest);
 
+int crosswordPlacedWord_comparGridIndex(const void * a, const void * b);
+
 #endif //_CROSSWORD_WORD_

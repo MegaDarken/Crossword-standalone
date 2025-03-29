@@ -42,3 +42,11 @@ void crosswordWord_letterCounts(struct charArray *var, struct charArray *dest)
         outdex++;
     }
 }
+
+int crosswordPlacedWord_comparGridIndex(const void * a, const void * b)
+{
+    struct crosswordPlacedWord *arg1 = (struct crosswordPlacedWord *)a;
+    struct crosswordPlacedWord *arg2 = (struct crosswordPlacedWord *)b;
+
+    return arg1->gridIndex - arg2->gridIndex;
+}
